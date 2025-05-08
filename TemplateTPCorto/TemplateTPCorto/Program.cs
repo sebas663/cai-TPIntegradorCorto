@@ -9,7 +9,7 @@ namespace TemplateTPCorto
     internal static class Program
     {
         /// <summary>
-        /// Punto de entrada principal para la aplicación.
+        /// Punto de entrada principal para la aplicación. prueba
         /// </summary>
         [STAThread]
         static void Main()
