@@ -2,6 +2,7 @@
 using Persistencia.DataBase;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,5 +19,11 @@ namespace Persistencia
             Credencial credencial = new Credencial(registros[0]);
             return credencial;
         }
+
+        
+
+
+
     }
+
 }
