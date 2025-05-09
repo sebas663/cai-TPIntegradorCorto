@@ -32,6 +32,7 @@ namespace Datos
             this._fechaUltimoLogin = DateTime.ParseExact(datos[4], "d/M/yyyy", CultureInfo.InvariantCulture);
 
 
+
         }
 
     }
