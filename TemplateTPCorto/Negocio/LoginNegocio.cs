@@ -1,26 +1,69 @@
 ﻿using Datos;
 using Persistencia;
+using Persistencia.DataBase;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Negocio
 {
     public class LoginNegocio
     {
-        public Credencial login(String usuario, String password)
+        private const int MAX_INTENTOS = 3;
+
+        private UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+
+        public Credencial Login(String usuario, String password)
         {
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            Credencial credencial = usuarioPersistencia.Login(usuario);
 
-            Credencial credencial = usuarioPersistencia.login(usuario);
-
-            if (credencial.Contrasena.Equals(password))
+            if (credencial == null)
             {
+                return null;
+            }
+            if (!credencial.Contrasena.Equals(password))
+            {
+                credencial.EsContrasenaIncorrecta = true;
+                RegistrarIntento(credencial);
                 return credencial;
             }
-            return null;
+            ReiniciarIntentos(credencial.Legajo);
+            return credencial;
+        }
+
+        public bool EstaBloqueado(string usuario)
+        {
+            Credencial credencial = usuarioPersistencia.Login(usuario);
+            if (credencial != null)
+            {
+                return usuarioPersistencia.EstaBloqueado(credencial.Legajo);
+
+            }
+            return false;
+        }
+
+        private void RegistrarIntento(Credencial credencial)
+        {
+            int intentos = usuarioPersistencia.ObtenerNumeroIntentosPorLegajo(credencial.Legajo);
+            if (intentos < MAX_INTENTOS)
+            {
+                DateTime now = DateTime.Now;
+                usuarioPersistencia.RegistrarIntento(credencial.Legajo, now.ToString("d/M/yyyy", CultureInfo.InvariantCulture));
+            }
+            if ((intentos + 1)  == MAX_INTENTOS)
+            {
+                credencial.EstaBloqueado = true;
+                usuarioPersistencia.BloquearUsuario(credencial.Legajo);
+            }
+            
+        }
+
+        private void ReiniciarIntentos(string usuario)
+        {
+
         }
     }
 }
+
