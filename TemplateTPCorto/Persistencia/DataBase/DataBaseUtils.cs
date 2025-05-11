@@ -64,7 +64,7 @@ namespace Persistencia.DataBase
                 }).ToList();
 
                 // Sobrescribir el archivo con las líneas restantes
-                File.WriteAllLines(archivoCsvPath, registrosRestantes); 
+                File.WriteAllLines(archivoCsvPath, registrosRestantes);
 
                 Console.WriteLine($"Registro con ID {id} borrado correctamente.");
             }
