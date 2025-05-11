@@ -72,7 +72,6 @@
             this.btnCerrarSession.TabIndex = 6;
             this.btnCerrarSession.Text = "Cerrar session";
             this.btnCerrarSession.UseVisualStyleBackColor = true;
-            this.btnCerrarSession.Click += new System.EventHandler(this.btnCerrarSession_Click);
             // 
             // FormSupervisor
             // 
