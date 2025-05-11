@@ -10,9 +10,9 @@ namespace Persistencia
 {
     public class UsuarioPersistencia
     {
+        private DataBaseUtils dataBaseUtils = new DataBaseUtils();
 
-
-        public Credencial Login(String username)
+        public Credencial login(String username)
         {
             Credencial credencialLogin = null;
 
@@ -27,10 +27,55 @@ namespace Persistencia
             return credencialLogin;
         }
 
+        public string ObtenerPerfil(string legajo)
+        {
+            string perfilId = ObtenerPerfilId(legajo);
+            List<String> listado = dataBaseUtils.BuscarRegistro("perfil.csv");
+            string perfil = "";
+            int contador = 0;
+            foreach (String registro in listado)
+            {
+                if (contador == 0)
+                {
+                    contador++;
+                    continue;
+                }
+                string [] campos = registro.Split(';');
+                if (campos[0] == perfilId)
+                {
+                    perfil = campos[1];
+                    break;
+                }
+            }
+
+            return perfil;
+        }
+
+        private string ObtenerPerfilId(string legajo)
+        {
+            List<String> listado = dataBaseUtils.BuscarRegistro("usuario_perfil.csv");
+            string perfilId = "";
+            int contador = 0;
+            foreach (String registro in listado)
+            {
+                if (contador == 0)
+                {
+                    contador++;
+                    continue;
+                }
+                string[] campos = registro.Split(';');
+                if (campos[0] == legajo)
+                {
+                    perfilId = campos[1];
+                    break;
+                }
+            }
+
+            return perfilId;
+        }
+
         private List<Credencial> ObtenerCredenciales()
         {
-            DataBaseUtils dataBaseUtils = new DataBaseUtils();
-
             List<String> listado = dataBaseUtils.BuscarRegistro("credenciales.csv");
             List<Credencial> listadoCredenciales = new List<Credencial>();
 

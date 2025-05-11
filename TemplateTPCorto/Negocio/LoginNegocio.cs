@@ -33,6 +33,18 @@ namespace Negocio
             return credencial;
         }
 
+            if (credencial != null && credencial.Contrasena.Equals(password))
+            {
+                return credencial;
+            }
+            return null;
+        }
+
+        public string ObtenerPerfil(string legajo)
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            return usuarioPersistencia.ObtenerPerfil(legajo);
+        }
         public bool EstaBloqueado(string usuario)
         {
             Credencial credencial = usuarioPersistencia.Login(usuario);
