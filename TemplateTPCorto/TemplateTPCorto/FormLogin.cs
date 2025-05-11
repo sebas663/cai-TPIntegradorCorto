@@ -27,6 +27,14 @@ namespace TemplateTPCorto
             LoginNegocio loginNegocio = new LoginNegocio();
             Credencial credencial = loginNegocio.login(usuario, password);
 
+            if (credencial != null)
+            {
+                MessageBox.Show("Se logueo.");
+            }
+            else {
+                MessageBox.Show("Alguno de los datos ingresados no es correcto.");
+            }
+
         }
     }
 }

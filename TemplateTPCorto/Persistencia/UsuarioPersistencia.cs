@@ -10,13 +10,40 @@ namespace Persistencia
 {
     public class UsuarioPersistencia
     {
+        private DataBaseUtils dataBaseUtils = new DataBaseUtils();
+
         public Credencial login(String username)
         {
-            DataBaseUtils dataBaseUtils = new DataBaseUtils();
-            List<String> registros = dataBaseUtils.BuscarRegistro(username);
+            Credencial credencialLogin = null;
 
-            Credencial credencial = new Credencial(registros[0]);
-            return credencial;
+            foreach (Credencial credencial in ObtenerCredenciales())
+            {
+                if (credencial.NombreUsuario.Equals(username))
+                {
+                    credencialLogin = credencial;
+                }
+            }
+
+            return credencialLogin;
+        }
+        private List<Credencial> ObtenerCredenciales()
+        {
+            List<String> listado = dataBaseUtils.BuscarRegistro("credenciales.csv");
+            List<Credencial> listadoCredenciales = new List<Credencial>();
+
+            int contador = 0;
+            foreach (String registro in listado)
+            {
+                if (contador == 0)
+                {
+                    contador++;
+                    continue;
+                }
+                Credencial credencial = new Credencial(registro);
+                listadoCredenciales.Add(credencial);
+            }
+
+            return listadoCredenciales;
         }
     }
 }
