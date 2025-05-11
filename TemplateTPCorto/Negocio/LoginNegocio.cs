@@ -22,5 +22,11 @@ namespace Negocio
             }
             return null;
         }
+
+        public string ObtenerPerfil(string legajo)
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            return usuarioPersistencia.ObtenerPerfil(legajo);
+        }
     }
 }
