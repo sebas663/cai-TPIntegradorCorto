@@ -15,20 +15,18 @@ namespace Negocio
         public Credencial login(String usuario, String password)
         {
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+
             Credencial credencial = usuarioPersistencia.login(usuario);
 
-            if (credencial == null)
+            if (credencial !=  null && credencial.Contrasena.Equals(password))
             {
-                return null;
-            }
-            if (!credencial.Contrasena.Equals(password))
-            {
-                credencial.EsContrasenaIncorrecta = true;
-                RegistrarIntento(credencial);
+                ReiniciarIntentos(credencial.Legajo);
                 return credencial;
             }
-            ReiniciarIntentos(credencial.Legajo);
-            return credencial;
+            if (credencial != null) {
+                RegistrarIntento(credencial);
+            }
+            return null;
         }
 
         public string ObtenerPerfil(string legajo)
@@ -59,7 +57,6 @@ namespace Negocio
             }
             if ((intentos + 1) == MAX_INTENTOS)
             {
-                credencial.EstaBloqueado = true;
                 usuarioPersistencia.BloquearUsuario(credencial.Legajo);
             }
 
@@ -68,6 +65,16 @@ namespace Negocio
         private void ReiniciarIntentos(string usuario)
         {
 
+        }
+
+        public bool EsContraseniaExpirada(Credencial credencial)
+        {
+            return false;
+        }
+
+        public bool EsPrimerLogin(Credencial credencial)
+        {
+            return false;
         }
     }
 }
