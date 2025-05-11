@@ -14,6 +14,7 @@ namespace TemplateTPCorto
         public FormMenuBase()
         {
             this.FormClosing += Form_FormClosing;
+            
         }
 
         private void Form_FormClosing(object sender, FormClosingEventArgs e)

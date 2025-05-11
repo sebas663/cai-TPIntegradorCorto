@@ -15,6 +15,7 @@ namespace TemplateTPCorto
         public FormAdministrador()
         {
             InitializeComponent();
+            btnCerrarSession.Click += btnCerrarSession_Click;
         }
 
         private void btnCambioContrasenia_Click(object sender, EventArgs e)
