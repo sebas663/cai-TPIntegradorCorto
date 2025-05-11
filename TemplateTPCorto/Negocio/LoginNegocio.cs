@@ -66,5 +66,15 @@ namespace Negocio
         {
 
         }
+
+        public bool EsContraseniaExpirada(Credencial credencial)
+        {
+            return false;
+        }
+
+        public bool EsPrimerLogin(Credencial credencial)
+        {
+            return false;
+        }
     }
 }

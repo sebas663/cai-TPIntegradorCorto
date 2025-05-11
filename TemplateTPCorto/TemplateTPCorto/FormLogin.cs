@@ -61,7 +61,15 @@ namespace TemplateTPCorto
                     }
                     if (permiteAvanzar)
                     {
-                        AbrirMenu(credencial);
+                        bool esPrimerLogin = loginNegocio.EsPrimerLogin(credencial);
+                        bool esContraseniaExpirada = loginNegocio.EsContraseniaExpirada(credencial);
+                        if (esPrimerLogin || esContraseniaExpirada)
+                        {
+                            MessageBox.Show("Codigo para abrir formulario cambio contraseña");
+                        }
+                        else {
+                            AbrirMenu(credencial);
+                        }
                     }
                 }
                 else
@@ -78,18 +86,9 @@ namespace TemplateTPCorto
             LoginNegocio loginNegocio = new LoginNegocio();
             string perfil = loginNegocio.ObtenerPerfil(credencial.Legajo);
             Form formMenu = null;
-            if (perfil == "Operador")
-            {
-                formMenu = new FormOperador();
-            }
-            if (perfil == "Supervisor")
-            {
-                formMenu = new FormSupervisor();
-            }
-            if (perfil == "Administrador")
-            {
-                formMenu = new FormAdministrador();
-            }
+            if (perfil == "Operador") formMenu = new FormOperador();
+            if (perfil == "Supervisor") formMenu = new FormSupervisor();
+            if (perfil == "Administrador") formMenu = new FormAdministrador();
             if (formMenu != null) {
                 formMenu.FormClosed += FormMenu_FormClosed;
                 formMenu.Show();
