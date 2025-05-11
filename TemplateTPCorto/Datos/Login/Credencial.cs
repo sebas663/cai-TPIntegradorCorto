@@ -14,12 +14,16 @@ namespace Datos
         private String _contrasena;
         private DateTime _fechaAlta;
         private DateTime _fechaUltimoLogin;
+        private bool _estaBloqueado;
+        private bool _esContrasenaIncorrecta;
 
         public string Legajo { get => _legajo; set => _legajo = value; }
         public string NombreUsuario { get => _nombreUsuario; set => _nombreUsuario = value; }
         public string Contrasena { get => _contrasena; set => _contrasena = value; }
         public DateTime FechaAlta { get => _fechaAlta; set => _fechaAlta = value; }
         public DateTime FechaUltimoLogin { get => _fechaUltimoLogin; set => _fechaUltimoLogin = value; }
+        public bool EstaBloqueado { get => _estaBloqueado; set => _estaBloqueado = value; }
+        public bool EsContrasenaIncorrecta { get => _esContrasenaIncorrecta; set => _esContrasenaIncorrecta = value; }
 
 
         public Credencial(String registro)
