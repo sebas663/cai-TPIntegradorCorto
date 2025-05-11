@@ -46,13 +46,14 @@ namespace TemplateTPCorto
                 if (!establoqueado)
                 {
                     Credencial credencial = loginNegocio.login(usuario, password);
-                    if (credencial == null || (credencial.EsContrasenaIncorrecta && !credencial.EstaBloqueado))
+                    establoqueado = loginNegocio.EstaBloqueado(usuario);
+                    if (credencial == null && !establoqueado)
                     {
                         MessageBox.Show("Alguno de los datos ingresados no es correcto.");
                         permiteAvanzar = false;
 
                     }
-                    if (credencial.EstaBloqueado)
+                    if (establoqueado)
                     {
                         MessageBox.Show("El usuario esta bloqueado.");
                         permiteAvanzar = false;
