@@ -16,11 +16,17 @@ namespace Negocio
 
             Credencial credencial = usuarioPersistencia.login(usuario);
 
-            if (credencial.Contrasena.Equals(password))
+            if (credencial != null && credencial.Contrasena.Equals(password))
             {
                 return credencial;
             }
             return null;
+        }
+
+        public string ObtenerPerfil(string legajo)
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            return usuarioPersistencia.ObtenerPerfil(legajo);
         }
     }
 }
