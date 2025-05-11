@@ -10,8 +10,6 @@ namespace Persistencia
 {
     public class UsuarioPersistencia
     {
-        private DataBaseUtils dataBaseUtils = new DataBaseUtils();
-
         public Credencial login(String username)
         {
             Credencial credencialLogin = null;
@@ -29,6 +27,7 @@ namespace Persistencia
 
         public string ObtenerPerfil(string legajo)
         {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
             string perfilId = ObtenerPerfilId(legajo);
             List<String> listado = dataBaseUtils.BuscarRegistro("perfil.csv");
             string perfil = "";
@@ -53,6 +52,7 @@ namespace Persistencia
 
         private string ObtenerPerfilId(string legajo)
         {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
             List<String> listado = dataBaseUtils.BuscarRegistro("usuario_perfil.csv");
             string perfilId = "";
             int contador = 0;
@@ -76,6 +76,7 @@ namespace Persistencia
 
         private List<Credencial> ObtenerCredenciales()
         {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
             List<String> listado = dataBaseUtils.BuscarRegistro("credenciales.csv");
             List<Credencial> listadoCredenciales = new List<Credencial>();
 

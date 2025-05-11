@@ -64,7 +64,7 @@ namespace Persistencia.DataBase
                 }).ToList();
 
                 // Sobrescribir el archivo con las líneas restantes
-                File.WriteAllLines(archivoCsvPath, registrosRestantes); 
+                File.WriteAllLines(archivoCsvPath, registrosRestantes);
 
                 Console.WriteLine($"Registro con ID {id} borrado correctamente.");
             }
@@ -89,33 +89,6 @@ namespace Persistencia.DataBase
                 if (!File.Exists(rutaArchivo))
                 {
                     Console.WriteLine("El archivo no existe: " + archivoCsvPath);
-                    return;
-                }
-
-                // Abrir el archivo y agregar el nuevo registro
-                using (StreamWriter sw = new StreamWriter(rutaArchivo, append: true))
-                {
-                    sw.WriteLine(nuevoRegistro); // Agregar la nueva línea
-                }
-
-                Console.WriteLine("Registro agregado correctamente.");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error al intentar agregar el registro:");
-                Console.WriteLine($"Mensaje: {e.Message}");
-                Console.WriteLine($"Pila de errores: {e.StackTrace}");
-            }
-        }
-
-            String rutaArchivo = Path.GetFullPath(archivoCsv); // Normaliza la ruta
-
-            try
-            {
-                // Verificar si el archivo existe
-                if (!File.Exists(archivoCsv))
-                {
-                    Console.WriteLine("El archivo no existe: " + archivoCsv);
                     return;
                 }
 

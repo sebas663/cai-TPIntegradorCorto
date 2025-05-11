@@ -45,7 +45,7 @@ namespace TemplateTPCorto
                 bool establoqueado = loginNegocio.EstaBloqueado(usuario);
                 if (!establoqueado)
                 {
-                    Credencial credencial = loginNegocio.Login(usuario, password);
+                    Credencial credencial = loginNegocio.login(usuario, password);
                     if (credencial == null || (credencial.EsContrasenaIncorrecta && !credencial.EstaBloqueado))
                     {
                         MessageBox.Show("Alguno de los datos ingresados no es correcto.");
