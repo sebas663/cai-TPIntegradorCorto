@@ -69,7 +69,9 @@ namespace TemplateTPCorto
                         bool esContraseniaExpirada = loginNegocio.EsContraseniaExpirada(credencial);
                         if (esPrimerLogin || esContraseniaExpirada)
                         {
-                            MessageBox.Show("Codigo para abrir formulario cambio contraseña");
+                            this.Hide();
+                            FormContraseniaCambio form = new FormContraseniaCambio(this, credencial);
+                            form.Show();
                         }
                         else {
                             AbrirMenu(credencial);
