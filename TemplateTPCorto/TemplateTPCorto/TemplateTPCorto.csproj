@@ -52,6 +52,12 @@
     <Compile Include="FormAdministrador.Designer.cs">
       <DependentUpon>FormAdministrador.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormContraseniaCambio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormContraseniaCambio.Designer.cs">
+      <DependentUpon>FormContraseniaCambio.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,6 +83,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormAdministrador.resx">
       <DependentUpon>FormAdministrador.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormContraseniaCambio.resx">
+      <DependentUpon>FormContraseniaCambio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>

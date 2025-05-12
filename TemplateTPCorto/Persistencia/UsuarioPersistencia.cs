@@ -158,5 +158,13 @@ namespace Persistencia
             return existe;
         }
 
+        public void ActualizarContrasenia(string legajo, string nombreUsuario, string contrasena, string fechaAlta, string fechaUltimoLogin)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            dataBaseUtils.BorrarRegistro(legajo, "credenciales.csv");
+            string[] nuevoRegistro = { legajo, nombreUsuario, contrasena, fechaAlta, fechaUltimoLogin };
+            string lineaCSV = string.Join(";", nuevoRegistro);
+            dataBaseUtils.AgregarRegistro("credenciales.csv", lineaCSV);
+        }
     }
 }

@@ -27,16 +27,20 @@ namespace TemplateTPCorto
 
             Boolean permiteAvanzar = true;
 
-            if (txtUsuario.Text == "")
+            if (usuario == "")
             {
                 permiteAvanzar = false;
                 MessageBox.Show("El nombre de usuario no puede estar vacio");
+                txtUsuario.Focus();
+                return;
             }
 
-            if (txtPassword.Text == "")
+            if (password == "")
             {
                 permiteAvanzar = false;
                 MessageBox.Show("La contraseña no puede estar vacia.");
+                txtPassword.Focus();
+                return;
             }
  
             if (permiteAvanzar)
@@ -80,15 +84,15 @@ namespace TemplateTPCorto
             }
         }
 
-        private void AbrirMenu(Credencial credencial)
+        private void AbrirMenu(Credencial logueado)
         {
             this.Hide();
             LoginNegocio loginNegocio = new LoginNegocio();
-            string perfil = loginNegocio.ObtenerPerfil(credencial.Legajo);
+            string perfil = loginNegocio.ObtenerPerfil(logueado.Legajo);
             Form formMenu = null;
-            if (perfil == "Operador") formMenu = new FormOperador();
-            if (perfil == "Supervisor") formMenu = new FormSupervisor();
-            if (perfil == "Administrador") formMenu = new FormAdministrador();
+            if (perfil == "Operador") formMenu = new FormOperador(logueado);
+            if (perfil == "Supervisor") formMenu = new FormSupervisor(logueado);
+            if (perfil == "Administrador") formMenu = new FormAdministrador(logueado);
             if (formMenu != null) {
                 formMenu.FormClosed += FormMenu_FormClosed;
                 formMenu.Show();
