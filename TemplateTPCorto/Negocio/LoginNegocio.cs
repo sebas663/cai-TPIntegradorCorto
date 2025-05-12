@@ -76,5 +76,16 @@ namespace Negocio
         {
             return false;
         }
+
+        public void ActualizarContrasenia(Credencial usuario)
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            string legajo = usuario.Legajo;
+            string nombreUsuario = usuario.NombreUsuario;
+            string contrasena = usuario.Contrasena;
+            string fechaAlta = usuario.FechaAlta.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
+            string fechaUltimoLogin = usuario.FechaUltimoLogin.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
+            usuarioPersistencia.ActualizarContrasenia(legajo,nombreUsuario,contrasena,fechaAlta,fechaUltimoLogin);
+        }
     }
 }

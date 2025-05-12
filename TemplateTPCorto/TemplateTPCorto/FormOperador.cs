@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Datos;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,15 +13,19 @@ namespace TemplateTPCorto
 {
     public partial class FormOperador : FormMenuBase
     {
-        public FormOperador()
+        private Credencial usuario;
+        public FormOperador(Credencial logueado)
         {
             InitializeComponent();
             btnCerrarSession.Click += btnCerrarSession_Click;
+            usuario = logueado;
         }
 
         private void btnCambioContrasenia_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Cambio de contraseña.");
+            this.Hide();
+            FormContraseniaCambio form = new FormContraseniaCambio(this, usuario);
+            form.Show();
         }
 
     }
