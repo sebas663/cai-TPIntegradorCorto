@@ -74,6 +74,11 @@ namespace Negocio
 
         public bool EsPrimerLogin(Credencial credencial)
         {
+            // Si la fecha es mínima o está vacía, es un primer login
+            if (credencial.FechaUltimoLogin == DateTime.MinValue || credencial.FechaUltimoLogin == null)
+            {
+                return true;
+            }
             return false;
         }
 

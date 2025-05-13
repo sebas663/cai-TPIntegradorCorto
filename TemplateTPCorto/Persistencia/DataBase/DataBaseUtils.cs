@@ -9,12 +9,15 @@ namespace Persistencia.DataBase
 {
     public class DataBaseUtils
     {
-        string archivoCsv = @"C:\Users\sebas\source\repos\cai-TPIntegradorCorto\TemplateTPCorto\Persistencia\DataBase\Tablas\";
+        string archivoCsv = @"C:\Users\salva\OneDrive\Documentos\GitHub\cai-TPIntegradorCorto\TemplateTPCorto\Persistencia\DataBase\Tablas\";
         public List<String> BuscarRegistro(String nombreArchivo)
         {
             string archivoCsvPath = archivoCsv + nombreArchivo; // Cambia esta ruta al archivo CSV que deseas leer
 
             String rutaArchivo = Path.GetFullPath(archivoCsvPath); // Normaliza la ruta
+
+            // Mostramos la ruta completa
+            Console.WriteLine("Ruta completa del CSV: " + rutaArchivo);
 
             List<String> listado = new List<String>();
 
