@@ -1,10 +1,13 @@
 ﻿using Datos;
+using Datos.Login;
 using Persistencia.DataBase;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace Persistencia
 {
@@ -224,14 +227,65 @@ namespace Persistencia
                     contador++;
                     continue;
                 }
-                if (int.Parse(datos[0]) <= contador)
+                if (int.Parse(datos[0]) <= contador1)
                 {
                     contador1 = int.Parse(datos[0]);
                 }
             }
+            contador1++;
             string[] nuevoRegistro = { Convert.ToString(contador1), legajo, nombreUsuario, contrasena, idperfil, fechaAlta, fechaUltimoLogin };
             string lineaCSV = string.Join(";", nuevoRegistro);
             dataBaseUtils.AgregarRegistro("operacion_cambio_credencial.csv", lineaCSV);
+        }
+        public Datousuario ObtenerPersona(string legajo)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            List<String> listado = dataBaseUtils.BuscarRegistro("persona.csv");
+            Datousuario datousuario = null;
+            int contador = 0;
+            foreach (String registro in listado)
+            {
+                if (contador == 0)
+                {
+                    contador++;
+                    continue;
+                }
+                String[] datos = registro.Split(';');
+                if (datos[0] == legajo)
+                {
+                    datousuario.Legajo = datos[0];
+                    datousuario.Nombre = datos[1];
+                    datousuario.Apellido = datos[2];
+                    datousuario.DNI = int.Parse(datos[3]);
+                    datousuario.FechaIngreso = DateTime.ParseExact(datos[4], "d/M/yyyy", CultureInfo.InvariantCulture);
+                    break;
+                }
+            }
+            return datousuario;
+        }
+        public void ModificarPersona (string legajo, string nombre, string apellido, string DNI, string fechaingreso)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            List<String> listado = dataBaseUtils.BuscarRegistro("operacion_cambio_persona.csv");
+            int contador = 0;
+            int contador1 = 0;
+            foreach (String registro in listado)
+            {
+                String[] datos = registro.Split(';');
+                if (contador == 0)
+                {
+                    contador++;
+                    continue;
+                }
+                if (int.Parse(datos[0]) <= contador1)
+                {
+                    contador1 = int.Parse(datos[0]);
+                }
+            }
+            contador1++;
+            string[] nuevoRegistro = { Convert.ToString(contador1), legajo, nombre, apellido, DNI, fechaingreso };
+            string lineaCSV = string.Join(";", nuevoRegistro);
+            dataBaseUtils.AgregarRegistro("operacion_cambio_persona", lineaCSV);
         }
     }
 }

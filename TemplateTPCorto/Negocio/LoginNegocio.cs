@@ -1,4 +1,5 @@
 ﻿using Datos;
+using Datos.Login;
 using Persistencia;
 using System;
 using System.Collections.Generic;
@@ -102,6 +103,17 @@ namespace Negocio
             string fechaUltimoLogin = "";
             string idperfil = ObtenerPerfil(legajo);
             usuarioPersistencia.ContraseñaSupervisor(legajo, nombreUsuario, contrasena, idperfil, fechaAlta, fechaUltimoLogin);
+        }
+        public Datousuario ObtenerPersona (string legajo)
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            Datousuario datousuario = usuarioPersistencia.ObtenerPersona(legajo);
+            return datousuario;
+        }
+        public void ModificarPersona(string legajo, string nombreUsuario, string Apellido, string DNI, string fechaIngreso)
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            usuarioPersistencia.ModificarPersona(legajo, nombreUsuario,Apellido, DNI, fechaIngreso);
         }
         public List<String> Obtenerroles(string legajo)
         {
