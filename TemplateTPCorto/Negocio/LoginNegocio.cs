@@ -62,9 +62,10 @@ namespace Negocio
 
         }
 
-        private void ReiniciarIntentos(string usuario)
+        private void ReiniciarIntentos(string legajo)
         {
-
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            usuarioPersistencia.ReiniciarIntentos(legajo);
         }
 
         public bool EsContraseniaExpirada(Credencial credencial)

@@ -166,5 +166,12 @@ namespace Persistencia
             string lineaCSV = string.Join(";", nuevoRegistro);
             dataBaseUtils.AgregarRegistro("credenciales.csv", lineaCSV);
         }
+        public void ReiniciarIntentos(string legajo)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            dataBaseUtils.BorrarRegistro(legajo, "login_intentos.csv");
+        }
+
+
     }
 }
