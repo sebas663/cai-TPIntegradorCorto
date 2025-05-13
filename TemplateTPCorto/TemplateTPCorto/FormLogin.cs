@@ -90,11 +90,25 @@ namespace TemplateTPCorto
         {
             this.Hide();
             LoginNegocio loginNegocio = new LoginNegocio();
-            string perfil = loginNegocio.ObtenerPerfil(logueado.Legajo);
+            //string perfil = loginNegocio.ObtenerPerfil(logueado.Legajo);
             Form formMenu = null;
-            if (perfil == "Operador") formMenu = new FormOperador(logueado);
-            if (perfil == "Supervisor") formMenu = new FormSupervisor(logueado);
-            if (perfil == "Administrador") formMenu = new FormAdministrador(logueado);
+            List<String> roles = loginNegocio.Obtenerroles(logueado.Legajo);
+            if (roles.Contains("Modificar persona") || roles.Contains("Desbloquear credencial"))
+            {
+                formMenu = new FormSupervisor(logueado);
+            }
+            
+            else if (roles.Contains("Autorizar modificar persona")|| roles.Contains("Autorizar desbloquear credencial"))
+            {
+                formMenu = new FormAdministrador(logueado);
+            }
+            else if (roles.Contains("Operador"))
+            {
+                formMenu = new FormOperador(logueado);
+            }
+            //if (perfil == "Operador") formMenu = new FormOperador(logueado);
+            //if (perfil == "Supervisor") formMenu = new FormSupervisor(logueado);
+            //if (perfil == "Administrador") formMenu = new FormAdministrador(logueado);
             if (formMenu != null) {
                 formMenu.FormClosed += FormMenu_FormClosed;
                 formMenu.Show();

@@ -32,6 +32,8 @@
             this.btnModificarPersona = new System.Windows.Forms.Button();
             this.btnDesbloquearCredencial = new System.Windows.Forms.Button();
             this.btnCerrarSession = new System.Windows.Forms.Button();
+            this.txtsupervisorusuario = new System.Windows.Forms.TextBox();
+            this.btnsupervisorusuario = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCambioContrasenia
@@ -73,11 +75,30 @@
             this.btnCerrarSession.Text = "Cerrar session";
             this.btnCerrarSession.UseVisualStyleBackColor = true;
             // 
+            // txtsupervisorusuario
+            // 
+            this.txtsupervisorusuario.Location = new System.Drawing.Point(13, 43);
+            this.txtsupervisorusuario.Name = "txtsupervisorusuario";
+            this.txtsupervisorusuario.Size = new System.Drawing.Size(169, 20);
+            this.txtsupervisorusuario.TabIndex = 7;
+            // 
+            // btnsupervisorusuario
+            // 
+            this.btnsupervisorusuario.Location = new System.Drawing.Point(13, 69);
+            this.btnsupervisorusuario.Name = "btnsupervisorusuario";
+            this.btnsupervisorusuario.Size = new System.Drawing.Size(170, 22);
+            this.btnsupervisorusuario.TabIndex = 8;
+            this.btnsupervisorusuario.Text = "Cambiar Contraseña";
+            this.btnsupervisorusuario.UseVisualStyleBackColor = true;
+            this.btnsupervisorusuario.Click += new System.EventHandler(this.btnsupervisorusuario_Click);
+            // 
             // FormSupervisor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnsupervisorusuario);
+            this.Controls.Add(this.txtsupervisorusuario);
             this.Controls.Add(this.btnCerrarSession);
             this.Controls.Add(this.btnModificarPersona);
             this.Controls.Add(this.btnDesbloquearCredencial);
@@ -85,6 +106,7 @@
             this.Name = "FormSupervisor";
             this.Text = "FormSupervisor";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -94,5 +116,7 @@
         private System.Windows.Forms.Button btnModificarPersona;
         private System.Windows.Forms.Button btnDesbloquearCredencial;
         private System.Windows.Forms.Button btnCerrarSession;
+        private System.Windows.Forms.TextBox txtsupervisorusuario;
+        private System.Windows.Forms.Button btnsupervisorusuario;
     }
 }

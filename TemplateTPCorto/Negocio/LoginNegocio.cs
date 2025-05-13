@@ -28,7 +28,12 @@ namespace Negocio
             }
             return null;
         }
-
+        public Credencial obtenerusuariosupervisor(String usuario)
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            Credencial credencial = usuarioPersistencia.login(usuario);
+            return credencial;
+        }
         public string ObtenerPerfil(string legajo)
         {
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
@@ -86,6 +91,22 @@ namespace Negocio
             string fechaAlta = usuario.FechaAlta.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
             string fechaUltimoLogin = usuario.FechaUltimoLogin.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
             usuarioPersistencia.ActualizarContrasenia(legajo,nombreUsuario,contrasena,fechaAlta,fechaUltimoLogin);
+        }
+        public void Supervisorcredenciales(Credencial usuario)
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            string legajo = usuario.Legajo;
+            string nombreUsuario = usuario.NombreUsuario;
+            string contrasena = usuario.Contrasena;
+            string fechaAlta = usuario.FechaAlta.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
+            string fechaUltimoLogin = "";
+            string idperfil = ObtenerPerfil(legajo);
+            usuarioPersistencia.ContraseñaSupervisor(legajo, nombreUsuario, contrasena, idperfil, fechaAlta, fechaUltimoLogin);
+        }
+        public List<String> Obtenerroles(string legajo)
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            return usuarioPersistencia.ObtenerRol(legajo);
         }
     }
 }

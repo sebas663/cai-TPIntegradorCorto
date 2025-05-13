@@ -73,7 +73,50 @@ namespace Persistencia
 
             return perfilId;
         }
-
+        private List<String> ObtenerRolperfil(string legajo)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            List<String> listado = dataBaseUtils.BuscarRegistro("perfil_rol.csv");
+            string perfil = ObtenerPerfilId(legajo);
+            List<String> listadoRol = new List<String>();
+            int contador = 0;
+            foreach (String registro in listado)
+            {
+                if (contador == 0)
+                {
+                    contador++;
+                    continue;
+                }
+                string[] campos = registro.Split(';');
+                if (campos[0] == perfil)
+                {
+                    listadoRol.Add(campos[1]);
+                }
+            }
+            return listadoRol;
+        }
+        public List<String> ObtenerRol(string legajo)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            List<String> listado = dataBaseUtils.BuscarRegistro("rol.csv");
+            List<String> listadoRol = ObtenerRolperfil(legajo);
+            List<String> listadoRolNombre = new List<String>();
+            int contador = 0;
+            foreach (String registro in listado)
+            {
+                if (contador == 0)
+                {
+                    contador++;
+                    continue;
+                }
+                string[] campos = registro.Split(';');
+                if (listadoRol.Contains(campos[0]))
+                {
+                    listadoRolNombre.Add(campos[1]);
+                }
+            }
+            return listadoRolNombre;
+        }
         private List<Credencial> ObtenerCredenciales()
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
@@ -165,6 +208,30 @@ namespace Persistencia
             string[] nuevoRegistro = { legajo, nombreUsuario, contrasena, fechaAlta, fechaUltimoLogin };
             string lineaCSV = string.Join(";", nuevoRegistro);
             dataBaseUtils.AgregarRegistro("credenciales.csv", lineaCSV);
+        }
+
+        public void ContraseñaSupervisor(string legajo, string nombreUsuario, string contrasena, string idperfil , string fechaAlta, string fechaUltimoLogin)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            List<String> listado = dataBaseUtils.BuscarRegistro("operacion_cambio_credencial.csv");
+            int contador = 0;
+            int contador1 = 0;
+            foreach (String registro in listado)
+            {
+                String[] datos = registro.Split(';');
+                if (contador == 0)
+                {
+                    contador++;
+                    continue;
+                }
+                if (int.Parse(datos[0]) <= contador)
+                {
+                    contador1 = int.Parse(datos[0]);
+                }
+            }
+            string[] nuevoRegistro = { Convert.ToString(contador1), legajo, nombreUsuario, contrasena, idperfil, fechaAlta, fechaUltimoLogin };
+            string lineaCSV = string.Join(";", nuevoRegistro);
+            dataBaseUtils.AgregarRegistro("operacion_cambio_credencial.csv", lineaCSV);
         }
     }
 }
