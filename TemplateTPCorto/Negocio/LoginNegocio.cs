@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,12 +20,13 @@ namespace Negocio
 
             Credencial credencial = usuarioPersistencia.login(usuario);
 
-            if (credencial !=  null && credencial.Contrasena.Equals(password))
+            if (credencial != null && credencial.Contrasena.Equals(password))
             {
                 ReiniciarIntentos(credencial.Legajo);
                 return credencial;
             }
-            if (credencial != null) {
+            if (credencial != null)
+            {
                 RegistrarIntento(credencial);
             }
             return null;
@@ -96,7 +98,7 @@ namespace Negocio
             string contrasena = usuario.Contrasena;
             string fechaAlta = usuario.FechaAlta.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
             string fechaUltimoLogin = usuario.FechaUltimoLogin.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
-            usuarioPersistencia.ActualizarContrasenia(legajo,nombreUsuario,contrasena,fechaAlta,fechaUltimoLogin);
+            usuarioPersistencia.ActualizarContrasenia(legajo, nombreUsuario, contrasena, fechaAlta, fechaUltimoLogin);
         }
         public void Supervisorcredenciales(Credencial usuario)
         {
@@ -109,7 +111,7 @@ namespace Negocio
             string idperfil = ObtenerPerfil(legajo);
             usuarioPersistencia.ContraseñaSupervisor(legajo, nombreUsuario, contrasena, idperfil, fechaAlta, fechaUltimoLogin);
         }
-        public Datousuario ObtenerPersona (string legajo)
+        public Datousuario ObtenerPersona(string legajo)
         {
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
             Datousuario datousuario = usuarioPersistencia.ObtenerPersona(legajo);
@@ -118,12 +120,44 @@ namespace Negocio
         public void ModificarPersona(string legajo, string nombreUsuario, string Apellido, string DNI, string fechaIngreso)
         {
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            usuarioPersistencia.ModificarPersona(legajo, nombreUsuario,Apellido, DNI, fechaIngreso);
+            usuarioPersistencia.ModificarPersona(legajo, nombreUsuario, Apellido, DNI, fechaIngreso);
         }
         public List<String> Obtenerroles(string legajo)
         {
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
             return usuarioPersistencia.ObtenerRol(legajo);
+        }
+        public bool AutorizarPersona(string idperfil)
+        {
+            bool flag = false;
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            Datousuario datosusuario = usuarioPersistencia.AutorizarUsuario(idperfil);
+            if (datosusuario != null)
+            {
+                usuarioPersistencia.AutorizarRegistroUsuario(datosusuario);
+                flag = true;
+            }
+            else
+            {
+                throw new Exception("No se encontró el usuario con el legajo proporcionado.");
+            }
+            return flag;
+        }
+        public bool AutorizarContraseña(string idperfil)
+        {
+            bool flag = false;
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            Credencial credencial = usuarioPersistencia.AutorizarCredencial(idperfil);
+            if (credencial != null)
+            {
+                usuarioPersistencia.AutorizarRegistroCredencial(credencial);
+                flag = true;
+            }
+            else
+            {
+                throw new Exception("No se encontró el usuario con el legajo proporcionado.");
+            }
+            return flag;
         }
     }
 }

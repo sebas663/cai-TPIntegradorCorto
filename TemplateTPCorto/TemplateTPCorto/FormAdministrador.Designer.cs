@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnCambioContrasenia = new System.Windows.Forms.Button();
             this.btnAutorizaciones = new System.Windows.Forms.Button();
             this.btnCerrarSession = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -39,19 +38,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.tablausuarios)).BeginInit();
             this.SuspendLayout();
             // 
-            // btnCambioContrasenia
-            // 
-            this.btnCambioContrasenia.Location = new System.Drawing.Point(12, 224);
-            this.btnCambioContrasenia.Name = "btnCambioContrasenia";
-            this.btnCambioContrasenia.Size = new System.Drawing.Size(348, 25);
-            this.btnCambioContrasenia.TabIndex = 1;
-            this.btnCambioContrasenia.Text = "Cambiar contraseña";
-            this.btnCambioContrasenia.UseVisualStyleBackColor = true;
-            this.btnCambioContrasenia.Click += new System.EventHandler(this.btnCambioContrasenia_Click);
-            // 
             // btnAutorizaciones
             // 
-            this.btnAutorizaciones.Location = new System.Drawing.Point(395, 224);
+            this.btnAutorizaciones.Location = new System.Drawing.Point(187, 241);
             this.btnAutorizaciones.Name = "btnAutorizaciones";
             this.btnAutorizaciones.Size = new System.Drawing.Size(381, 25);
             this.btnAutorizaciones.TabIndex = 4;
@@ -115,7 +104,6 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnCerrarSession);
             this.Controls.Add(this.btnAutorizaciones);
-            this.Controls.Add(this.btnCambioContrasenia);
             this.Name = "FormAdministrador";
             this.Text = "FormAdministrador";
             ((System.ComponentModel.ISupportInitialize)(this.tablacontraseñas)).EndInit();
@@ -126,8 +114,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnCambioContrasenia;
         private System.Windows.Forms.Button btnAutorizaciones;
         private System.Windows.Forms.Button btnCerrarSession;
         private System.Windows.Forms.Label label1;

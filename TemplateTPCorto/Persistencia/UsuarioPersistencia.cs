@@ -32,6 +32,54 @@ namespace Persistencia
             DataBaseUtils database = new DataBaseUtils();
             return database.BuscarRegistro(archivo);
         }
+        public Datousuario AutorizarUsuario(string idoperacion)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            List<String> listado = Obtenerdatos("operacion_cambio_persona.csv");
+            Datousuario usuario = null;
+            int contador = 0;
+            foreach (String registro in listado)
+            {
+                if (contador == 0)
+                {
+                    contador++;
+                    continue;
+                }
+                String[] datos = registro.Split(';');
+                if (datos[0] == idoperacion)
+                {
+                    string registrocredencial = string.Join(";", datos[1], datos[2], datos[3], datos[4], datos[5]);
+                    usuario = new Datousuario(registrocredencial);
+                    dataBaseUtils.BorrarRegistro(idoperacion, "operacion_cambio_persona.csv");
+                    break;
+                }
+            }
+            return usuario;
+        }
+        public Credencial AutorizarCredencial(string idoperacion)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            List<String> listado = Obtenerdatos("operacion_cambio_Credencial.csv");
+            Credencial credencial = null;
+            int contador = 0;
+            foreach (String registro in listado)
+            {
+                if (contador == 0)
+                {
+                    contador++;
+                    continue;
+                }
+                String[] datos = registro.Split(';');
+                if (datos[0] == idoperacion)
+                {
+                    string registrocredencial = string.Join(";", datos[1], datos[2], datos[3], datos[5], datos[6]);
+                    credencial = new Credencial(registrocredencial);
+                    dataBaseUtils.BorrarRegistro(idoperacion, "operacion_cambio_credencial.csv");
+                    break;
+                }
+            }
+            return credencial;
+        }
         public string ObtenerPerfil(string legajo)
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
@@ -290,6 +338,38 @@ namespace Persistencia
             string[] nuevoRegistro = { Convert.ToString(contador1), legajo, nombre, apellido, DNI, fechaingreso };
             string lineaCSV = string.Join(";", nuevoRegistro);
             dataBaseUtils.AgregarRegistro("operacion_cambio_persona", lineaCSV);
+        }
+        public void AutorizarRegistroCredencial(Credencial credencial)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            if(credencial != null)
+            {
+                dataBaseUtils.BorrarRegistro(credencial.Legajo, "Credencial.csv");
+                string[] nuevoRegistro = { credencial.Legajo, credencial.NombreUsuario, credencial.Contrasena, credencial.FechaAlta.ToString("d/M/yyyy"), credencial.FechaUltimoLogin.ToString("d/M/yyyy") };
+                string lineaCSV = string.Join(";", nuevoRegistro);
+                dataBaseUtils.AgregarRegistro("credenciales.csv", lineaCSV);
+            }
+            else
+            {
+                throw new Exception("No se puede agregar un registro nulo");
+            }
+
+        }
+        public void AutorizarRegistroUsuario(Datousuario usuario)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            if (usuario != null)
+            {
+                dataBaseUtils.BorrarRegistro(usuario.Legajo, "persona.csv");
+                string[] nuevoRegistro = { usuario.Legajo, usuario.Nombre, usuario.Apellido, usuario.DNI.ToString(), usuario.FechaIngreso.ToString("d/M/yyyy") };
+                string lineaCSV = string.Join(";", nuevoRegistro);
+                dataBaseUtils.AgregarRegistro("persona.csv", lineaCSV);
+            }
+            else
+            {
+                throw new Exception("No se puede agregar un registro nulo");
+            }
+
         }
     }
 }

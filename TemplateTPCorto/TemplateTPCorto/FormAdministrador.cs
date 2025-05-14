@@ -20,6 +20,8 @@ namespace TemplateTPCorto
             InitializeComponent();
             btnCerrarSession.Click += btnCerrarSession_Click;
             usuario = logueado;
+            tablacontraseñas.Rows.Clear();
+            tablausuarios.Rows.Clear();
             tablacontraseñas.ColumnCount = 7;
             tablacontraseñas.Columns[0].Name = "ID";
             tablacontraseñas.Columns[1].Name = "Legajo";
@@ -38,6 +40,10 @@ namespace TemplateTPCorto
             tablausuarios.Columns[5].Name = "Fecha de Ingreso";
             CargarRegistros("operacion_cambio_credencial.csv", tablacontraseñas);
             CargarRegistros("operacion_cambio_persona.csv", tablausuarios);
+            tablausuarios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            tablausuarios.MultiSelect = true;
+            tablacontraseñas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            tablacontraseñas.MultiSelect = true;
         }
         private void CargarRegistros(string archivo, DataGridView dgv)
         {
@@ -45,13 +51,18 @@ namespace TemplateTPCorto
             {
                 LoginNegocio loginNegocio = new LoginNegocio();
                 List<String> lista = loginNegocio.Obtenerdatos(archivo);
+                int contador = 0;
                 foreach (string linea in lista)
                 {
                     if (string.IsNullOrWhiteSpace(linea))
                         continue;
 
                     string[] campos = linea.Split(';');
-                    dgv.Rows.Add(campos);
+                    if (contador!=0)
+                    {
+                        dgv.Rows.Add(campos);
+                    }
+                    contador++;
                 }
             }
             catch (Exception ex)
@@ -69,7 +80,43 @@ namespace TemplateTPCorto
         }
         private void btnAutorizaciones_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Autorizaciones.");
+            if (tablacontraseñas.SelectedRows.Count == 0 && tablausuarios.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("No hay filas seleccionadas.");
+            }
+            else
+            {
+                LoginNegocio loginNegocio = new LoginNegocio();
+                List<DataGridViewRow> filasParaEliminarusuarios = new List<DataGridViewRow>();
+                List<DataGridViewRow> filasParaEliminarContraseñas = new List<DataGridViewRow>();
+                foreach (DataGridViewRow fila in tablausuarios.SelectedRows)
+                {
+                    string id = fila.Cells[0].Value.ToString();
+                    bool flag = loginNegocio.AutorizarPersona(id);
+                    if(flag)
+                    {
+                        filasParaEliminarusuarios.Add(fila);
+                    }
+                }
+                foreach (DataGridViewRow fila in filasParaEliminarusuarios)
+                {
+                    tablausuarios.Rows.Remove(fila);
+                }
+                foreach (DataGridViewRow fila in tablacontraseñas.SelectedRows)
+                {
+                    string id = fila.Cells[0].Value.ToString();
+                    bool flag = loginNegocio.AutorizarContraseña(id);
+                    if (flag)
+                    {
+                        filasParaEliminarContraseñas.Add(fila);
+                    }
+                }
+                foreach (DataGridViewRow fila in filasParaEliminarContraseñas)
+                {
+                    tablacontraseñas.Rows.Remove(fila);
+                }
+                MessageBox.Show("Autorizaciónes realizadas correctamente.");
+            }
         }
 
        
