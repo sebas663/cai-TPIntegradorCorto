@@ -1,4 +1,5 @@
 ﻿using Datos;
+using Negocio;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,7 +20,46 @@ namespace TemplateTPCorto
             InitializeComponent();
             btnCerrarSession.Click += btnCerrarSession_Click;
             usuario = logueado;
+            tablacontraseñas.ColumnCount = 7;
+            tablacontraseñas.Columns[0].Name = "ID";
+            tablacontraseñas.Columns[1].Name = "Legajo";
+            tablacontraseñas.Columns[2].Name = "Usuario";
+            tablacontraseñas.Columns[3].Name = "Contraseña";
+            tablacontraseñas.Columns[4].Name = "Perfil";
+            tablacontraseñas.Columns[5].Name = "Fecha de Alta";
+            tablacontraseñas.Columns[6].Name = "Último Login";
+
+            tablausuarios.ColumnCount = 6;
+            tablausuarios.Columns[0].Name = "ID";
+            tablausuarios.Columns[1].Name = "Legajo";
+            tablausuarios.Columns[2].Name = "Nombre";
+            tablausuarios.Columns[3].Name = "Apellido";
+            tablausuarios.Columns[4].Name = "DNI";
+            tablausuarios.Columns[5].Name = "Fecha de Ingreso";
+            CargarRegistros("operacion_cambio_credencial.csv", tablacontraseñas);
+            CargarRegistros("operacion_cambio_persona.csv", tablausuarios);
         }
+        private void CargarRegistros(string archivo, DataGridView dgv)
+        {
+            try
+            {
+                LoginNegocio loginNegocio = new LoginNegocio();
+                List<String> lista = loginNegocio.Obtenerdatos(archivo);
+                foreach (string linea in lista)
+                {
+                    if (string.IsNullOrWhiteSpace(linea))
+                        continue;
+
+                    string[] campos = linea.Split(';');
+                    dgv.Rows.Add(campos);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar registros: " + ex.Message);
+            }
+        }
+
 
         private void btnCambioContrasenia_Click(object sender, EventArgs e)
         {
@@ -32,5 +72,31 @@ namespace TemplateTPCorto
             MessageBox.Show("Autorizaciones.");
         }
 
+       
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+
+
+        }
+        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+
+
+        }
+
+        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listacontraseñas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        
     }
 }

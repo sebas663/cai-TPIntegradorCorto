@@ -67,6 +67,11 @@ namespace Negocio
             }
 
         }
+        public List<String> Obtenerdatos(string archivo)
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            return usuarioPersistencia.Obtenerdatos(archivo);
+        }
 
         private void ReiniciarIntentos(string usuario)
         {

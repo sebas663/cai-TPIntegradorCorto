@@ -27,7 +27,11 @@ namespace Persistencia
 
             return credencialLogin;
         }
-
+        public List<String> Obtenerdatos(string archivo)
+        {
+            DataBaseUtils database = new DataBaseUtils();
+            return database.BuscarRegistro(archivo);
+        }
         public string ObtenerPerfil(string legajo)
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
