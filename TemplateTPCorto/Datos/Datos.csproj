@@ -43,7 +43,9 @@
   <ItemGroup>
     <Compile Include="Login\Credencial.cs" />
     <Compile Include="Login\Datousuario.cs" />
+    <Compile Include="Login\Perfil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Login\Rol.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

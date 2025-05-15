@@ -39,21 +39,33 @@ namespace TemplateTPCorto
             }
             else 
             {
-                string perfil = loginNegocio.ObtenerPerfil(usuario.Legajo);
-                if (perfil == "Operador")
+                Perfil perfil = loginNegocio.ObtenerPerfil(usuario.Legajo);
+                // operador
+                if (perfil.Id == "1" && loginNegocio.TieneRol(perfil.Roles, "5"))
                 {
                     btnCambioContrasenia.Visible = true;
                 }
-                if (perfil == "Supervisor")
+                // supervisor
+                if (perfil.Id == "2")
                 {
                     btnCambioContrasenia.Visible = true;
-                    btnModificarPersona.Visible = true;
-                    btnDesbloquearCredencial.Visible = true;
+                    if (loginNegocio.TieneRol(perfil.Roles, "1")) {
+                        btnModificarPersona.Visible = true;
+                    }
+                    if (loginNegocio.TieneRol(perfil.Roles, "3"))
+                    {
+                        btnDesbloquearCredencial.Visible = true;
+                    }
                 }
-                if (perfil == "Administrador")
+                // administrador
+                if (perfil.Id == "3")
                 {
                     btnCambioContrasenia.Visible = true;
-                    btnAutorizaciones.Visible = true;
+                    if (loginNegocio.TieneRol(perfil.Roles, "2") || loginNegocio.TieneRol(perfil.Roles, "4"))
+                    {
+                        btnAutorizaciones.Visible = true;
+                    }
+                    
                 }
             }
         }

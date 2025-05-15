@@ -37,7 +37,7 @@ namespace Negocio
             Credencial credencial = usuarioPersistencia.login(usuario);
             return credencial;
         }
-        public string ObtenerPerfil(string legajo)
+        public Perfil ObtenerPerfil(string legajo)
         {
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
             return usuarioPersistencia.ObtenerPerfil(legajo);
@@ -108,7 +108,8 @@ namespace Negocio
             string contrasena = usuario.Contrasena;
             string fechaAlta = usuario.FechaAlta.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
             string fechaUltimoLogin = "";
-            string idperfil = ObtenerPerfil(legajo);
+            //string idperfil = ObtenerPerfil(legajo);
+            string idperfil = "";
             usuarioPersistencia.ContraseñaSupervisor(legajo, nombreUsuario, contrasena, idperfil, fechaAlta, fechaUltimoLogin);
         }
         public Datousuario ObtenerPersona(string legajo)
@@ -121,11 +122,6 @@ namespace Negocio
         {
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
             usuarioPersistencia.ModificarPersona(legajo, nombreUsuario, Apellido, DNI, fechaIngreso);
-        }
-        public List<String> Obtenerroles(string legajo)
-        {
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            return usuarioPersistencia.ObtenerRol(legajo);
         }
         public bool AutorizarPersona(string idperfil)
         {
@@ -158,6 +154,20 @@ namespace Negocio
                 throw new Exception("No se encontró el usuario con el legajo proporcionado.");
             }
             return flag;
+        }
+
+        public bool TieneRol(List<Rol> roles, string rolId)
+        {
+            bool tieneRol = false;
+            foreach (Rol rol in roles)
+            {
+                if (rol.Id == rolId)
+                {
+                    tieneRol = true;
+                    break;
+                }
+            }
+            return tieneRol;
         }
     }
 }

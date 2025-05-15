@@ -81,12 +81,12 @@ namespace Persistencia
             }
             return credencial;
         }
-        public string ObtenerPerfil(string legajo)
+        public Perfil ObtenerPerfil(string legajo)
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
             string perfilId = ObtenerPerfilId(legajo);
             List<String> listado = dataBaseUtils.BuscarRegistro("perfil.csv");
-            string perfil = "";
+            string perfilRegistro = "";
             int contador = 0;
             foreach (String registro in listado)
             {
@@ -98,12 +98,12 @@ namespace Persistencia
                 string [] campos = registro.Split(';');
                 if (campos[0] == perfilId)
                 {
-                    perfil = campos[1];
+                    perfilRegistro = registro;
                     break;
                 }
             }
-
-            return perfil;
+            List<Rol> roles = ObtenerRolesPorPerfilId(perfilId);
+            return new Perfil(perfilRegistro, roles);
         }
 
         private string ObtenerPerfilId(string legajo)
@@ -129,12 +129,34 @@ namespace Persistencia
 
             return perfilId;
         }
-        private List<String> ObtenerRolperfil(string legajo)
+
+        public List<Rol> ObtenerRolesPorPerfilId(string perfilId)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            List<String> rolIDs = ObtenerRolIdsPorPerfilId(perfilId);
+            List<String> listado = dataBaseUtils.BuscarRegistro("rol.csv");
+            List<Rol> roles = new List<Rol>();
+            int contador = 0;
+            foreach (String registro in listado)
+            {
+                if (contador == 0)
+                {
+                    contador++;
+                    continue;
+                }
+                string[] campos = registro.Split(';');
+                if (rolIDs.Contains(campos[0]))
+                {
+                    roles.Add(new Rol(registro));
+                }
+            }
+            return roles;
+        }
+        private List<String> ObtenerRolIdsPorPerfilId(string perfilId)
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
             List<String> listado = dataBaseUtils.BuscarRegistro("perfil_rol.csv");
-            string perfil = ObtenerPerfilId(legajo);
-            List<String> listadoRol = new List<String>();
+            List<String> listadoRolIds = new List<String>();
             int contador = 0;
             foreach (String registro in listado)
             {
@@ -144,35 +166,14 @@ namespace Persistencia
                     continue;
                 }
                 string[] campos = registro.Split(';');
-                if (campos[0] == perfil)
+                if (campos[0] == perfilId)
                 {
-                    listadoRol.Add(campos[1]);
+                    listadoRolIds.Add(campos[1]);
                 }
             }
-            return listadoRol;
+            return listadoRolIds;
         }
-        public List<String> ObtenerRol(string legajo)
-        {
-            DataBaseUtils dataBaseUtils = new DataBaseUtils();
-            List<String> listado = dataBaseUtils.BuscarRegistro("rol.csv");
-            List<String> listadoRol = ObtenerRolperfil(legajo);
-            List<String> listadoRolNombre = new List<String>();
-            int contador = 0;
-            foreach (String registro in listado)
-            {
-                if (contador == 0)
-                {
-                    contador++;
-                    continue;
-                }
-                string[] campos = registro.Split(';');
-                if (listadoRol.Contains(campos[0]))
-                {
-                    listadoRolNombre.Add(campos[1]);
-                }
-            }
-            return listadoRolNombre;
-        }
+        
         private List<Credencial> ObtenerCredenciales()
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
