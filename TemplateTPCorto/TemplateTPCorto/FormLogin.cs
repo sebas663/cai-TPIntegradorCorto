@@ -1,4 +1,4 @@
-﻿using Datos;
+using Datos;
 using Negocio;
 using System;
 using System.Collections.Generic;
@@ -42,7 +42,7 @@ namespace TemplateTPCorto
                 txtPassword.Focus();
                 return;
             }
- 
+
             if (permiteAvanzar)
             {
                 LoginNegocio loginNegocio = new LoginNegocio();
@@ -70,10 +70,12 @@ namespace TemplateTPCorto
                         if (esPrimerLogin || esContraseniaExpirada)
                         {
                             this.Hide();
-                            FormContraseniaCambio form = new FormContraseniaCambio(this, credencial);
-                            form.Show();
+                            FormContraseniaCambio formContrasenia = new FormContraseniaCambio(this, credencial, true);
+                            formContrasenia.FormClosed += FormContrasenia_FormClosed;
+                            formContrasenia.Show();
                         }
-                        else {
+                        else
+                        {
                             AbrirMenu(credencial);
                         }
                     }
@@ -82,21 +84,22 @@ namespace TemplateTPCorto
                 {
                     MessageBox.Show("El usuario esta bloqueado.");
                 }
-                
+
             }
         }
 
         private void AbrirMenu(Credencial logueado)
         {
-            this.Hide();
             LoginNegocio loginNegocio = new LoginNegocio();
             string perfil = loginNegocio.ObtenerPerfil(logueado.Legajo);
             Form formMenu = null;
-            if (perfil == "Operador") formMenu = new FormOperador(logueado);
+            if (perfil == "Operador") formMenu = new FormOperador(this, logueado);
             if (perfil == "Supervisor") formMenu = new FormSupervisor(logueado);
             if (perfil == "Administrador") formMenu = new FormAdministrador(logueado);
-            if (formMenu != null) {
+            if (formMenu != null)
+            {
                 formMenu.FormClosed += FormMenu_FormClosed;
+                this.Hide();
                 formMenu.Show();
             }
             else
@@ -105,6 +108,12 @@ namespace TemplateTPCorto
             }
         }
         private void FormMenu_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Show();
+            LimpiarCamposLogin();
+        }
+
+        private void FormContrasenia_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Show();
             LimpiarCamposLogin();

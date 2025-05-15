@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Persistencia
 {
@@ -88,6 +89,9 @@ namespace Persistencia
                     contador++;
                     continue;
                 }
+                // Mostrar en consola lo que se está leyendo
+                Console.WriteLine("Registro leído: " + registro);
+
                 Credencial credencial = new Credencial(registro);
                 listadoCredenciales.Add(credencial);
             }
@@ -157,7 +161,7 @@ namespace Persistencia
 
             return existe;
         }
-
+    
         public void ActualizarContrasenia(string legajo, string nombreUsuario, string contrasena, string fechaAlta, string fechaUltimoLogin)
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
@@ -167,4 +171,5 @@ namespace Persistencia
             dataBaseUtils.AgregarRegistro("credenciales.csv", lineaCSV);
         }
     }
+
 }

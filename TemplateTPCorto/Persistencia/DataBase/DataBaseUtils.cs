@@ -16,6 +16,9 @@ namespace Persistencia.DataBase
 
             String rutaArchivo = Path.GetFullPath(archivoCsvPath); // Normaliza la ruta
 
+            // Mostramos la ruta completa
+            Console.WriteLine("Ruta completa del CSV: " + rutaArchivo);
+
             List<String> listado = new List<String>();
 
             try
