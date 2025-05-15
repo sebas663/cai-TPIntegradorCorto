@@ -75,7 +75,7 @@ namespace Negocio
 
         public bool EsPrimerLogin(Credencial credencial)
         {
-            return false;
+            return credencial.FechaUltimoLogin == default(DateTime);
         }
 
         public void ActualizarContrasenia(Credencial usuario)
