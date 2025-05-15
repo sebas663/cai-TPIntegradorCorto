@@ -1,4 +1,4 @@
-﻿using Datos;
+using Datos;
 using Negocio;
 using System;
 using System.Collections.Generic;
@@ -42,7 +42,7 @@ namespace TemplateTPCorto
                 txtPassword.Focus();
                 return;
             }
- 
+
             if (permiteAvanzar)
             {
                 LoginNegocio loginNegocio = new LoginNegocio();
@@ -65,70 +65,17 @@ namespace TemplateTPCorto
                     }
                     if (permiteAvanzar)
                     {
-                        bool esPrimerLogin = loginNegocio.EsPrimerLogin(credencial);
-                        bool esContraseniaExpirada = loginNegocio.EsContraseniaExpirada(credencial);
-                        if (esPrimerLogin || esContraseniaExpirada)
-                        {
-                            this.Hide();
-                            FormContraseniaCambio form = new FormContraseniaCambio(this, credencial);
-                            form.Show();
-                        }
-                        else {
-                            AbrirMenu(credencial);
-                        }
+                        FormMenu menu = new FormMenu(credencial);
+                        menu.Show();
+                        this.Hide();
                     }
                 }
                 else
                 {
                     MessageBox.Show("El usuario esta bloqueado.");
                 }
-                
-            }
-        }
 
-        private void AbrirMenu(Credencial logueado)
-        {
-            this.Hide();
-            LoginNegocio loginNegocio = new LoginNegocio();
-            //string perfil = loginNegocio.ObtenerPerfil(logueado.Legajo);
-            Form formMenu = null;
-            List<String> roles = loginNegocio.Obtenerroles(logueado.Legajo);
-            if (roles.Contains("Modificar persona") || roles.Contains("Desbloquear credencial"))
-            {
-                formMenu = new FormSupervisor(logueado);
-            }
-            
-            else if (roles.Contains("Autorizar modificar persona")|| roles.Contains("Autorizar desbloquear credencial"))
-            {
-                formMenu = new FormAdministrador(logueado);
-            }
-            else if (roles.Contains("Operador"))
-            {
-                formMenu = new FormOperador(logueado);
-            }
-            //if (perfil == "Operador") formMenu = new FormOperador(logueado);
-            //if (perfil == "Supervisor") formMenu = new FormSupervisor(logueado);
-            //if (perfil == "Administrador") formMenu = new FormAdministrador(logueado);
-            if (formMenu != null) {
-                formMenu.FormClosed += FormMenu_FormClosed;
-                formMenu.Show();
-            }
-            else
-            {
-                MessageBox.Show("Perfil no reconocido.");
             }
         }
-        private void FormMenu_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            this.Show();
-            LimpiarCamposLogin();
-        }
-        private void LimpiarCamposLogin()
-        {
-            txtUsuario.Text = string.Empty;
-            txtPassword.Text = string.Empty;
-            txtUsuario.Focus();
-        }
-
     }
 }

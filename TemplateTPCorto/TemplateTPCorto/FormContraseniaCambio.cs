@@ -12,23 +12,14 @@ using System.Windows.Forms;
 
 namespace TemplateTPCorto
 {
-    public partial class FormContraseniaCambio : FormMenuBase
+    public partial class FormContraseniaCambio : UserControl
     {
-        private Form formularioAnterior;
         private Credencial usuario;
         private const int MIN_CARACTERES_CONTRASENIA = 8;
-        private bool essupervisor;
-        public FormContraseniaCambio(Form anterior, Credencial logueado, bool essupervisor=false)
+        public FormContraseniaCambio(Credencial logueado)
         {
             InitializeComponent();
-            btnCerrarSession.Click += btnCerrarSession_Click;
-            formularioAnterior = anterior;
             usuario = logueado;
-            this.essupervisor = essupervisor;
-            if (essupervisor==true)
-            {
-                txtContraseniaActual.ReadOnly = true;
-            }
         }
 
         public void btnCambioContrasenia_Click(object sender, EventArgs e)
@@ -39,7 +30,7 @@ namespace TemplateTPCorto
 
             Boolean permiteAvanzar = true;
 
-            if (contraseniaActual == "" && this.essupervisor==false)
+            if (contraseniaActual == "")
             {
                 permiteAvanzar = false;
                 MessageBox.Show("La contraseña actual no puede estar vacia.");
@@ -47,7 +38,7 @@ namespace TemplateTPCorto
                 return;
             }
 
-            if (contraseniaNueva == "" )
+            if (contraseniaNueva == "")
             {
                 permiteAvanzar = false;
                 MessageBox.Show("La contraseña nueva no puede estar vacia.");
@@ -62,14 +53,14 @@ namespace TemplateTPCorto
                 txtContraseniaActual.Focus();
                 return;
             }
-            if (usuario.Contrasena != contraseniaActual && this.essupervisor == false)
+            if (usuario.Contrasena != contraseniaActual)
             {
                 permiteAvanzar = false;
                 MessageBox.Show("La contraseña actual es erronea.");
                 txtContraseniaActual.Focus();
                 return;
             }
-            if (contraseniaNueva == contraseniaActual && this.essupervisor == false)
+            if (contraseniaNueva == contraseniaActual)
             {
                 permiteAvanzar = false;
                 MessageBox.Show("La contraseña nueva debe ser distinta a la contraseña actual.");
@@ -91,37 +82,16 @@ namespace TemplateTPCorto
                 return;
             }
 
-            if (permiteAvanzar && this.essupervisor == false) {
+            if (permiteAvanzar)
+            {
                 LoginNegocio loginNegocio = new LoginNegocio();
                 usuario.Contrasena = contraseniaNueva;
                 usuario.FechaUltimoLogin = DateTime.Now;
                 loginNegocio.ActualizarContrasenia(usuario);
                 MessageBox.Show("La contraseña se cambio con èxito.");
-                Volver();
+                new FormLogin().Show();
+                this.ParentForm.Hide();
             }
-            if (permiteAvanzar && this.essupervisor == true)
-            {
-                LoginNegocio loginNegocio = new LoginNegocio();
-                usuario.Contrasena = contraseniaNueva;
-                loginNegocio.Supervisorcredenciales(usuario);
-                MessageBox.Show("La contraseña se cambio con èxito.");
-                Volver();
-            }
-        }
-
-        
-        public void btnVolver_Click(object sender, EventArgs e)
-        {
-            Volver();
-        }
-
-        private void Volver()
-        {
-            if (formularioAnterior != null && !formularioAnterior.IsDisposed)
-            {
-                formularioAnterior.Show();
-            }
-            this.Hide();
         }
 
     }

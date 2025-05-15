@@ -49,7 +49,7 @@ namespace TemplateTPCorto
             LoginNegocio loginNegocio = new LoginNegocio();
             string legajoingresado = txtsupervisorusuario.Text;
             Credencial credencial = loginNegocio.obtenerusuariosupervisor(legajoingresado);
-            if(credencial == null)
+            if (credencial == null)
             {
                 MessageBox.Show("El usuario ingresado no existe.");
                 txtsupervisorusuario.Focus();
@@ -57,7 +57,7 @@ namespace TemplateTPCorto
             else
             {
                 this.Hide();
-                FormContraseniaCambio form = new FormContraseniaCambio(this, credencial, true);
+                FormContraseniaCambio form = new FormContraseniaCambio(credencial);
                 form.Show();
             }
         }
