@@ -65,19 +65,9 @@ namespace TemplateTPCorto
                     }
                     if (permiteAvanzar)
                     {
-                        bool esPrimerLogin = loginNegocio.EsPrimerLogin(credencial);
-                        bool esContraseniaExpirada = loginNegocio.EsContraseniaExpirada(credencial);
-                        if (esPrimerLogin || esContraseniaExpirada)
-                        {
-                            this.Hide();
-                            FormContraseniaCambio formContrasenia = new FormContraseniaCambio(this, credencial, true);
-                            formContrasenia.FormClosed += FormContrasenia_FormClosed;
-                            formContrasenia.Show();
-                        }
-                        else
-                        {
-                            AbrirMenu(credencial);
-                        }
+                       FormMenu menu = new FormMenu(credencial);
+                       menu.Show();
+                       this.Hide();
                     }
                 }
                 else
@@ -87,43 +77,5 @@ namespace TemplateTPCorto
 
             }
         }
-
-        private void AbrirMenu(Credencial logueado)
-        {
-            LoginNegocio loginNegocio = new LoginNegocio();
-            string perfil = loginNegocio.ObtenerPerfil(logueado.Legajo);
-            Form formMenu = null;
-            if (perfil == "Operador") formMenu = new FormOperador(this, logueado);
-            if (perfil == "Supervisor") formMenu = new FormSupervisor(logueado);
-            if (perfil == "Administrador") formMenu = new FormAdministrador(logueado);
-            if (formMenu != null)
-            {
-                formMenu.FormClosed += FormMenu_FormClosed;
-                this.Hide();
-                formMenu.Show();
-            }
-            else
-            {
-                MessageBox.Show("Perfil no reconocido.");
-            }
-        }
-        private void FormMenu_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            this.Show();
-            LimpiarCamposLogin();
-        }
-
-        private void FormContrasenia_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            this.Show();
-            LimpiarCamposLogin();
-        }
-        private void LimpiarCamposLogin()
-        {
-            txtUsuario.Text = string.Empty;
-            txtPassword.Text = string.Empty;
-            txtUsuario.Focus();
-        }
-
     }
 }
