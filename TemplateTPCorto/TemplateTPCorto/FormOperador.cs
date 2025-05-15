@@ -11,21 +11,28 @@ using System.Windows.Forms;
 
 namespace TemplateTPCorto
 {
-    public partial class FormOperador : FormMenuBase
+    public partial class FormOperador : Form
     {
+        private Form formularioAnterior;
         private Credencial usuario;
-        public FormOperador(Credencial logueado)
+        public FormOperador(Form anterior, Credencial logueado)
         {
             InitializeComponent();
             btnCerrarSession.Click += btnCerrarSession_Click;
+            formularioAnterior = anterior;
             usuario = logueado;
         }
 
         private void btnCambioContrasenia_Click(object sender, EventArgs e)
         {
             this.Hide();
-            FormContraseniaCambio form = new FormContraseniaCambio(this, usuario);
-            form.Show();
+            new FormContraseniaCambio(this, usuario, false).Show();
+        }
+
+        private void btnCerrarSession_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            formularioAnterior.Show();
         }
 
     }

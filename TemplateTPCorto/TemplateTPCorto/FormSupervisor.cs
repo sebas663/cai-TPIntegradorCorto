@@ -23,7 +23,7 @@ namespace TemplateTPCorto
         private void btnCambioContrasenia_Click(object sender, EventArgs e)
         {
             this.Hide();
-            FormContraseniaCambio form = new FormContraseniaCambio(this, usuario);
+            FormContraseniaCambio form = new FormContraseniaCambio(this, usuario, false);
             form.Show();
         }
 

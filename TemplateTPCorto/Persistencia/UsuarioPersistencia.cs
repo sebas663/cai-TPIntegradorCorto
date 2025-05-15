@@ -161,34 +161,7 @@ namespace Persistencia
 
             return existe;
         }
-        public void ActualizarUsuario(Credencial credencial)
-        {
-            DataBaseUtils dataBaseUtils = new DataBaseUtils();
-            string archivoCsv = @"C:\Users\salva\OneDrive\Documentos\GitHub\cai-TPIntegradorCorto\TemplateTPCorto\Persistencia\DataBase\Tablas\credenciales.csv";
-
-            // 🔹 Leemos todas las líneas
-            List<string> lineas = File.ReadAllLines(archivoCsv).ToList();
-
-            for (int i = 0; i < lineas.Count; i++)
-            {
-                var datos = lineas[i].Split(';'); // Usamos tabulación para dividir
-
-                if (datos[0] == credencial.Legajo)
-                {
-                    datos[2] = credencial.Contrasena;
-                    datos[4] = credencial.FechaUltimoLogin.ToString("d/M/yyyy");
-                    lineas[i] = string.Join(";", datos); // Volvemos a unir con tabulación
-                    break;
-                }
-            }
-
-            // 🔹 Guardamos los cambios en el archivo
-            File.WriteAllLines(archivoCsv, lineas);
-
-            Console.WriteLine($"✅ Usuario {credencial.NombreUsuario} actualizado correctamente en el CSV.");
-        }
-
-
+    
         public void ActualizarContrasenia(string legajo, string nombreUsuario, string contrasena, string fechaAlta, string fechaUltimoLogin)
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
