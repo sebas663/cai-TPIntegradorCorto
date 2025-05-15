@@ -12,19 +12,14 @@ using System.Windows.Forms;
 
 namespace TemplateTPCorto
 {
-    public partial class FormContraseniaCambio : Form
+    public partial class FormContraseniaCambio : UserControl
     {
-        private Form formularioAnterior;
         private Credencial usuario;
-        private bool esMostrarLogin;
         private const int MIN_CARACTERES_CONTRASENIA = 8;
-        public FormContraseniaCambio(Form anterior, Credencial logueado, bool mostrarLogin)
+        public FormContraseniaCambio(Credencial logueado)
         {
             InitializeComponent();
-            btnCerrarSession.Click += btnCerrarSession_Click;
-            formularioAnterior = anterior;
             usuario = logueado;
-            esMostrarLogin = mostrarLogin;
         }
 
         public void btnCambioContrasenia_Click(object sender, EventArgs e)
@@ -93,33 +88,10 @@ namespace TemplateTPCorto
                 usuario.FechaUltimoLogin = DateTime.Now;
                 loginNegocio.ActualizarContrasenia(usuario);
                 MessageBox.Show("La contraseña se cambio con èxito.");
-                cerrarSession();
+                new FormLogin().Show();
+                this.ParentForm.Hide();
             }
         }
-
-        
-        public void btnVolver_Click(object sender, EventArgs e)
-        {
-            formularioAnterior.Show();
-            this.Close();
-        }
-
-        public void btnCerrarSession_Click(object sender, EventArgs e)
-        {
-            cerrarSession();
-        }
-
-        private void cerrarSession()
-        {
-            if (esMostrarLogin)
-            {
-                formularioAnterior.Show();
-            }
-            else
-            {
-                formularioAnterior.Close();
-            }
-            this.Close();
-        }
+    
     }
 }

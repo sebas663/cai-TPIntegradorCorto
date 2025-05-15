@@ -26,7 +26,7 @@ namespace TemplateTPCorto
         private void btnCambioContrasenia_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new FormContraseniaCambio(this, usuario, false).Show();
+            new FormContraseniaCambio(usuario).Show();
         }
 
         private void btnCerrarSession_Click(object sender, EventArgs e)

@@ -35,25 +35,24 @@
             this.txtContraseniaActual = new System.Windows.Forms.TextBox();
             this.labelConfirmarContraseniaActual = new System.Windows.Forms.Label();
             this.txtConfirmarContraseniaNueva = new System.Windows.Forms.TextBox();
-            this.btnVolver = new System.Windows.Forms.Button();
-            this.btnCerrarSession = new System.Windows.Forms.Button();
+            this.txtTitulo = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnCambioContrasenia
             // 
-            this.btnCambioContrasenia.Location = new System.Drawing.Point(23, 178);
+            this.btnCambioContrasenia.Location = new System.Drawing.Point(279, 203);
             this.btnCambioContrasenia.Margin = new System.Windows.Forms.Padding(2);
             this.btnCambioContrasenia.Name = "btnCambioContrasenia";
-            this.btnCambioContrasenia.Size = new System.Drawing.Size(141, 19);
+            this.btnCambioContrasenia.Size = new System.Drawing.Size(100, 25);
             this.btnCambioContrasenia.TabIndex = 9;
-            this.btnCambioContrasenia.Text = "Cambiar contraseña";
+            this.btnCambioContrasenia.Text = "Cambiar";
             this.btnCambioContrasenia.UseVisualStyleBackColor = true;
             this.btnCambioContrasenia.Click += new System.EventHandler(this.btnCambioContrasenia_Click);
             // 
             // labelContraseniaNueva
             // 
             this.labelContraseniaNueva.AutoSize = true;
-            this.labelContraseniaNueva.Location = new System.Drawing.Point(20, 60);
+            this.labelContraseniaNueva.Location = new System.Drawing.Point(57, 122);
             this.labelContraseniaNueva.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelContraseniaNueva.Name = "labelContraseniaNueva";
             this.labelContraseniaNueva.Size = new System.Drawing.Size(94, 13);
@@ -63,7 +62,7 @@
             // labelContraseniaActual
             // 
             this.labelContraseniaActual.AutoSize = true;
-            this.labelContraseniaActual.Location = new System.Drawing.Point(20, 18);
+            this.labelContraseniaActual.Location = new System.Drawing.Point(57, 80);
             this.labelContraseniaActual.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelContraseniaActual.Name = "labelContraseniaActual";
             this.labelContraseniaActual.Size = new System.Drawing.Size(93, 13);
@@ -72,7 +71,7 @@
             // 
             // txtContraseniaNueva
             // 
-            this.txtContraseniaNueva.Location = new System.Drawing.Point(198, 60);
+            this.txtContraseniaNueva.Location = new System.Drawing.Point(235, 122);
             this.txtContraseniaNueva.Margin = new System.Windows.Forms.Padding(2);
             this.txtContraseniaNueva.Name = "txtContraseniaNueva";
             this.txtContraseniaNueva.Size = new System.Drawing.Size(144, 20);
@@ -80,7 +79,7 @@
             // 
             // txtContraseniaActual
             // 
-            this.txtContraseniaActual.Location = new System.Drawing.Point(198, 15);
+            this.txtContraseniaActual.Location = new System.Drawing.Point(235, 77);
             this.txtContraseniaActual.Margin = new System.Windows.Forms.Padding(2);
             this.txtContraseniaActual.Name = "txtContraseniaActual";
             this.txtContraseniaActual.Size = new System.Drawing.Size(144, 20);
@@ -89,7 +88,7 @@
             // labelConfirmarContraseniaActual
             // 
             this.labelConfirmarContraseniaActual.AutoSize = true;
-            this.labelConfirmarContraseniaActual.Location = new System.Drawing.Point(20, 106);
+            this.labelConfirmarContraseniaActual.Location = new System.Drawing.Point(57, 168);
             this.labelConfirmarContraseniaActual.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelConfirmarContraseniaActual.Name = "labelConfirmarContraseniaActual";
             this.labelConfirmarContraseniaActual.Size = new System.Drawing.Size(140, 13);
@@ -98,39 +97,27 @@
             // 
             // txtConfirmarContraseniaNueva
             // 
-            this.txtConfirmarContraseniaNueva.Location = new System.Drawing.Point(198, 103);
+            this.txtConfirmarContraseniaNueva.Location = new System.Drawing.Point(235, 165);
             this.txtConfirmarContraseniaNueva.Margin = new System.Windows.Forms.Padding(2);
             this.txtConfirmarContraseniaNueva.Name = "txtConfirmarContraseniaNueva";
             this.txtConfirmarContraseniaNueva.Size = new System.Drawing.Size(144, 20);
             this.txtConfirmarContraseniaNueva.TabIndex = 10;
             // 
-            // btnVolver
+            // txtTitulo
             // 
-            this.btnVolver.Location = new System.Drawing.Point(567, 6);
-            this.btnVolver.Name = "btnVolver";
-            this.btnVolver.Size = new System.Drawing.Size(100, 25);
-            this.btnVolver.TabIndex = 12;
-            this.btnVolver.Text = "Volver";
-            this.btnVolver.UseVisualStyleBackColor = true;
-            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
-            // 
-            // btnCerrarSession
-            // 
-            this.btnCerrarSession.Location = new System.Drawing.Point(685, 6);
-            this.btnCerrarSession.Name = "btnCerrarSession";
-            this.btnCerrarSession.Size = new System.Drawing.Size(100, 25);
-            this.btnCerrarSession.TabIndex = 13;
-            this.btnCerrarSession.Text = "Cerrar session";
-            this.btnCerrarSession.UseVisualStyleBackColor = true;
-            this.btnCerrarSession.Click += new System.EventHandler(this.btnCerrarSession_Click);
+            this.txtTitulo.AutoSize = true;
+            this.txtTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTitulo.Location = new System.Drawing.Point(297, 0);
+            this.txtTitulo.Name = "txtTitulo";
+            this.txtTitulo.Size = new System.Drawing.Size(220, 24);
+            this.txtTitulo.TabIndex = 12;
+            this.txtTitulo.Text = "Cambio de contraseña";
             // 
             // FormContraseniaCambio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.btnCerrarSession);
-            this.Controls.Add(this.btnVolver);
+            this.Controls.Add(this.txtTitulo);
             this.Controls.Add(this.labelConfirmarContraseniaActual);
             this.Controls.Add(this.txtConfirmarContraseniaNueva);
             this.Controls.Add(this.btnCambioContrasenia);
@@ -139,7 +126,7 @@
             this.Controls.Add(this.txtContraseniaNueva);
             this.Controls.Add(this.txtContraseniaActual);
             this.Name = "FormContraseniaCambio";
-            this.Text = "FormContraseniaCambio";
+            this.Size = new System.Drawing.Size(800, 450);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -154,7 +141,6 @@
         private System.Windows.Forms.TextBox txtContraseniaActual;
         private System.Windows.Forms.Label labelConfirmarContraseniaActual;
         private System.Windows.Forms.TextBox txtConfirmarContraseniaNueva;
-        private System.Windows.Forms.Button btnVolver;
-        private System.Windows.Forms.Button btnCerrarSession;
+        private System.Windows.Forms.Label txtTitulo;
     }
 }
