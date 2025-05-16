@@ -34,7 +34,7 @@ namespace Negocio
         public Credencial obtenerusuariosupervisor(String usuario)
         {
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            Credencial credencial = usuarioPersistencia.login(usuario);
+            Credencial credencial = usuarioPersistencia.BusquedaLegajo(usuario);
             return credencial;
         }
         public string ObtenerPerfil(string legajo)
@@ -108,7 +108,7 @@ namespace Negocio
             string contrasena = usuario.Contrasena;
             string fechaAlta = usuario.FechaAlta.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
             string fechaUltimoLogin = "";
-            string idperfil = ObtenerPerfil(legajo);
+            string idperfil = usuarioPersistencia.ObtenerPerfilId(legajo);
             usuarioPersistencia.ContraseñaSupervisor(legajo, nombreUsuario, contrasena, idperfil, fechaAlta, fechaUltimoLogin);
         }
         public Datousuario ObtenerPersona(string legajo)

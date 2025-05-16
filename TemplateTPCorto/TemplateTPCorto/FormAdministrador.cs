@@ -144,6 +144,16 @@ namespace TemplateTPCorto
 
         }
 
-        
+        private void button1_Click(object sender, EventArgs e)
+        {
+            tablacontraseñas.ClearSelection();
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            tablausuarios.ClearSelection();
+
+        }
     }
 }

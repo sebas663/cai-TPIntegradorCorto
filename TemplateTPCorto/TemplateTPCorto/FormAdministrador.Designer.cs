@@ -34,6 +34,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.tablacontraseñas = new System.Windows.Forms.DataGridView();
             this.tablausuarios = new System.Windows.Forms.DataGridView();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tablacontraseñas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tablausuarios)).BeginInit();
             this.SuspendLayout();
@@ -60,7 +62,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(113, 78);
+            this.label1.Location = new System.Drawing.Point(109, 78);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(146, 13);
             this.label1.TabIndex = 8;
@@ -93,11 +95,33 @@
             this.tablausuarios.TabIndex = 11;
             this.tablausuarios.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(12, 217);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(98, 21);
+            this.button1.TabIndex = 12;
+            this.button1.Text = "Limpiar seleccion";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(676, 219);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(99, 19);
+            this.button2.TabIndex = 13;
+            this.button2.Text = "Limpiar seleccion";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // FormAdministrador
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.tablausuarios);
             this.Controls.Add(this.tablacontraseñas);
             this.Controls.Add(this.label2);
@@ -120,5 +144,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView tablacontraseñas;
         private System.Windows.Forms.DataGridView tablausuarios;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
     }
 }

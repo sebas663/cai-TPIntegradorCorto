@@ -9,7 +9,7 @@ namespace Persistencia.DataBase
 {
     public class DataBaseUtils
     {
-        string archivoCsv = @"C:\Users\sebas\source\repos\cai-TPIntegradorCorto\TemplateTPCorto\Persistencia\DataBase\Tablas\";
+        string archivoCsv = @"C:\Users\alani\OneDrive - Económicas - UBA\FACULTAD\Construcciones de aplicaciones informaticas\Practico grupal\cai-TPIntegradorCorto\TemplateTPCorto\Persistencia\DataBase\Tablas\";
         public List<String> BuscarRegistro(String nombreArchivo)
         {
             string archivoCsvPath = archivoCsv + nombreArchivo; // Cambia esta ruta al archivo CSV que deseas leer
@@ -88,13 +88,14 @@ namespace Persistencia.DataBase
                 // Verificar si el archivo existe
                 if (!File.Exists(rutaArchivo))
                 {
-                    Console.WriteLine("El archivo no existe: " + archivoCsvPath);
+                    Console.Write("El archivo no existe: " + archivoCsvPath);
                     return;
                 }
 
                 // Abrir el archivo y agregar el nuevo registro
                 using (StreamWriter sw = new StreamWriter(rutaArchivo, append: true))
                 {
+
                     sw.WriteLine(nuevoRegistro); // Agregar la nueva línea
                 }
 
