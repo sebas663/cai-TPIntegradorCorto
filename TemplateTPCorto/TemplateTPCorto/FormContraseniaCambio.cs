@@ -82,7 +82,8 @@ namespace TemplateTPCorto
                 return;
             }
 
-            if (permiteAvanzar) {
+            if (permiteAvanzar)
+            {
                 LoginNegocio loginNegocio = new LoginNegocio();
                 usuario.Contrasena = contraseniaNueva;
                 usuario.FechaUltimoLogin = DateTime.Now;
@@ -92,6 +93,6 @@ namespace TemplateTPCorto
                 this.ParentForm.Hide();
             }
         }
-    
+
     }
 }

@@ -65,9 +65,9 @@ namespace TemplateTPCorto
                     }
                     if (permiteAvanzar)
                     {
-                       FormMenu menu = new FormMenu(credencial);
-                       menu.Show();
-                       this.Hide();
+                        FormMenu menu = new FormMenu(credencial);
+                        menu.Show();
+                        this.Hide();
                     }
                 }
                 else
