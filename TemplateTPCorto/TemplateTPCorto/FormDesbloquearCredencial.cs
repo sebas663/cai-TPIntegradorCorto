@@ -65,6 +65,9 @@ namespace TemplateTPCorto
                     credencial.Contrasena = password;
                     loginNegocio.RegistrarOperacionCambioCredencial(credencial);
                     MessageBox.Show("La operación quedo pendiente de aprobación por parte del administrador.");
+                    txtLegajo.Text = string.Empty;
+                    txtContraseniaNueva.Text = string.Empty;
+                    txtLegajo.Focus();
                 }
             }
             else

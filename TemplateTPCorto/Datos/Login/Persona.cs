@@ -21,6 +21,9 @@ namespace Datos
         public String Dni { get => _dni; set => _dni = value; }
         public DateTime FechaIngreso { get => _fechaingreso; set => _fechaingreso = value; }
 
+        public Persona()
+        {
+        }
         public Persona (String registro)
         {
             String[] datos = registro.Split(';');
@@ -29,6 +32,12 @@ namespace Datos
             this._apellido = datos[2];
             this._dni = datos[3];
             this._fechaingreso = DateTime.ParseExact(datos[4], "d/M/yyyy", CultureInfo.InvariantCulture);
+        }
+
+        public override string ToString()
+        {
+            string fechaIngreso = FechaIngreso.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
+            return $"Legajo: {Legajo}, Nombre: {Nombre}, Apellido: {Apellido}, DNI: {Dni}, Fecha de ingreso: {fechaIngreso}";
         }
     }
 }

@@ -225,23 +225,10 @@ namespace Persistencia
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
             List<String> listado = dataBaseUtils.BuscarRegistro("operacion_cambio_credencial.csv");
-            int contador = 0;
-            int contador1 = 0;
-            foreach (String registro in listado)
-            {
-                String[] datos = registro.Split(';');
-                if (contador == 0)
-                {
-                    contador++;
-                    continue;
-                }
-                if (int.Parse(datos[0]) <= contador1)
-                {
-                    contador1 = int.Parse(datos[0]);
-                }
-            }
-            contador1++;
-            string[] nuevoRegistro = { Convert.ToString(contador1), legajo, nombreUsuario, contrasena, idperfil, fechaAlta, fechaUltimoLogin };
+            // El archivo siempre tiene 1 registro demas, es el de los nombres de las columnas.
+            // entonces el primer id es 1 
+            int proximoId = listado.Count;
+            string[] nuevoRegistro = { proximoId.ToString(), legajo, nombreUsuario, contrasena, idperfil, fechaAlta, fechaUltimoLogin };
             string lineaCSV = string.Join(";", nuevoRegistro);
             dataBaseUtils.AgregarRegistro("operacion_cambio_credencial.csv", lineaCSV);
         }
@@ -249,25 +236,12 @@ namespace Persistencia
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
             List<String> listado = dataBaseUtils.BuscarRegistro("operacion_cambio_persona.csv");
-            int contador = 0;
-            int contador1 = 0;
-            foreach (String registro in listado)
-            {
-                String[] datos = registro.Split(';');
-                if (contador == 0)
-                {
-                    contador++;
-                    continue;
-                }
-                if (int.Parse(datos[0]) <= contador1)
-                {
-                    contador1 = int.Parse(datos[0]);
-                }
-            }
-            contador1++;
-            string[] nuevoRegistro = { Convert.ToString(contador1), legajo, nombre, apellido, DNI, fechaingreso };
+            // El archivo siempre tiene 1 registro demas, es el de los nombres de las columnas.
+            // entonces el primer id es 1 
+            int proximoId = listado.Count;
+            string[] nuevoRegistro = { proximoId.ToString(), legajo, nombre, apellido, DNI, fechaingreso };
             string lineaCSV = string.Join(";", nuevoRegistro);
-            dataBaseUtils.AgregarRegistro("operacion_cambio_persona", lineaCSV);
+            dataBaseUtils.AgregarRegistro("operacion_cambio_persona.csv", lineaCSV);
         }
         public Persona BuscarPersonaPorNumeroLegajo(string legajo)
         {

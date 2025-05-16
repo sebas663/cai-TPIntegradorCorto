@@ -66,11 +66,45 @@ namespace TemplateTPCorto
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
+            string nombre = txtNombre.Text;
+            string apellido = txtApellido.Text;
+            string dni = txtDni.Text;
+            DateTime fechaIngreso = dateFechaIngreso.Value;
+            if (string.IsNullOrEmpty(nombre))
+            {
+                MessageBox.Show("El Nombre no puede estar vacio.");
+                txtNombre.Focus();
+                return;
+            }
+            if (string.IsNullOrEmpty(apellido))
+            {
+                MessageBox.Show("El apellido no puede estar vacio.");
+                txtApellido.Focus();
+                return;
+            }
+            if (string.IsNullOrEmpty(dni))
+            {
+                MessageBox.Show("El dni no puede estar vacio.");
+                txtDni.Focus();
+                return;
+            }
+            if (!FechaIngresoValida(fechaIngreso))
+            {
+                MessageBox.Show("La fecha de ingreso es invàlida.");
+                dateFechaIngreso.Focus();
+                return;
+            }
             String legajo = txtLegajo.Text;
             LoginNegocio loginNegocio = new LoginNegocio();
             if (persona != null)
             {
-                string mensaje = "¿Modificar datos legajo: " + legajo + ", usuario: " + persona.Nombre + "?";
+                Persona modificada = new Persona();
+                modificada.Legajo = legajo;
+                modificada.Nombre = nombre;
+                modificada.Apellido = apellido;
+                modificada.Dni = dni;
+                modificada.FechaIngreso = fechaIngreso;
+                string mensaje = "¿Modificar datos de " + persona.ToString() + "? \n ¿Por los nuevos " + modificada.ToString();
                 DialogResult result = MessageBox.Show(
                     mensaje,
                     "Confirmar",
@@ -80,12 +114,27 @@ namespace TemplateTPCorto
 
                 if (result == DialogResult.No)
                 {
-                    txtLegajo.Focus();
+                    txtNombre.Text = persona.Nombre;
+                    txtApellido.Text = persona.Apellido;
+                    txtDni.Text = persona.Dni;
+                    dateFechaIngreso.Value = persona.FechaIngreso;
+                    txtNombre.Focus();
                 }
                 else
                 {
-                    loginNegocio.RegistrarOperacionCambioPersona(persona);
+                    loginNegocio.RegistrarOperacionCambioPersona(modificada);
                     MessageBox.Show("La operación quedo pendiente de aprobación por parte del administrador.");
+                    btnModificar.Visible = false;
+                    labelNombre.Visible = false;
+                    txtNombre.Visible = false;
+                    labelApellido.Visible = false;
+                    txtApellido.Visible = false;
+                    labelFechaIngreso.Visible = false;
+                    dateFechaIngreso.Visible = false;
+                    labelDni.Visible = false;
+                    txtDni.Visible = false;
+                    txtLegajo.Text = string.Empty;
+                    txtLegajo.Focus();
                 }
             }
             else
@@ -94,6 +143,24 @@ namespace TemplateTPCorto
                 txtLegajo.Focus();
             }
 
+        }
+
+        bool FechaIngresoValida(DateTime fechaIngreso)
+        {
+            DateTime hoy = DateTime.Today;
+
+            // Regla 1: No puede ser en el futuro
+            if (fechaIngreso > hoy)
+                return false;
+
+            // Regla 2: Fecha ingreso no mayor a 20 años
+            int edad = hoy.Year - fechaIngreso.Year;
+            if (fechaIngreso > hoy.AddYears(-edad)) edad--; 
+
+            if (edad < 0 || edad > 20)
+                return false;
+
+            return true;
         }
     }
 }
