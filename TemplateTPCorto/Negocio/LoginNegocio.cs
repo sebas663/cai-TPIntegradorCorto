@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,18 +20,18 @@ namespace Negocio
 
             Credencial credencial = usuarioPersistencia.login(usuario);
 
-            if (credencial !=  null && credencial.Contrasena.Equals(password))
+            if (credencial != null && credencial.Contrasena.Equals(password))
             {
                 ReiniciarIntentos(credencial.Legajo);
                 return credencial;
             }
-            if (credencial != null) {
+            if (credencial != null)
+            {
                 RegistrarIntento(credencial);
             }
             return null;
         }
-
-        public string ObtenerPerfil(string legajo)
+        public Perfil ObtenerPerfil(string legajo)
         {
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
             return usuarioPersistencia.ObtenerPerfil(legajo);
@@ -77,15 +79,89 @@ namespace Negocio
             return credencial.FechaUltimoLogin == default(DateTime);
         }
 
-        public void ActualizarContrasenia(Credencial usuario)
+        public bool TieneRol(List<Rol> roles, string rolId)
+        {
+            bool tieneRol = false;
+            foreach (Rol rol in roles)
+            {
+                if (rol.Id == rolId)
+                {
+                    tieneRol = true;
+                    break;
+                }
+            }
+            return tieneRol;
+        }
+        public void ActualizarContrasenia(Credencial credencial)
         {
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            string legajo = usuario.Legajo;
-            string nombreUsuario = usuario.NombreUsuario;
-            string contrasena = usuario.Contrasena;
-            string fechaAlta = usuario.FechaAlta.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
-            string fechaUltimoLogin = usuario.FechaUltimoLogin.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
-            usuarioPersistencia.ActualizarContrasenia(legajo,nombreUsuario,contrasena,fechaAlta,fechaUltimoLogin);
+            usuarioPersistencia.ActualizarContrasenia(credencial);
+        }
+        public void RegistrarOperacionCambioCredencial(OperacionCambioCredencial operacion)
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            usuarioPersistencia.RegistrarOperacionCambioCredencial(operacion);
+        }
+
+        public Credencial BuscarCredencialPorNumeroLegajo(String legajo)
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            return usuarioPersistencia.BuscarCredencialPorNumeroLegajo(legajo);
+        }
+
+        public Persona BuscarPersonaPorNumeroLegajo(string legajo)
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            return usuarioPersistencia.BuscarPersonaPorNumeroLegajo(legajo);
+        }
+
+        public void RegistrarOperacionCambioPersona(OperacionCambioPersona operacion)
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            usuarioPersistencia.RegistrarOperacionCambioPersona(operacion);
+        }
+
+        public List<OperacionCambioCredencial> ObtenerOperacionesCambioCredencial()
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            return usuarioPersistencia.ObtenerOperacionesCambioCredencial();
+        }
+
+        public List<OperacionCambioPersona> ObtenerOperacionesCambioPersona()
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            return usuarioPersistencia.ObtenerOperacionesCambioPersona();
+        }
+
+        public void AutorizarOperacionesCambioCredencial(List<OperacionCambioCredencial> operaciones)
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            foreach (OperacionCambioCredencial row in operaciones)
+            {
+                Credencial credencial = usuarioPersistencia.ObtenerCredencialPorLegajo(row.Legajo);
+                credencial.Contrasena = row.Contrasena;
+                credencial.FechaUltimoLogin = null;
+                ActualizarContrasenia(credencial);
+                ReiniciarIntentos(row.Legajo);
+                usuarioPersistencia.EliminarUsuarioBloqueadoPorLegajo(row.Legajo);
+                usuarioPersistencia.EliminarOperacionCambioCredencialPorIdOperacion(row.IdOperacion);
+            }
+        }
+
+        public void AutorizarOperacionesCambioPersona(List<OperacionCambioPersona> operaciones)
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            foreach (OperacionCambioPersona row in operaciones)
+            {
+                Persona modificada = new Persona();
+                modificada.Legajo = row.Legajo;
+                modificada.Nombre = row.Nombre;
+                modificada.Apellido = row.Apellido;
+                modificada.Dni = row.Dni;
+                modificada.FechaIngreso = row.FechaIngreso;
+                usuarioPersistencia.ModificarPersonaPorLegajo(modificada);
+                usuarioPersistencia.EliminarOperacionCambioPersonaPorIdOperacion(row.IdOperacion);
+            }
         }
     }
 }
