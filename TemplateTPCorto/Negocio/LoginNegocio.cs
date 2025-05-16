@@ -72,7 +72,8 @@ namespace Negocio
 
         public bool EsContraseniaExpirada(Credencial credencial)
         {
-            return false;
+            return credencial.FechaUltimoLogin.HasValue &&
+                 credencial.FechaUltimoLogin.Value.AddDays(30) <= DateTime.Today;
         }
 
         public bool EsPrimerLogin(Credencial credencial)
