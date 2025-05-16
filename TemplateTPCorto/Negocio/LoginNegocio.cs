@@ -64,14 +64,16 @@ namespace Negocio
 
         }
 
-        private void ReiniciarIntentos(string usuario)
+        private void ReiniciarIntentos(string legajo)
         {
-
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            usuarioPersistencia.ReiniciarIntentos(legajo);
         }
 
         public bool EsContraseniaExpirada(Credencial credencial)
         {
-            return false;
+            return credencial.FechaUltimoLogin.HasValue &&
+                 credencial.FechaUltimoLogin.Value.AddDays(30) <= DateTime.Today;
         }
 
         public bool EsPrimerLogin(Credencial credencial)

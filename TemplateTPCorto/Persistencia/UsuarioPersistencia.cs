@@ -57,7 +57,7 @@ namespace Persistencia
                     contador++;
                     continue;
                 }
-                string [] campos = registro.Split(';');
+                string[] campos = registro.Split(';');
                 if (campos[0] == perfilId)
                 {
                     perfilRegistro = registro;
@@ -135,7 +135,7 @@ namespace Persistencia
             }
             return listadoRolIds;
         }
-        
+
         private List<Credencial> ObtenerCredenciales()
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
@@ -176,7 +176,7 @@ namespace Persistencia
                     continue;
                 }
                 String[] datos = registro.Split(';');
-                if (datos[0]==legajo)
+                if (datos[0] == legajo)
                 {
                     intentos++;
                 }
@@ -215,14 +215,14 @@ namespace Persistencia
                 }
                 if (registro == legajo)
                 {
-                    existe=true;
+                    existe = true;
                     break;
                 }
             }
 
             return existe;
         }
-    
+
         public void ActualizarContrasenia(Credencial credencial)
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
@@ -254,7 +254,7 @@ namespace Persistencia
             string lineaCSV = string.Join(";", nuevoRegistro);
             dataBaseUtils.AgregarRegistro("operacion_cambio_credencial.csv", lineaCSV);
         }
-        public void RegistrarOperacionCambioPersona (OperacionCambioPersona operacion)
+        public void RegistrarOperacionCambioPersona(OperacionCambioPersona operacion)
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
             List<String> listado = dataBaseUtils.BuscarRegistro("operacion_cambio_persona.csv");
@@ -430,6 +430,12 @@ namespace Persistencia
             };
             string lineaCSV = string.Join(";", nuevoRegistro);
             dataBaseUtils.AgregarRegistro("persona.csv", lineaCSV);
+        }
+
+        public void ReiniciarIntentos(string legajo)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            dataBaseUtils.BorrarRegistro(legajo, "login_intentos.csv");
         }
     }
 
