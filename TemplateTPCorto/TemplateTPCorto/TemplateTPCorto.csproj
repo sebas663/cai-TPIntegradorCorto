@@ -58,6 +58,12 @@
     <Compile Include="FormContraseniaCambio.Designer.cs">
       <DependentUpon>FormContraseniaCambio.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormDesbloquearCredencial.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FormDesbloquearCredencial.Designer.cs">
+      <DependentUpon>FormDesbloquearCredencial.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,17 +79,17 @@
     <Compile Include="FormMenuBase.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="FormModificacionPersona.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FormModificacionPersona.Designer.cs">
+      <DependentUpon>FormModificacionPersona.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormOperador.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormOperador.Designer.cs">
       <DependentUpon>FormOperador.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormSupervisor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormSupervisor.Designer.cs">
-      <DependentUpon>FormSupervisor.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -92,6 +98,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormContraseniaCambio.resx">
       <DependentUpon>FormContraseniaCambio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDesbloquearCredencial.resx">
+      <DependentUpon>FormDesbloquearCredencial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
@@ -102,11 +111,11 @@
     <EmbeddedResource Include="FormMenuBase.resx">
       <DependentUpon>FormMenuBase.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormModificacionPersona.resx">
+      <DependentUpon>FormModificacionPersona.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormOperador.resx">
       <DependentUpon>FormOperador.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormSupervisor.resx">
-      <DependentUpon>FormSupervisor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

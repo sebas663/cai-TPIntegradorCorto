@@ -79,7 +79,7 @@ namespace TemplateTPCorto
 
         private void btnModificarPersona_Click(object sender, EventArgs e)
         {
-
+           CargarUserControl(new FormModificacionPersona());
         }
 
         private void btnAutorizaciones_Click(object sender, EventArgs e)
@@ -89,12 +89,12 @@ namespace TemplateTPCorto
 
         private void btnDesbloquearCredencial_Click(object sender, EventArgs e)
         {
-
+           CargarUserControl(new FormDesbloquearCredencial());
         }
 
         private void btnCambioContrasenia_Click(object sender, EventArgs e)
         {
-            CargarUserControl(new FormContraseniaCambio(usuario));
+           CargarUserControl(new FormContraseniaCambio(usuario));
         }
 
         private void btnCerrarSession_Click(object sender, EventArgs e)

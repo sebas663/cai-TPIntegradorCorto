@@ -13,13 +13,13 @@ namespace Datos
         private String _nombreUsuario;
         private String _contrasena;
         private DateTime _fechaAlta;
-        private DateTime _fechaUltimoLogin;
+        private DateTime? _fechaUltimoLogin;
 
         public string Legajo { get => _legajo; set => _legajo = value; }
         public string NombreUsuario { get => _nombreUsuario; set => _nombreUsuario = value; }
         public string Contrasena { get => _contrasena; set => _contrasena = value; }
         public DateTime FechaAlta { get => _fechaAlta; set => _fechaAlta = value; }
-        public DateTime FechaUltimoLogin { get => _fechaUltimoLogin; set => _fechaUltimoLogin = value; }
+        public DateTime? FechaUltimoLogin { get => _fechaUltimoLogin; set => _fechaUltimoLogin = value; }
 
         public Credencial(String registro)
         {
