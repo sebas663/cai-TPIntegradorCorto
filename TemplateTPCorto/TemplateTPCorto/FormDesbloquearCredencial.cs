@@ -62,8 +62,15 @@ namespace TemplateTPCorto
                 }
                 else
                 {
-                    credencial.Contrasena = password;
-                    loginNegocio.RegistrarOperacionCambioCredencial(credencial);
+                    OperacionCambioCredencial operacion = new OperacionCambioCredencial();
+                    operacion.Legajo = credencial.Legajo;
+                    operacion.NombreUsuario = credencial.NombreUsuario;
+                    operacion.Contrasena = password;
+                    Perfil perfil = loginNegocio.ObtenerPerfil(legajo);
+                    operacion.IdPerfil = perfil.Id;
+                    operacion.FechaAlta = credencial.FechaAlta;
+                    operacion.FechaUltimoLogin = credencial.FechaUltimoLogin.Value;
+                    loginNegocio.RegistrarOperacionCambioCredencial(operacion);
                     MessageBox.Show("La operación quedo pendiente de aprobación por parte del administrador.");
                     txtLegajo.Text = string.Empty;
                     txtContraseniaNueva.Text = string.Empty;

@@ -27,11 +27,22 @@ namespace Persistencia
 
             return credencialLogin;
         }
-        public List<String> Obtenerdatos(string archivo)
+
+        public Credencial ObtenerCredencialPorLegajo(String legajo)
         {
-            DataBaseUtils database = new DataBaseUtils();
-            return database.BuscarRegistro(archivo);
+            Credencial credencialLogin = null;
+
+            foreach (Credencial credencial in ObtenerCredenciales())
+            {
+                if (credencial.Legajo.Equals(legajo))
+                {
+                    credencialLogin = credencial;
+                }
+            }
+
+            return credencialLogin;
         }
+
         public Perfil ObtenerPerfil(string legajo)
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
@@ -212,19 +223,30 @@ namespace Persistencia
             return existe;
         }
     
-        public void ActualizarContrasenia(string legajo, string nombreUsuario, string contrasena, string fechaAlta, string fechaUltimoLogin)
+        public void ActualizarContrasenia(Credencial credencial)
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
-            dataBaseUtils.BorrarRegistro(legajo, "credenciales.csv");
+            string legajo = credencial.Legajo;
+            string nombreUsuario = credencial.NombreUsuario;
+            string contrasena = credencial.Contrasena;
+            string fechaAlta = credencial.FechaAlta.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
+            string fechaUltimoLogin = credencial.FechaUltimoLogin?.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
             string[] nuevoRegistro = { legajo, nombreUsuario, contrasena, fechaAlta, fechaUltimoLogin };
             string lineaCSV = string.Join(";", nuevoRegistro);
+            dataBaseUtils.BorrarRegistro(legajo, "credenciales.csv");
             dataBaseUtils.AgregarRegistro("credenciales.csv", lineaCSV);
         }
 
-        public void RegistrarOperacionCambioCredencial(string legajo, string nombreUsuario, string contrasena, string idperfil , string fechaAlta, string fechaUltimoLogin)
+        public void RegistrarOperacionCambioCredencial(OperacionCambioCredencial operacion)
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
             List<String> listado = dataBaseUtils.BuscarRegistro("operacion_cambio_credencial.csv");
+            string legajo = operacion.Legajo;
+            string nombreUsuario = operacion.NombreUsuario;
+            string contrasena = operacion.Contrasena;
+            string fechaAlta = operacion.FechaAlta.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
+            string fechaUltimoLogin = operacion.FechaUltimoLogin.ToString("d/M/yyyy", CultureInfo.InvariantCulture); ;
+            string idperfil = operacion.IdPerfil;
             // El archivo siempre tiene 1 registro demas, es el de los nombres de las columnas.
             // entonces el primer id es 1 
             int proximoId = listado.Count;
@@ -232,14 +254,19 @@ namespace Persistencia
             string lineaCSV = string.Join(";", nuevoRegistro);
             dataBaseUtils.AgregarRegistro("operacion_cambio_credencial.csv", lineaCSV);
         }
-        public void RegistrarOperacionCambioPersona (string legajo, string nombre, string apellido, string DNI, string fechaingreso)
+        public void RegistrarOperacionCambioPersona (OperacionCambioPersona operacion)
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
             List<String> listado = dataBaseUtils.BuscarRegistro("operacion_cambio_persona.csv");
+            string legajo = operacion.Legajo;
+            string nombre = operacion.Nombre;
+            string apellido = operacion.Apellido;
+            string dni = operacion.Dni;
+            string fechaingreso = operacion.FechaIngreso.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
             // El archivo siempre tiene 1 registro demas, es el de los nombres de las columnas.
             // entonces el primer id es 1 
             int proximoId = listado.Count;
-            string[] nuevoRegistro = { proximoId.ToString(), legajo, nombre, apellido, DNI, fechaingreso };
+            string[] nuevoRegistro = { proximoId.ToString(), legajo, nombre, apellido, dni, fechaingreso };
             string lineaCSV = string.Join(";", nuevoRegistro);
             dataBaseUtils.AgregarRegistro("operacion_cambio_persona.csv", lineaCSV);
         }
@@ -265,22 +292,6 @@ namespace Persistencia
             }
             return datousuario;
         }
-        public void AutorizarRegistroCredencial(Credencial credencial)
-        {
-            DataBaseUtils dataBaseUtils = new DataBaseUtils();
-            if(credencial != null)
-            {
-                dataBaseUtils.BorrarRegistro(credencial.Legajo, "Credencial.csv");
-                string[] nuevoRegistro = { credencial.Legajo, credencial.NombreUsuario, credencial.Contrasena, credencial.FechaAlta.ToString("d/M/yyyy"), credencial.FechaUltimoLogin?.ToString("d/M/yyyy") };
-                string lineaCSV = string.Join(";", nuevoRegistro);
-                dataBaseUtils.AgregarRegistro("credenciales.csv", lineaCSV);
-            }
-            else
-            {
-                throw new Exception("No se puede agregar un registro nulo");
-            }
-
-        }
 
         public Credencial BuscarCredencialPorNumeroLegajo(string legajo)
         {
@@ -297,11 +308,10 @@ namespace Persistencia
             return credencialLogin;
         }
 
-        public Persona AutorizarUsuario(string idoperacion)
+        public void EliminarOperacionCambioPersonaPorIdOperacion(string idOperacion)
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
-            List<String> listado = Obtenerdatos("operacion_cambio_persona.csv");
-            Persona usuario = null;
+            List<String> listado = dataBaseUtils.BuscarRegistro("operacion_cambio_persona.csv");
             int contador = 0;
             foreach (String registro in listado)
             {
@@ -311,21 +321,17 @@ namespace Persistencia
                     continue;
                 }
                 String[] datos = registro.Split(';');
-                if (datos[0] == idoperacion)
+                if (datos[0] == idOperacion)
                 {
-                    string registrocredencial = string.Join(";", datos[1], datos[2], datos[3], datos[4], datos[5]);
-                    usuario = new Persona(registrocredencial);
-                    dataBaseUtils.BorrarRegistro(idoperacion, "operacion_cambio_persona.csv");
+                    dataBaseUtils.BorrarRegistro(idOperacion, "operacion_cambio_persona.csv");
                     break;
                 }
             }
-            return usuario;
         }
-        public Credencial AutorizarCredencial(string idoperacion)
+        public void EliminarOperacionCambioCredencialPorIdOperacion(string idOperacion)
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
-            List<String> listado = Obtenerdatos("operacion_cambio_credencial.csv");
-            Credencial credencial = null;
+            List<String> listado = dataBaseUtils.BuscarRegistro("operacion_cambio_credencial.csv");
             int contador = 0;
             foreach (String registro in listado)
             {
@@ -335,31 +341,95 @@ namespace Persistencia
                     continue;
                 }
                 String[] datos = registro.Split(';');
-                if (datos[0] == idoperacion)
+                if (datos[0] == idOperacion)
                 {
-                    string registrocredencial = string.Join(";", datos[1], datos[2], datos[3], datos[5], datos[6]);
-                    credencial = new Credencial(registrocredencial);
-                    dataBaseUtils.BorrarRegistro(idoperacion, "operacion_cambio_credencial.csv");
+                    dataBaseUtils.BorrarRegistro(idOperacion, "operacion_cambio_credencial.csv");
                     break;
                 }
             }
-            return credencial;
         }
-        public void AutorizarRegistroUsuario(Credencial usuario)
+
+        public void EliminarUsuarioBloqueadoPorLegajo(string legajo)
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
-            if (usuario != null)
+            List<String> listado = dataBaseUtils.BuscarRegistro("usuario_bloqueado.csv");
+            int contador = 0;
+            foreach (String registro in listado)
             {
-                dataBaseUtils.BorrarRegistro(usuario.Legajo, "persona.csv");
-                string[] nuevoRegistro = { usuario.Legajo };
-                string lineaCSV = string.Join(";", nuevoRegistro);
-                dataBaseUtils.AgregarRegistro("persona.csv", lineaCSV);
+                if (contador == 0)
+                {
+                    contador++;
+                    continue;
+                }
+                String[] datos = registro.Split(';');
+                if (datos[0] == legajo)
+                {
+                    dataBaseUtils.BorrarRegistro(legajo, "usuario_bloqueado.csv");
+                    break;
+                }
             }
-            else
+        }
+
+        public List<OperacionCambioCredencial> ObtenerOperacionesCambioCredencial()
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            List<String> listado = dataBaseUtils.BuscarRegistro("operacion_cambio_credencial.csv");
+            List<OperacionCambioCredencial> listadoCredenciales = new List<OperacionCambioCredencial>();
+
+            int contador = 0;
+            foreach (String registro in listado)
             {
-                throw new Exception("No se puede agregar un registro nulo");
+                if (contador == 0)
+                {
+                    contador++;
+                    continue;
+                }
+                // Mostrar en consola lo que se está leyendo
+                Console.WriteLine("Registro leído: " + registro);
+
+                listadoCredenciales.Add(new OperacionCambioCredencial(registro));
             }
 
+            return listadoCredenciales;
+        }
+
+        public List<OperacionCambioPersona> ObtenerOperacionesCambioPersona()
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            List<String> listado = dataBaseUtils.BuscarRegistro("operacion_cambio_persona.csv");
+            List<OperacionCambioPersona> listadoCredenciales = new List<OperacionCambioPersona>();
+
+            int contador = 0;
+            foreach (String registro in listado)
+            {
+                if (contador == 0)
+                {
+                    contador++;
+                    continue;
+                }
+                // Mostrar en consola lo que se está leyendo
+                Console.WriteLine("Registro leído: " + registro);
+
+                listadoCredenciales.Add(new OperacionCambioPersona(registro));
+            }
+
+            return listadoCredenciales;
+        }
+
+        public void ModificarPersonaPorLegajo(Persona modificada)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            dataBaseUtils.BorrarRegistro(modificada.Legajo, "persona.csv");
+            string fechaIngreso = modificada.FechaIngreso.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
+            string[] nuevoRegistro = {
+                modificada.Legajo,
+                modificada.Nombre,
+                modificada.Apellido,
+                modificada.Dni,
+                fechaIngreso,
+            };
+            string lineaCSV = string.Join(";", nuevoRegistro);
+            dataBaseUtils.AgregarRegistro("persona.csv", lineaCSV);
         }
     }
 

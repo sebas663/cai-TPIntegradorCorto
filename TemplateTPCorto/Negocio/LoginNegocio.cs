@@ -92,27 +92,15 @@ namespace Negocio
             }
             return tieneRol;
         }
-        public void ActualizarContrasenia(Credencial usuario)
+        public void ActualizarContrasenia(Credencial credencial)
         {
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            string legajo = usuario.Legajo;
-            string nombreUsuario = usuario.NombreUsuario;
-            string contrasena = usuario.Contrasena;
-            string fechaAlta = usuario.FechaAlta.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
-            string fechaUltimoLogin = usuario.FechaUltimoLogin?.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
-            usuarioPersistencia.ActualizarContrasenia(legajo, nombreUsuario, contrasena, fechaAlta, fechaUltimoLogin);
+            usuarioPersistencia.ActualizarContrasenia(credencial);
         }
-        public void RegistrarOperacionCambioCredencial(Credencial usuario)
+        public void RegistrarOperacionCambioCredencial(OperacionCambioCredencial operacion)
         {
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            string legajo = usuario.Legajo;
-            string nombreUsuario = usuario.NombreUsuario;
-            string contrasena = usuario.Contrasena;
-            string fechaAlta = usuario.FechaAlta.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
-            string fechaUltimoLogin = usuario.FechaUltimoLogin?.ToString("d/M/yyyy", CultureInfo.InvariantCulture); ;
-            Perfil perfil = usuarioPersistencia.ObtenerPerfil(legajo);
-            string idperfil = perfil.Id;
-            usuarioPersistencia.RegistrarOperacionCambioCredencial(legajo, nombreUsuario, contrasena, idperfil, fechaAlta, fechaUltimoLogin);
+            usuarioPersistencia.RegistrarOperacionCambioCredencial(operacion);
         }
 
         public Credencial BuscarCredencialPorNumeroLegajo(String legajo)
@@ -127,53 +115,53 @@ namespace Negocio
             return usuarioPersistencia.BuscarPersonaPorNumeroLegajo(legajo);
         }
 
-        public void RegistrarOperacionCambioPersona(Persona persona)
+        public void RegistrarOperacionCambioPersona(OperacionCambioPersona operacion)
         {
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            string legajo = persona.Legajo;
-            string nombre = persona.Nombre;
-            string apellido = persona.Apellido;
-            string dni = persona.Dni;
-            string fechaingreso = persona.FechaIngreso.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
-            usuarioPersistencia.RegistrarOperacionCambioPersona(legajo, nombre, apellido, dni, fechaingreso);
+            usuarioPersistencia.RegistrarOperacionCambioPersona(operacion);
         }
 
-        public List<String> Obtenerdatos(string archivo)
+        public List<OperacionCambioCredencial> ObtenerOperacionesCambioCredencial()
         {
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            return usuarioPersistencia.Obtenerdatos(archivo);
+            return usuarioPersistencia.ObtenerOperacionesCambioCredencial();
         }
-        public bool AutorizarPersona(string idperfil)
+
+        public List<OperacionCambioPersona> ObtenerOperacionesCambioPersona()
         {
-            bool flag = false;
-            //UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            //Persona datosusuario = usuarioPersistencia.AutorizarUsuario(idperfil);
-            //if (datosusuario != null)
-            //{
-            //    usuarioPersistencia.AutorizarRegistroUsuario(datosusuario);
-            //    flag = true;
-            //}
-            //else
-            //{
-            //    throw new Exception("No se encontró el usuario con el legajo proporcionado.");
-            //}
-            return flag;
-        }
-        public bool AutorizarContraseña(string idperfil)
-        {
-            bool flag = false;
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            Credencial credencial = usuarioPersistencia.AutorizarCredencial(idperfil);
-            if (credencial != null)
+            return usuarioPersistencia.ObtenerOperacionesCambioPersona();
+        }
+
+        public void AutorizarOperacionesCambioCredencial(List<OperacionCambioCredencial> operaciones)
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            foreach (OperacionCambioCredencial row in operaciones)
             {
-                usuarioPersistencia.AutorizarRegistroCredencial(credencial);
-                flag = true;
+                Credencial credencial = usuarioPersistencia.ObtenerCredencialPorLegajo(row.Legajo);
+                credencial.Contrasena = row.Contrasena;
+                credencial.FechaUltimoLogin = null;
+                ActualizarContrasenia(credencial);
+                ReiniciarIntentos(row.Legajo);
+                usuarioPersistencia.EliminarUsuarioBloqueadoPorLegajo(row.Legajo);
+                usuarioPersistencia.EliminarOperacionCambioCredencialPorIdOperacion(row.IdOperacion);
             }
-            else
+        }
+
+        public void AutorizarOperacionesCambioPersona(List<OperacionCambioPersona> operaciones)
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            foreach (OperacionCambioPersona row in operaciones)
             {
-                throw new Exception("No se encontró el usuario con el legajo proporcionado.");
+                Persona modificada = new Persona();
+                modificada.Legajo = row.Legajo;
+                modificada.Nombre = row.Nombre;
+                modificada.Apellido = row.Apellido;
+                modificada.Dni = row.Dni;
+                modificada.FechaIngreso = row.FechaIngreso;
+                usuarioPersistencia.ModificarPersonaPorLegajo(modificada);
+                usuarioPersistencia.EliminarOperacionCambioPersonaPorIdOperacion(row.IdOperacion);
             }
-            return flag;
         }
     }
 }

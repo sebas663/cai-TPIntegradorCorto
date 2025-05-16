@@ -108,7 +108,7 @@
             this.txtNombre.Location = new System.Drawing.Point(180, 106);
             this.txtNombre.Margin = new System.Windows.Forms.Padding(2);
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(144, 20);
+            this.txtNombre.Size = new System.Drawing.Size(198, 20);
             this.txtNombre.TabIndex = 28;
             // 
             // labelApellido
@@ -126,7 +126,7 @@
             this.txtApellido.Location = new System.Drawing.Point(180, 153);
             this.txtApellido.Margin = new System.Windows.Forms.Padding(2);
             this.txtApellido.Name = "txtApellido";
-            this.txtApellido.Size = new System.Drawing.Size(144, 20);
+            this.txtApellido.Size = new System.Drawing.Size(198, 20);
             this.txtApellido.TabIndex = 30;
             // 
             // labelFechaIngreso
@@ -143,7 +143,7 @@
             // 
             this.dateFechaIngreso.Location = new System.Drawing.Point(180, 246);
             this.dateFechaIngreso.Name = "dateFechaIngreso";
-            this.dateFechaIngreso.Size = new System.Drawing.Size(144, 20);
+            this.dateFechaIngreso.Size = new System.Drawing.Size(198, 20);
             this.dateFechaIngreso.TabIndex = 34;
             // 
             // labelDni
@@ -161,7 +161,7 @@
             this.txtDni.Location = new System.Drawing.Point(180, 197);
             this.txtDni.Margin = new System.Windows.Forms.Padding(2);
             this.txtDni.Name = "txtDni";
-            this.txtDni.Size = new System.Drawing.Size(144, 20);
+            this.txtDni.Size = new System.Drawing.Size(198, 20);
             this.txtDni.TabIndex = 36;
             // 
             // FormModificacionPersona

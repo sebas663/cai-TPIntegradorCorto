@@ -98,13 +98,13 @@ namespace TemplateTPCorto
             LoginNegocio loginNegocio = new LoginNegocio();
             if (persona != null)
             {
-                Persona modificada = new Persona();
-                modificada.Legajo = legajo;
-                modificada.Nombre = nombre;
-                modificada.Apellido = apellido;
-                modificada.Dni = dni;
-                modificada.FechaIngreso = fechaIngreso;
-                string mensaje = "¿Modificar datos de " + persona.ToString() + "? \n ¿Por los nuevos " + modificada.ToString();
+                OperacionCambioPersona operacion = new OperacionCambioPersona();
+                operacion.Legajo = legajo;
+                operacion.Nombre = nombre;
+                operacion.Apellido = apellido;
+                operacion.Dni = dni;
+                operacion.FechaIngreso = fechaIngreso;
+                string mensaje = "¿Modificar datos de " + persona.ToString() + "? \n ¿Por los nuevos " + operacion.ToString();
                 DialogResult result = MessageBox.Show(
                     mensaje,
                     "Confirmar",
@@ -122,7 +122,7 @@ namespace TemplateTPCorto
                 }
                 else
                 {
-                    loginNegocio.RegistrarOperacionCambioPersona(modificada);
+                    loginNegocio.RegistrarOperacionCambioPersona(operacion);
                     MessageBox.Show("La operación quedo pendiente de aprobación por parte del administrador.");
                     btnModificar.Visible = false;
                     labelNombre.Visible = false;
@@ -162,5 +162,6 @@ namespace TemplateTPCorto
 
             return true;
         }
+
     }
 }

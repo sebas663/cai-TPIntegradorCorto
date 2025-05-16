@@ -84,7 +84,7 @@ namespace TemplateTPCorto
 
         private void btnAutorizaciones_Click(object sender, EventArgs e)
         {
-
+           CargarUserControl(new FormAutorizaciones());
         }
 
         private void btnDesbloquearCredencial_Click(object sender, EventArgs e)
