@@ -14,10 +14,12 @@ namespace TemplateTPCorto
 {
     public partial class FormDesbloquearCredencial : UserControl
     {
+        private readonly Credencial usuarioLogueado;
         private const int MIN_CARACTERES_CONTRASENIA = 8;
-        public FormDesbloquearCredencial()
+        public FormDesbloquearCredencial(Credencial logueado)
         {
             InitializeComponent();
+            usuarioLogueado = logueado;
         }
 
         private void btnDesbloqueoCredencial_Click(object sender, EventArgs e)
@@ -62,15 +64,25 @@ namespace TemplateTPCorto
                 }
                 else
                 {
-                    OperacionCambioCredencial operacion = new OperacionCambioCredencial();
-                    operacion.Legajo = credencial.Legajo;
-                    operacion.NombreUsuario = credencial.NombreUsuario;
-                    operacion.Contrasena = password;
+                    Autorizacion autorizacion = new Autorizacion
+                    {
+                        TipoOperacion = EnumTipoOperacion.CambioCredencial.ToString(),
+                        Estado = EnumEstadoAutorizacion.Pendiente.ToString(),
+                        LegajoSolicitante = usuarioLogueado.Legajo,
+                        FechaSolicitud = DateTime.Now
+                    };
                     Perfil perfil = loginNegocio.ObtenerPerfil(legajo);
-                    operacion.IdPerfil = perfil.Id;
-                    operacion.FechaAlta = credencial.FechaAlta;
-                    operacion.FechaUltimoLogin = credencial.FechaUltimoLogin.Value;
-                    loginNegocio.RegistrarOperacionCambioCredencial(operacion);
+                    OperacionCambioCredencial operacion = new OperacionCambioCredencial
+                    {
+                        Legajo = credencial.Legajo,
+                        NombreUsuario = credencial.NombreUsuario,
+                        Contrasena = password,
+                        IdPerfil = perfil.Id,
+                        FechaAlta = credencial.FechaAlta,
+                        FechaUltimoLogin = credencial.FechaUltimoLogin.Value
+                    };
+
+                    loginNegocio.RegistrarOperacionCambioCredencial(autorizacion, operacion);
                     MessageBox.Show("La operación quedo pendiente de aprobación por parte del administrador.");
                     txtLegajo.Text = string.Empty;
                     txtContraseniaNueva.Text = string.Empty;

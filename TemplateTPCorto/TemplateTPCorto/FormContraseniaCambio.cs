@@ -14,12 +14,12 @@ namespace TemplateTPCorto
 {
     public partial class FormContraseniaCambio : UserControl
     {
-        private Credencial usuario;
+        private Credencial usuarioLogueado;
         private const int MIN_CARACTERES_CONTRASENIA = 8;
         public FormContraseniaCambio(Credencial logueado)
         {
             InitializeComponent();
-            usuario = logueado;
+            usuarioLogueado = logueado;
         }
 
         public void btnCambioContrasenia_Click(object sender, EventArgs e)
@@ -53,7 +53,7 @@ namespace TemplateTPCorto
                 txtContraseniaActual.Focus();
                 return;
             }
-            if (usuario.Contrasena != contraseniaActual)
+            if (usuarioLogueado.Contrasena != contraseniaActual)
             {
                 permiteAvanzar = false;
                 MessageBox.Show("La contraseña actual es erronea.");
@@ -85,9 +85,9 @@ namespace TemplateTPCorto
             if (permiteAvanzar)
             {
                 LoginNegocio loginNegocio = new LoginNegocio();
-                usuario.Contrasena = contraseniaNueva;
-                usuario.FechaUltimoLogin = DateTime.Now;
-                loginNegocio.ActualizarContrasenia(usuario);
+                usuarioLogueado.Contrasena = contraseniaNueva;
+                usuarioLogueado.FechaUltimoLogin = DateTime.Now;
+                loginNegocio.ActualizarContrasenia(usuarioLogueado);
                 MessageBox.Show("La contraseña se cambio con èxito.");
                 new FormLogin().Show();
                 this.ParentForm.Hide();

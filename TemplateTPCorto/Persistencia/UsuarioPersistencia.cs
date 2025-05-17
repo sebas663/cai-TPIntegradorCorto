@@ -240,33 +240,27 @@ namespace Persistencia
         public void RegistrarOperacionCambioCredencial(OperacionCambioCredencial operacion)
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
-            List<String> listado = dataBaseUtils.BuscarRegistro("operacion_cambio_credencial.csv");
+            string idOperacion = operacion.IdOperacion;
             string legajo = operacion.Legajo;
             string nombreUsuario = operacion.NombreUsuario;
             string contrasena = operacion.Contrasena;
             string fechaAlta = operacion.FechaAlta.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
             string fechaUltimoLogin = operacion.FechaUltimoLogin.ToString("d/M/yyyy", CultureInfo.InvariantCulture); ;
             string idperfil = operacion.IdPerfil;
-            // El archivo siempre tiene 1 registro demas, es el de los nombres de las columnas.
-            // entonces el primer id es 1 
-            int proximoId = listado.Count;
-            string[] nuevoRegistro = { proximoId.ToString(), legajo, nombreUsuario, contrasena, idperfil, fechaAlta, fechaUltimoLogin };
+            string[] nuevoRegistro = { idOperacion, legajo, nombreUsuario, contrasena, idperfil, fechaAlta, fechaUltimoLogin };
             string lineaCSV = string.Join(";", nuevoRegistro);
             dataBaseUtils.AgregarRegistro("operacion_cambio_credencial.csv", lineaCSV);
         }
         public void RegistrarOperacionCambioPersona(OperacionCambioPersona operacion)
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
-            List<String> listado = dataBaseUtils.BuscarRegistro("operacion_cambio_persona.csv");
+            string idOperacion = operacion.IdOperacion;
             string legajo = operacion.Legajo;
             string nombre = operacion.Nombre;
             string apellido = operacion.Apellido;
             string dni = operacion.Dni;
             string fechaingreso = operacion.FechaIngreso.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
-            // El archivo siempre tiene 1 registro demas, es el de los nombres de las columnas.
-            // entonces el primer id es 1 
-            int proximoId = listado.Count;
-            string[] nuevoRegistro = { proximoId.ToString(), legajo, nombre, apellido, dni, fechaingreso };
+            string[] nuevoRegistro = { idOperacion, legajo, nombre, apellido, dni, fechaingreso };
             string lineaCSV = string.Join(";", nuevoRegistro);
             dataBaseUtils.AgregarRegistro("operacion_cambio_persona.csv", lineaCSV);
         }
@@ -436,6 +430,71 @@ namespace Persistencia
         {
             DataBaseUtils dataBaseUtils = new DataBaseUtils();
             dataBaseUtils.BorrarRegistro(legajo, "login_intentos.csv");
+        }
+        
+
+        public List<Autorizacion> ObtenerAutorizacionesPorTipoOperacion(string tipoOperacion)
+        {
+            List<Autorizacion> lista = new List<Autorizacion>();
+
+            foreach (Autorizacion item in ObtenerAutorizaciones())
+            {
+                if (item.TipoOperacion == tipoOperacion)
+                {
+                    lista.Add(item);
+                }
+            }
+
+            return lista;
+        }
+        public List<Autorizacion> ObtenerAutorizaciones()
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            List<String> listado = dataBaseUtils.BuscarRegistro("autorizacion.csv");
+            List<Autorizacion> listadoCredenciales = new List<Autorizacion>();
+
+            int contador = 0;
+            foreach (String registro in listado)
+            {
+                if (contador == 0)
+                {
+                    contador++;
+                    continue;
+                }
+                // Mostrar en consola lo que se está leyendo
+                Console.WriteLine("Registro leído: " + registro);
+
+                listadoCredenciales.Add(new Autorizacion(registro));
+            }
+
+            return listadoCredenciales;
+        }
+
+        public string CrearAutorizacion(Autorizacion autorizacion)
+        {
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            List<String> listado = dataBaseUtils.BuscarRegistro("autorizacion.csv");
+            string tipoOperacion = autorizacion.TipoOperacion;
+            string estado = autorizacion.Estado;
+            string legajoSolicitante = autorizacion.LegajoSolicitante;
+            string fechaSolicitud = autorizacion.FechaSolicitud.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
+            string legajoAutorizador = autorizacion.LegajoAutorizador;
+            string fechaAutorizacion = autorizacion.FechaAutorizacion?.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
+            // El archivo siempre tiene 1 registro demas, es el de los nombres de las columnas.
+            // entonces el primer id es 1 
+            string idOperacion = listado.Count.ToString();
+            string[] nuevoRegistro = {
+                idOperacion,
+                tipoOperacion,
+                estado,
+                legajoSolicitante,
+                fechaSolicitud,
+                legajoAutorizador,
+                fechaAutorizacion
+            };
+            string lineaCSV = string.Join(";", nuevoRegistro);
+            dataBaseUtils.AgregarRegistro("autorizacion.csv", lineaCSV);
+            return idOperacion;
         }
     }
 

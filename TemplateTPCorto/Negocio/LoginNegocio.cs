@@ -99,11 +99,6 @@ namespace Negocio
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
             usuarioPersistencia.ActualizarContrasenia(credencial);
         }
-        public void RegistrarOperacionCambioCredencial(OperacionCambioCredencial operacion)
-        {
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            usuarioPersistencia.RegistrarOperacionCambioCredencial(operacion);
-        }
 
         public Credencial BuscarCredencialPorNumeroLegajo(String legajo)
         {
@@ -117,9 +112,18 @@ namespace Negocio
             return usuarioPersistencia.BuscarPersonaPorNumeroLegajo(legajo);
         }
 
-        public void RegistrarOperacionCambioPersona(OperacionCambioPersona operacion)
+        public void RegistrarOperacionCambioCredencial(Autorizacion autorizacion, OperacionCambioCredencial operacion)
         {
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            string idOperacion = usuarioPersistencia.CrearAutorizacion(autorizacion);
+            operacion.IdOperacion = idOperacion;
+            usuarioPersistencia.RegistrarOperacionCambioCredencial(operacion);
+        }
+        public void RegistrarOperacionCambioPersona(Autorizacion autorizacion, OperacionCambioPersona operacion)
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            string idOperacion = usuarioPersistencia.CrearAutorizacion(autorizacion);
+            operacion.IdOperacion = idOperacion;
             usuarioPersistencia.RegistrarOperacionCambioPersona(operacion);
         }
 
@@ -164,6 +168,11 @@ namespace Negocio
                 usuarioPersistencia.ModificarPersonaPorLegajo(modificada);
                 usuarioPersistencia.EliminarOperacionCambioPersonaPorIdOperacion(row.IdOperacion);
             }
+        }
+        public List<Autorizacion> ObtenerAutorizacionesPorTipoOperacion(string tipoOperacion)
+        {
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            return usuarioPersistencia.ObtenerAutorizacionesPorTipoOperacion(tipoOperacion);
         }
     }
 }

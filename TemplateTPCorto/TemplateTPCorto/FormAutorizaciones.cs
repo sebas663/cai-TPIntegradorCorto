@@ -16,10 +16,12 @@ namespace TemplateTPCorto
 {
     public partial class FormAutorizaciones : UserControl
     {
+        private Credencial usuarioLogueado;
         private bool esCambioCredencial = false;
-        public FormAutorizaciones()
+        public FormAutorizaciones(Credencial logueado)
         {
             InitializeComponent();
+            usuarioLogueado = logueado;
         }
 
         private void btnAutorizarCambioCredencial_Click(object sender, EventArgs e)
