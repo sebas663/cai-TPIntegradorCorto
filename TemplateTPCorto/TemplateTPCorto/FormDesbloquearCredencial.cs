@@ -14,15 +14,17 @@ namespace TemplateTPCorto
 {
     public partial class FormDesbloquearCredencial : UserControl
     {
+        private readonly LoginNegocio loginNegocio;
         private readonly Credencial usuarioLogueado;
         private const int MIN_CARACTERES_CONTRASENIA = 8;
-        public FormDesbloquearCredencial(Credencial logueado)
+        public FormDesbloquearCredencial(LoginNegocio negocio, Credencial logueado)
         {
             InitializeComponent();
-            usuarioLogueado = logueado;
+            this.loginNegocio = negocio;
+            this.usuarioLogueado = logueado;
         }
 
-        private void btnDesbloqueoCredencial_Click(object sender, EventArgs e)
+        private void BtnDesbloqueoCredencial_Click(object sender, EventArgs e)
         {
             String legajo = txtLegajo.Text;
             String password = txtContraseniaNueva.Text;
@@ -46,7 +48,6 @@ namespace TemplateTPCorto
                 txtContraseniaNueva.Focus();
                 return;
             }
-            LoginNegocio loginNegocio = new LoginNegocio();
             Credencial credencial = loginNegocio.BuscarCredencialPorNumeroLegajo(legajo);
             if (credencial != null)
             {

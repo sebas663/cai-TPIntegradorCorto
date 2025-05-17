@@ -82,6 +82,7 @@
     <Compile Include="FormModificacionPersona.Designer.cs">
       <DependentUpon>FormModificacionPersona.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUtils.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormAutorizaciones.resx">
@@ -135,6 +136,10 @@
     <ProjectReference Include="..\Negocio\Negocio.csproj">
       <Project>{a1a65a0d-8346-4fb0-b5e1-28e573a6cac3}</Project>
       <Name>Negocio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Persistencia\Persistencia.csproj">
+      <Project>{34CC7902-A146-4647-92C1-E39EBB515403}</Project>
+      <Name>Persistencia</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

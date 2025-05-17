@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Login\EnumRolId.cs" />
+    <Compile Include="Login\EnumPerfilId.cs" />
     <Compile Include="Login\EnumTipoOperacion.cs" />
     <Compile Include="Login\EnumEstadoAutorizacion.cs" />
     <Compile Include="Login\Autorizacion.cs" />

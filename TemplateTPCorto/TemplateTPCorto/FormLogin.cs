@@ -15,66 +15,53 @@ namespace TemplateTPCorto
 {
     public partial class FormLogin : Form
     {
-        public FormLogin()
+        private readonly LoginNegocio loginNegocio;
+        public FormLogin(LoginNegocio negocio)
         {
             InitializeComponent();
+            this.loginNegocio = negocio;
         }
 
-        private void btnIngresar_Click(object sender, EventArgs e)
+        private void BtnIngresar_Click(object sender, EventArgs e)
         {
             String usuario = txtUsuario.Text;
             String password = txtPassword.Text;
-
-            Boolean permiteAvanzar = true;
-
-            if (usuario == "")
+            if (string.IsNullOrEmpty(usuario))
             {
-                permiteAvanzar = false;
                 MessageBox.Show("El nombre de usuario no puede estar vacio");
                 txtUsuario.Focus();
                 return;
             }
 
-            if (password == "")
+            if (string.IsNullOrEmpty(password))
             {
-                permiteAvanzar = false;
                 MessageBox.Show("La contraseña no puede estar vacia.");
                 txtPassword.Focus();
                 return;
             }
-
-            if (permiteAvanzar)
+            bool establoqueado = loginNegocio.EstaBloqueado(usuario);
+            if (!establoqueado)
             {
-                LoginNegocio loginNegocio = new LoginNegocio();
-                bool establoqueado = loginNegocio.EstaBloqueado(usuario);
-                if (!establoqueado)
+                Credencial credencial = loginNegocio.Login(usuario, password);
+                establoqueado = loginNegocio.EstaBloqueado(usuario);
+                if (credencial == null && !establoqueado)
                 {
-                    Credencial credencial = loginNegocio.login(usuario, password);
-                    establoqueado = loginNegocio.EstaBloqueado(usuario);
-                    if (credencial == null && !establoqueado)
-                    {
-                        MessageBox.Show("Alguno de los datos ingresados no es correcto.");
-                        permiteAvanzar = false;
+                    MessageBox.Show("Alguno de los datos ingresados no es correcto.");
 
-                    }
-                    if (establoqueado)
-                    {
-                        MessageBox.Show("El usuario esta bloqueado.");
-                        permiteAvanzar = false;
-
-                    }
-                    if (permiteAvanzar)
-                    {
-                        FormMenu menu = new FormMenu(credencial);
-                        menu.Show();
-                        this.Hide();
-                    }
                 }
-                else
+                if (establoqueado)
                 {
                     MessageBox.Show("El usuario esta bloqueado.");
-                }
+                    return;
 
+                }
+                FormMenu menu = new FormMenu(loginNegocio, credencial);
+                menu.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("El usuario esta bloqueado.");
             }
         }
     }

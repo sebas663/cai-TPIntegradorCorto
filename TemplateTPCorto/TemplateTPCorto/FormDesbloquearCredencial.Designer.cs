@@ -55,7 +55,7 @@
             this.btnDesbloquearCredencial.TabIndex = 17;
             this.btnDesbloquearCredencial.Text = "Desbloquear";
             this.btnDesbloquearCredencial.UseVisualStyleBackColor = true;
-            this.btnDesbloquearCredencial.Click += new System.EventHandler(this.btnDesbloqueoCredencial_Click);
+            this.btnDesbloquearCredencial.Click += new System.EventHandler(this.BtnDesbloqueoCredencial_Click);
             // 
             // labelContraseniaNueva
             // 

@@ -44,7 +44,7 @@
             this.btnCerrarSession.TabIndex = 8;
             this.btnCerrarSession.Text = "Cerrar session";
             this.btnCerrarSession.UseVisualStyleBackColor = true;
-            this.btnCerrarSession.Click += new System.EventHandler(this.btnCerrarSession_Click);
+            this.btnCerrarSession.Click += new System.EventHandler(this.BtnCerrarSession_Click);
             // 
             // btnAutorizaciones
             // 
@@ -54,7 +54,7 @@
             this.btnAutorizaciones.TabIndex = 7;
             this.btnAutorizaciones.Text = "Autorizaciones";
             this.btnAutorizaciones.UseVisualStyleBackColor = true;
-            this.btnAutorizaciones.Click += new System.EventHandler(this.btnAutorizaciones_Click);
+            this.btnAutorizaciones.Click += new System.EventHandler(this.BtnAutorizaciones_Click);
             // 
             // btnCambioContrasenia
             // 
@@ -64,7 +64,7 @@
             this.btnCambioContrasenia.TabIndex = 6;
             this.btnCambioContrasenia.Text = "Cambiar contraseña";
             this.btnCambioContrasenia.UseVisualStyleBackColor = true;
-            this.btnCambioContrasenia.Click += new System.EventHandler(this.btnCambioContrasenia_Click);
+            this.btnCambioContrasenia.Click += new System.EventHandler(this.BtnCambioContrasenia_Click);
             // 
             // btnModificarPersona
             // 
@@ -74,7 +74,7 @@
             this.btnModificarPersona.TabIndex = 10;
             this.btnModificarPersona.Text = "Modificar persona";
             this.btnModificarPersona.UseVisualStyleBackColor = true;
-            this.btnModificarPersona.Click += new System.EventHandler(this.btnModificarPersona_Click);
+            this.btnModificarPersona.Click += new System.EventHandler(this.BtnModificarPersona_Click);
             // 
             // btnDesbloquearCredencial
             // 
@@ -84,7 +84,7 @@
             this.btnDesbloquearCredencial.TabIndex = 9;
             this.btnDesbloquearCredencial.Text = "Desbloquear credencial";
             this.btnDesbloquearCredencial.UseVisualStyleBackColor = true;
-            this.btnDesbloquearCredencial.Click += new System.EventHandler(this.btnDesbloquearCredencial_Click);
+            this.btnDesbloquearCredencial.Click += new System.EventHandler(this.BtnDesbloquearCredencial_Click);
             // 
             // panelMain
             // 

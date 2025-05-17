@@ -14,11 +14,13 @@ namespace TemplateTPCorto
 {
     public partial class FormMenu : Form
     {
-        private Credencial usuario;
-        public FormMenu(Credencial usuarioLogueado)
+        private readonly LoginNegocio loginNegocio;
+        private readonly Credencial usuario;
+        public FormMenu(LoginNegocio negocio, Credencial usuarioLogueado)
         {
             InitializeComponent();
-            usuario = usuarioLogueado;
+            this.loginNegocio = negocio;
+            this.usuario = usuarioLogueado;
             ConfigurarMenuPorPerfilRol();
         }
 
@@ -29,39 +31,40 @@ namespace TemplateTPCorto
             btnModificarPersona.Visible = false;
             btnDesbloquearCredencial.Visible = false;
             btnAutorizaciones.Visible = false;
-
-            LoginNegocio loginNegocio = new LoginNegocio();
             bool esPrimerLogin = loginNegocio.EsPrimerLogin(usuario);
             bool esContraseniaExpirada = loginNegocio.EsContraseniaExpirada(usuario);
             if (esPrimerLogin || esContraseniaExpirada)
             {
-                CargarUserControl(new FormContraseniaCambio(usuario));
+                CargarUserControl(new FormContraseniaCambio(loginNegocio, usuario));
             }
             else 
             {
                 Perfil perfil = loginNegocio.ObtenerPerfil(usuario.Legajo);
+                FormUtils formUtils = new FormUtils();
                 // operador
-                if (perfil.Id == "1" && TieneRol(perfil.Roles, "5"))
+                if (int.Parse(perfil.Id) == (int)EnumPerfilId.Operador
+                        && formUtils.TieneRol(perfil.Roles, (int)EnumRolId.Operador))
                 {
                     btnCambioContrasenia.Visible = true;
                 }
                 // supervisor
-                if (perfil.Id == "2")
+                if (int.Parse(perfil.Id) == (int)EnumPerfilId.Supervisor)
                 {
                     btnCambioContrasenia.Visible = true;
-                    if (TieneRol(perfil.Roles, "1")) {
+                    if (formUtils.TieneRol(perfil.Roles, (int)EnumRolId.ModificarPersona)) {
                         btnModificarPersona.Visible = true;
                     }
-                    if (TieneRol(perfil.Roles, "3"))
+                    if (formUtils.TieneRol(perfil.Roles, (int)EnumRolId.DesbloquearCredencial))
                     {
                         btnDesbloquearCredencial.Visible = true;
                     }
                 }
                 // administrador
-                if (perfil.Id == "3")
+                if (int.Parse(perfil.Id) == (int)EnumPerfilId.Administrador)
                 {
                     btnCambioContrasenia.Visible = true;
-                    if (TieneRol(perfil.Roles, "2") || TieneRol(perfil.Roles, "4"))
+                    if (formUtils.TieneRol(perfil.Roles, (int)EnumRolId.AutorizarModificarPersona)
+                            || formUtils.TieneRol(perfil.Roles, (int)EnumRolId.AutorizarDesbloquearCredencial))
                     {
                         btnAutorizaciones.Visible = true;
                     }
@@ -77,45 +80,30 @@ namespace TemplateTPCorto
             panelMain.Controls.Add(userControl);
         }
 
-        private void btnModificarPersona_Click(object sender, EventArgs e)
+        private void BtnModificarPersona_Click(object sender, EventArgs e)
         {
-           CargarUserControl(new FormModificacionPersona(usuario));
+           CargarUserControl(new FormModificacionPersona(loginNegocio, usuario));
         }
 
-        private void btnAutorizaciones_Click(object sender, EventArgs e)
+        private void BtnAutorizaciones_Click(object sender, EventArgs e)
         {
-           CargarUserControl(new FormAutorizaciones(usuario));
+           CargarUserControl(new FormAutorizaciones(loginNegocio, usuario));
         }
 
-        private void btnDesbloquearCredencial_Click(object sender, EventArgs e)
+        private void BtnDesbloquearCredencial_Click(object sender, EventArgs e)
         {
-           CargarUserControl(new FormDesbloquearCredencial(usuario));
+           CargarUserControl(new FormDesbloquearCredencial(loginNegocio ,usuario));
         }
 
-        private void btnCambioContrasenia_Click(object sender, EventArgs e)
+        private void BtnCambioContrasenia_Click(object sender, EventArgs e)
         {
-           CargarUserControl(new FormContraseniaCambio(usuario));
+           CargarUserControl(new FormContraseniaCambio(loginNegocio, usuario));
         }
 
-        private void btnCerrarSession_Click(object sender, EventArgs e)
+        private void BtnCerrarSession_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new FormLogin().Show();
+            new FormLogin(loginNegocio).Show();
         }
-
-        public bool TieneRol(List<Rol> roles, string rolId)
-        {
-            bool tieneRol = false;
-            foreach (Rol rol in roles)
-            {
-                if (rol.Id == rolId)
-                {
-                    tieneRol = true;
-                    break;
-                }
-            }
-            return tieneRol;
-        }
-
     }
 }

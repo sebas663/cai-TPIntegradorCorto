@@ -14,7 +14,7 @@ namespace Persistencia
     public class UsuarioPersistencia
     {
         private DataBaseUtils dataBaseUtils = new DataBaseUtils();
-        public Credencial login(String username)
+        public Credencial Login(String username)
         {
             Credencial credencialLogin = null;
             foreach (Credencial credencial in ObtenerCredenciales())

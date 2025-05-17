@@ -16,18 +16,31 @@ namespace TemplateTPCorto
 {
     public partial class FormAutorizaciones : UserControl
     {
+        private readonly LoginNegocio loginNegocio;
         private readonly Credencial usuarioLogueado;
         private bool esCambioCredencial = false;
-        public FormAutorizaciones(Credencial logueado)
+        public FormAutorizaciones(LoginNegocio negocio, Credencial logueado)
         {
             InitializeComponent();
-            usuarioLogueado = logueado;
+            this.loginNegocio = negocio;
+            this.usuarioLogueado = logueado;
+            BtnOperacionesCambioCredencial.Visible = false;
+            BtnOperacionesCambioPersona.Visible = false;
+            Perfil perfil = loginNegocio.ObtenerPerfil(usuarioLogueado.Legajo);
+            FormUtils formUtils = new FormUtils();
+            if (formUtils.TieneRol(perfil.Roles, (int)EnumRolId.AutorizarModificarPersona))
+            {
+                BtnOperacionesCambioPersona.Visible = true;
+            }
+            if (formUtils.TieneRol(perfil.Roles, (int)EnumRolId.AutorizarDesbloquearCredencial))
+            {
+                BtnOperacionesCambioCredencial.Visible = true;
+            }
         }
 
         private void BtnOperacionesCambioCredencial_Click(object sender, EventArgs e)
         {
             esCambioCredencial = true;
-            LoginNegocio loginNegocio = new LoginNegocio();
             dgwAutorizarOperaciones.Columns.Clear();
             List<OperacionCambioCredencial>  lista = loginNegocio.ObtenerOperacionesCambioCredencialPendientesAutorizar();
             if (lista.Count > 0)
@@ -44,7 +57,6 @@ namespace TemplateTPCorto
         private void BtnOperacionesCambioPersona_Click(object sender, EventArgs e)
         {
             esCambioCredencial = false;
-            LoginNegocio loginNegocio = new LoginNegocio();
             dgwAutorizarOperaciones.Columns.Clear();
             List<OperacionCambioPersona> lista = loginNegocio.ObtenerOperacionesCambioPersonaPendientesAutorizar();
             if (lista.Count > 0)
@@ -72,7 +84,6 @@ namespace TemplateTPCorto
 
                 if (result == DialogResult.Yes)
                 {
-                    LoginNegocio loginNegocio = new LoginNegocio();
                     if (esCambioCredencial)
                     {
                         List<OperacionCambioCredencial> operaciones = ObtenerOperacionesCambioCredencialesSeleccionadas();
@@ -107,7 +118,6 @@ namespace TemplateTPCorto
 
                 if (result == DialogResult.Yes)
                 {
-                    LoginNegocio loginNegocio = new LoginNegocio();
                     if (esCambioCredencial)
                     {
                         List<OperacionCambioCredencial> operaciones = ObtenerOperacionesCambioCredencialesSeleccionadas();

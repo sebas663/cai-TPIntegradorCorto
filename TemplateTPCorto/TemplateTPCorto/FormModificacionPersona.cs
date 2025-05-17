@@ -15,12 +15,14 @@ namespace TemplateTPCorto
 {
     public partial class FormModificacionPersona : UserControl
     {
+        private readonly LoginNegocio loginNegocio;
         private Persona persona;
         private readonly Credencial usuarioLogueado;
-        public FormModificacionPersona(Credencial logueado)
+        public FormModificacionPersona(LoginNegocio negocio, Credencial logueado)
         {
             InitializeComponent();
-            usuarioLogueado = logueado;
+            this.loginNegocio = negocio;
+            this.usuarioLogueado = logueado;
             btnModificar.Visible = false;
             labelNombre.Visible = false;
             txtNombre.Visible = false;
@@ -41,7 +43,6 @@ namespace TemplateTPCorto
                 txtLegajo.Focus();
                 return;
             }
-            LoginNegocio loginNegocio = new LoginNegocio();
             persona = loginNegocio.BuscarPersonaPorNumeroLegajo(legajo);
             if (persona != null)
             {
@@ -97,7 +98,6 @@ namespace TemplateTPCorto
                 return;
             }
             String legajo = txtLegajo.Text;
-            LoginNegocio loginNegocio = new LoginNegocio();
             if (persona != null)
             {
                 OperacionCambioPersona operacion = new OperacionCambioPersona

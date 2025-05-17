@@ -14,11 +14,17 @@ namespace Negocio
 {
     public class LoginNegocio
     {
-        private UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+        private readonly UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
         private const int MAX_INTENTOS = 3;
-        public Credencial login(String usuario, String password)
+
+        public LoginNegocio(UsuarioPersistencia usuarioPersistencia)
         {
-            Credencial credencial = usuarioPersistencia.login(usuario);
+            this.usuarioPersistencia = usuarioPersistencia;
+        }
+
+        public Credencial Login(String usuario, String password)
+        {
+            Credencial credencial = usuarioPersistencia.Login(usuario);
 
             if (credencial != null && credencial.Contrasena.Equals(password))
             {
@@ -37,7 +43,7 @@ namespace Negocio
         }
         public bool EstaBloqueado(string usuario)
         {
-            Credencial credencial = usuarioPersistencia.login(usuario);
+            Credencial credencial = usuarioPersistencia.Login(usuario);
             if (credencial != null)
             {
                 return usuarioPersistencia.EstaBloqueado(credencial.Legajo);
@@ -58,7 +64,6 @@ namespace Negocio
             {
                 usuarioPersistencia.BloquearUsuario(credencial.Legajo);
             }
-
         }
 
         public bool EsContraseniaExpirada(Credencial credencial)

@@ -14,84 +14,79 @@ namespace TemplateTPCorto
 {
     public partial class FormContraseniaCambio : UserControl
     {
-        private Credencial usuarioLogueado;
+        private readonly LoginNegocio loginNegocio;
+        private readonly Credencial usuarioLogueado;
         private const int MIN_CARACTERES_CONTRASENIA = 8;
-        public FormContraseniaCambio(Credencial logueado)
+        public FormContraseniaCambio(LoginNegocio negocio, Credencial logueado)
         {
             InitializeComponent();
-            usuarioLogueado = logueado;
+            this.loginNegocio = negocio;
+            this.usuarioLogueado = logueado;
         }
 
-        public void btnCambioContrasenia_Click(object sender, EventArgs e)
+        public void BtnCambioContrasenia_Click(object sender, EventArgs e)
         {
             String contraseniaActual = txtContraseniaActual.Text;
             String contraseniaNueva = txtContraseniaNueva.Text;
             String confirmarContraseniaNueva = txtConfirmarContraseniaNueva.Text;
 
-            Boolean permiteAvanzar = true;
-
-            if (contraseniaActual == "")
+            if (string.IsNullOrEmpty(contraseniaActual))
             {
-                permiteAvanzar = false;
                 MessageBox.Show("La contraseña actual no puede estar vacia.");
                 txtContraseniaActual.Focus();
                 return;
             }
 
-            if (contraseniaNueva == "")
+            if (string.IsNullOrEmpty(contraseniaNueva))
             {
-                permiteAvanzar = false;
                 MessageBox.Show("La contraseña nueva no puede estar vacia.");
                 txtContraseniaNueva.Focus();
                 return;
             }
 
-            if (confirmarContraseniaNueva == "")
+            if (string.IsNullOrEmpty(confirmarContraseniaNueva))
             {
-                permiteAvanzar = false;
                 MessageBox.Show("El confirmar contraseña nueva no puede estar vacio.");
                 txtContraseniaActual.Focus();
                 return;
             }
             if (usuarioLogueado.Contrasena != contraseniaActual)
             {
-                permiteAvanzar = false;
                 MessageBox.Show("La contraseña actual es erronea.");
                 txtContraseniaActual.Focus();
                 return;
             }
             if (contraseniaNueva == contraseniaActual)
             {
-                permiteAvanzar = false;
                 MessageBox.Show("La contraseña nueva debe ser distinta a la contraseña actual.");
                 txtContraseniaNueva.Focus();
                 return;
             }
             if (contraseniaNueva.Length < MIN_CARACTERES_CONTRASENIA)
             {
-                permiteAvanzar = false;
                 MessageBox.Show("La contraseña nueve debe tener al menos 8 caracteres.");
                 txtContraseniaNueva.Focus();
                 return;
             }
             if (confirmarContraseniaNueva != contraseniaNueva)
             {
-                permiteAvanzar = false;
                 MessageBox.Show("No coincide la contraseña nueva con el confirmar contraseña nueva.");
                 txtConfirmarContraseniaNueva.Focus();
                 return;
             }
-
-            if (permiteAvanzar)
+            Credencial usuarioModificado = new Credencial
             {
-                LoginNegocio loginNegocio = new LoginNegocio();
-                usuarioLogueado.Contrasena = contraseniaNueva;
-                usuarioLogueado.FechaUltimoLogin = DateTime.Now;
-                loginNegocio.ActualizarContrasenia(usuarioLogueado);
-                MessageBox.Show("La contraseña se cambio con èxito.");
-                new FormLogin().Show();
-                this.ParentForm.Hide();
-            }
+                Legajo = usuarioLogueado.Legajo,
+                NombreUsuario = usuarioLogueado.NombreUsuario,
+                Contrasena = contraseniaNueva,
+                FechaAlta = usuarioLogueado.FechaAlta,
+                FechaUltimoLogin = DateTime.Now
+            };
+
+            loginNegocio.ActualizarContrasenia(usuarioModificado);
+            MessageBox.Show("La contraseña se cambio con èxito.");
+            new FormLogin(loginNegocio).Show();
+            this.ParentForm.Hide();
         }
 
     }
