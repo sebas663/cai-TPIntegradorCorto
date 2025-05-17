@@ -1,5 +1,6 @@
 ﻿using Datos;
 using Persistencia;
+using Persistencia.DataBase;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -13,16 +14,21 @@ namespace Negocio
 {
     public class LoginNegocio
     {
+        private readonly UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
         private const int MAX_INTENTOS = 3;
-        public Credencial login(String usuario, String password)
-        {
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
 
-            Credencial credencial = usuarioPersistencia.login(usuario);
+        public LoginNegocio(UsuarioPersistencia usuarioPersistencia)
+        {
+            this.usuarioPersistencia = usuarioPersistencia;
+        }
+
+        public Credencial Login(String usuario, String password)
+        {
+            Credencial credencial = usuarioPersistencia.Login(usuario);
 
             if (credencial != null && credencial.Contrasena.Equals(password))
             {
-                ReiniciarIntentos(credencial.Legajo);
+                usuarioPersistencia.ReiniciarIntentos(credencial.Legajo);
                 return credencial;
             }
             if (credencial != null)
@@ -33,13 +39,11 @@ namespace Negocio
         }
         public Perfil ObtenerPerfil(string legajo)
         {
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
             return usuarioPersistencia.ObtenerPerfil(legajo);
         }
         public bool EstaBloqueado(string usuario)
         {
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            Credencial credencial = usuarioPersistencia.login(usuario);
+            Credencial credencial = usuarioPersistencia.Login(usuario);
             if (credencial != null)
             {
                 return usuarioPersistencia.EstaBloqueado(credencial.Legajo);
@@ -50,7 +54,6 @@ namespace Negocio
 
         private void RegistrarIntento(Credencial credencial)
         {
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
             int intentos = usuarioPersistencia.ObtenerNumeroIntentosPorLegajo(credencial.Legajo);
             if (intentos < MAX_INTENTOS)
             {
@@ -61,13 +64,6 @@ namespace Negocio
             {
                 usuarioPersistencia.BloquearUsuario(credencial.Legajo);
             }
-
-        }
-
-        private void ReiniciarIntentos(string legajo)
-        {
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            usuarioPersistencia.ReiniciarIntentos(legajo);
         }
 
         public bool EsContraseniaExpirada(Credencial credencial)
@@ -80,90 +76,139 @@ namespace Negocio
         {
             return credencial.FechaUltimoLogin == default(DateTime);
         }
-
-        public bool TieneRol(List<Rol> roles, string rolId)
-        {
-            bool tieneRol = false;
-            foreach (Rol rol in roles)
-            {
-                if (rol.Id == rolId)
-                {
-                    tieneRol = true;
-                    break;
-                }
-            }
-            return tieneRol;
-        }
+        
         public void ActualizarContrasenia(Credencial credencial)
         {
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
             usuarioPersistencia.ActualizarContrasenia(credencial);
-        }
-        public void RegistrarOperacionCambioCredencial(OperacionCambioCredencial operacion)
-        {
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            usuarioPersistencia.RegistrarOperacionCambioCredencial(operacion);
         }
 
         public Credencial BuscarCredencialPorNumeroLegajo(String legajo)
         {
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
             return usuarioPersistencia.BuscarCredencialPorNumeroLegajo(legajo);
         }
 
         public Persona BuscarPersonaPorNumeroLegajo(string legajo)
         {
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
             return usuarioPersistencia.BuscarPersonaPorNumeroLegajo(legajo);
         }
 
-        public void RegistrarOperacionCambioPersona(OperacionCambioPersona operacion)
+        public void RegistrarOperacionCambioCredencial(Autorizacion autorizacion, OperacionCambioCredencial operacion)
         {
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            string idOperacion = usuarioPersistencia.CrearAutorizacion(autorizacion);
+            operacion.IdOperacion = idOperacion;
+            usuarioPersistencia.RegistrarOperacionCambioCredencial(operacion);
+        }
+        public void RegistrarOperacionCambioPersona(Autorizacion autorizacion, OperacionCambioPersona operacion)
+        {
+            string idOperacion = usuarioPersistencia.CrearAutorizacion(autorizacion);
+            operacion.IdOperacion = idOperacion;
             usuarioPersistencia.RegistrarOperacionCambioPersona(operacion);
         }
 
-        public List<OperacionCambioCredencial> ObtenerOperacionesCambioCredencial()
+        public List<OperacionCambioCredencial> ObtenerOperacionesCambioCredencialPendientesAutorizar()
         {
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            return usuarioPersistencia.ObtenerOperacionesCambioCredencial();
+            List<Autorizacion> autorizaciones = ObtenerAutorizacionesPorTipoOperacionEstado(
+                EnumTipoOperacion.CambioCredencial.ToString(),
+                EnumEstadoAutorizacion.Pendiente.ToString()
+            );
+            List<String> idsOperacion = ObtenerIdsOperacion(autorizaciones);
+            return usuarioPersistencia.ObtenerOperacionesCambioCredencialPorIdsOperacion(idsOperacion);
         }
 
-        public List<OperacionCambioPersona> ObtenerOperacionesCambioPersona()
+        public List<OperacionCambioPersona> ObtenerOperacionesCambioPersonaPendientesAutorizar()
         {
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            return usuarioPersistencia.ObtenerOperacionesCambioPersona();
+            List<Autorizacion> autorizaciones = ObtenerAutorizacionesPorTipoOperacionEstado(
+                EnumTipoOperacion.CambioPersona.ToString(),
+                EnumEstadoAutorizacion.Pendiente.ToString()
+            );
+            List<String> idsOperacion = ObtenerIdsOperacion(autorizaciones);
+            return usuarioPersistencia.ObtenerOperacionesCambioPersonaPorIdsOperacion(idsOperacion);
         }
-
-        public void AutorizarOperacionesCambioCredencial(List<OperacionCambioCredencial> operaciones)
+        
+        public void AutorizarOperacionesCambioCredencial(List<OperacionCambioCredencial> operaciones, string legajoAutorizador)
         {
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
             foreach (OperacionCambioCredencial row in operaciones)
             {
                 Credencial credencial = usuarioPersistencia.ObtenerCredencialPorLegajo(row.Legajo);
                 credencial.Contrasena = row.Contrasena;
                 credencial.FechaUltimoLogin = null;
                 ActualizarContrasenia(credencial);
-                ReiniciarIntentos(row.Legajo);
+                usuarioPersistencia.ReiniciarIntentos(row.Legajo);
                 usuarioPersistencia.EliminarUsuarioBloqueadoPorLegajo(row.Legajo);
-                usuarioPersistencia.EliminarOperacionCambioCredencialPorIdOperacion(row.IdOperacion);
+                ActualizarEstadoAutorizacion(
+                    row.IdOperacion,
+                    EnumEstadoAutorizacion.Autorizado.ToString(),
+                    legajoAutorizador
+                );
+            }
+        }
+        
+        public void AutorizarOperacionesCambioPersona(List<OperacionCambioPersona> operaciones, string legajoAutorizador)
+        {
+            foreach (OperacionCambioPersona row in operaciones)
+            {
+                Persona modificada = new Persona
+                {
+                    Legajo = row.Legajo,
+                    Nombre = row.Nombre,
+                    Apellido = row.Apellido,
+                    Dni = row.Dni,
+                    FechaIngreso = row.FechaIngreso
+                };
+                usuarioPersistencia.ModificarPersonaPorLegajo(modificada);
+                ActualizarEstadoAutorizacion(
+                    row.IdOperacion,
+                    EnumEstadoAutorizacion.Autorizado.ToString(),
+                    legajoAutorizador
+                );
             }
         }
 
-        public void AutorizarOperacionesCambioPersona(List<OperacionCambioPersona> operaciones)
+        public void RechazarOperacionesCambioCredencial(List<OperacionCambioCredencial> operaciones, string legajoAutorizador)
         {
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
-            foreach (OperacionCambioPersona row in operaciones)
+            foreach (OperacionCambioCredencial row in operaciones)
             {
-                Persona modificada = new Persona();
-                modificada.Legajo = row.Legajo;
-                modificada.Nombre = row.Nombre;
-                modificada.Apellido = row.Apellido;
-                modificada.Dni = row.Dni;
-                modificada.FechaIngreso = row.FechaIngreso;
-                usuarioPersistencia.ModificarPersonaPorLegajo(modificada);
-                usuarioPersistencia.EliminarOperacionCambioPersonaPorIdOperacion(row.IdOperacion);
+                ActualizarEstadoAutorizacion(
+                    row.IdOperacion,
+                    EnumEstadoAutorizacion.Rechazado.ToString(),
+                    legajoAutorizador
+                );
             }
         }
+
+        public void RechazarOperacionesCambioPersona(List<OperacionCambioPersona> operaciones, string legajoAutorizador)
+        {
+            foreach (OperacionCambioPersona row in operaciones)
+            {
+                ActualizarEstadoAutorizacion(
+                    row.IdOperacion,
+                    EnumEstadoAutorizacion.Rechazado.ToString(),
+                    legajoAutorizador
+                );
+            }
+        }
+        private List<Autorizacion> ObtenerAutorizacionesPorTipoOperacionEstado(string tipoOperacion, string estado)
+        {
+            return usuarioPersistencia.ObtenerAutorizacionesPorTipoOperacionEstado(tipoOperacion, estado);
+        }
+
+        private List<String> ObtenerIdsOperacion(List<Autorizacion> autorizaciones)
+        {
+            List<String> idsOperacion = new List<String>();
+            foreach (Autorizacion registro in autorizaciones)
+            {
+                idsOperacion.Add(registro.IdOperacion);
+            }
+            return idsOperacion;
+        }
+        private void ActualizarEstadoAutorizacion(string idOperacion, string estado, string legajoAutorizador)
+        {
+            Autorizacion autorizacion = usuarioPersistencia.ObtenerAutorizacionPorIdOperacion(idOperacion);
+            autorizacion.Estado = estado;
+            autorizacion.LegajoAutorizador = legajoAutorizador;
+            autorizacion.FechaAutorizacion = DateTime.Now;
+            usuarioPersistencia.ActualizarEstadoAutorizacion(autorizacion);
+        }
+
     }
 }

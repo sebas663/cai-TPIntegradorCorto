@@ -47,7 +47,7 @@
             this.btnCambioContrasenia.TabIndex = 9;
             this.btnCambioContrasenia.Text = "Cambiar";
             this.btnCambioContrasenia.UseVisualStyleBackColor = true;
-            this.btnCambioContrasenia.Click += new System.EventHandler(this.btnCambioContrasenia_Click);
+            this.btnCambioContrasenia.Click += new System.EventHandler(this.BtnCambioContrasenia_Click);
             // 
             // labelContraseniaNueva
             // 

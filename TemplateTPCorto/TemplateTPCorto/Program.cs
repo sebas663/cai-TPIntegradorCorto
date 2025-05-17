@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Negocio;
+using Persistencia;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +18,9 @@ namespace TemplateTPCorto
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormLogin());
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            LoginNegocio loginNegocio = new LoginNegocio(usuarioPersistencia);
+            Application.Run(new FormLogin(loginNegocio));
         }
     }
 }

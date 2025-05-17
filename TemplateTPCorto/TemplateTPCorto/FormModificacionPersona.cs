@@ -15,10 +15,14 @@ namespace TemplateTPCorto
 {
     public partial class FormModificacionPersona : UserControl
     {
+        private readonly LoginNegocio loginNegocio;
         private Persona persona;
-        public FormModificacionPersona()
+        private readonly Credencial usuarioLogueado;
+        public FormModificacionPersona(LoginNegocio negocio, Credencial logueado)
         {
             InitializeComponent();
+            this.loginNegocio = negocio;
+            this.usuarioLogueado = logueado;
             btnModificar.Visible = false;
             labelNombre.Visible = false;
             txtNombre.Visible = false;
@@ -29,7 +33,7 @@ namespace TemplateTPCorto
             labelDni.Visible = false;
             txtDni.Visible = false;
         }
-        private void btnBuscar_Click(object sender, EventArgs e)
+        private void BtnBuscar_Click(object sender, EventArgs e)
         {
             String legajo = txtLegajo.Text;
 
@@ -39,7 +43,6 @@ namespace TemplateTPCorto
                 txtLegajo.Focus();
                 return;
             }
-            LoginNegocio loginNegocio = new LoginNegocio();
             persona = loginNegocio.BuscarPersonaPorNumeroLegajo(legajo);
             if (persona != null)
             {
@@ -64,7 +67,7 @@ namespace TemplateTPCorto
             }
         }
 
-        private void btnModificar_Click(object sender, EventArgs e)
+        private void BtnModificar_Click(object sender, EventArgs e)
         {
             string nombre = txtNombre.Text;
             string apellido = txtApellido.Text;
@@ -95,15 +98,16 @@ namespace TemplateTPCorto
                 return;
             }
             String legajo = txtLegajo.Text;
-            LoginNegocio loginNegocio = new LoginNegocio();
             if (persona != null)
             {
-                OperacionCambioPersona operacion = new OperacionCambioPersona();
-                operacion.Legajo = legajo;
-                operacion.Nombre = nombre;
-                operacion.Apellido = apellido;
-                operacion.Dni = dni;
-                operacion.FechaIngreso = fechaIngreso;
+                OperacionCambioPersona operacion = new OperacionCambioPersona
+                {
+                    Legajo = legajo,
+                    Nombre = nombre,
+                    Apellido = apellido,
+                    Dni = dni,
+                    FechaIngreso = fechaIngreso
+                };
                 string mensaje = "¿Modificar datos de " + persona.ToString() + "? \n ¿Por los nuevos " + operacion.ToString();
                 DialogResult result = MessageBox.Show(
                     mensaje,
@@ -122,7 +126,15 @@ namespace TemplateTPCorto
                 }
                 else
                 {
-                    loginNegocio.RegistrarOperacionCambioPersona(operacion);
+                    Autorizacion autorizacion = new Autorizacion
+                    {
+                        TipoOperacion = EnumTipoOperacion.CambioPersona.ToString(),
+                        Estado = EnumEstadoAutorizacion.Pendiente.ToString(),
+                        LegajoSolicitante = usuarioLogueado.Legajo,
+                        FechaSolicitud = DateTime.Now
+                    };
+
+                    loginNegocio.RegistrarOperacionCambioPersona(autorizacion, operacion);
                     MessageBox.Show("La operación quedo pendiente de aprobación por parte del administrador.");
                     btnModificar.Visible = false;
                     labelNombre.Visible = false;
@@ -153,7 +165,7 @@ namespace TemplateTPCorto
             if (fechaIngreso > hoy)
                 return false;
 
-            // Regla 2: Fecha ingreso no mayor a 20 años
+            // Regla 2: Fecha ingreso no mayor a 20 años inicio actividades de la empresa.
             int edad = hoy.Year - fechaIngreso.Year;
             if (fechaIngreso > hoy.AddYears(-edad)) edad--; 
 
