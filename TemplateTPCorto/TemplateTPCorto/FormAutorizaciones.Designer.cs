@@ -32,9 +32,10 @@ namespace TemplateTPCorto
         {
             this.txtTitulo = new System.Windows.Forms.Label();
             this.dgwAutorizarOperaciones = new System.Windows.Forms.DataGridView();
-            this.btnAutorizar = new System.Windows.Forms.Button();
-            this.btnAutorizarCambioCredencial = new System.Windows.Forms.Button();
-            this.btnAutorizarCambioPersona = new System.Windows.Forms.Button();
+            this.BtnAutorizarSeleccionados = new System.Windows.Forms.Button();
+            this.BtnOperacionesCambioCredencial = new System.Windows.Forms.Button();
+            this.BtnOperacionesCambioPersona = new System.Windows.Forms.Button();
+            this.BtnRechazarSeleccionados = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgwAutorizarOperaciones)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,51 +54,61 @@ namespace TemplateTPCorto
             this.dgwAutorizarOperaciones.AllowUserToAddRows = false;
             this.dgwAutorizarOperaciones.AllowUserToDeleteRows = false;
             this.dgwAutorizarOperaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgwAutorizarOperaciones.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dgwAutorizarOperaciones.Location = new System.Drawing.Point(23, 63);
             this.dgwAutorizarOperaciones.Name = "dgwAutorizarOperaciones";
-            this.dgwAutorizarOperaciones.ReadOnly = false;
             this.dgwAutorizarOperaciones.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgwAutorizarOperaciones.Size = new System.Drawing.Size(837, 322);
             this.dgwAutorizarOperaciones.TabIndex = 27;
-            this.dgwAutorizarOperaciones.EditMode = DataGridViewEditMode.EditOnEnter;
             // 
-            // btnAutorizar
+            // BtnAutorizarSeleccionados
             // 
-            this.btnAutorizar.Location = new System.Drawing.Point(359, 411);
-            this.btnAutorizar.Name = "btnAutorizar";
-            this.btnAutorizar.Size = new System.Drawing.Size(150, 25);
-            this.btnAutorizar.TabIndex = 29;
-            this.btnAutorizar.Text = "Autorizar seleccionados";
-            this.btnAutorizar.UseVisualStyleBackColor = true;
-            this.btnAutorizar.Click += new System.EventHandler(this.btnAutorizar_Click);
+            this.BtnAutorizarSeleccionados.Location = new System.Drawing.Point(259, 411);
+            this.BtnAutorizarSeleccionados.Name = "BtnAutorizarSeleccionados";
+            this.BtnAutorizarSeleccionados.Size = new System.Drawing.Size(150, 25);
+            this.BtnAutorizarSeleccionados.TabIndex = 29;
+            this.BtnAutorizarSeleccionados.Text = "Autorizar seleccionados";
+            this.BtnAutorizarSeleccionados.UseVisualStyleBackColor = true;
+            this.BtnAutorizarSeleccionados.Click += new System.EventHandler(this.BtnAutorizarSeleccionados_Click);
             // 
-            // btnAutorizarCambioCredencial
+            // BtnOperacionesCambioCredencial
             // 
-            this.btnAutorizarCambioCredencial.Location = new System.Drawing.Point(23, 32);
-            this.btnAutorizarCambioCredencial.Name = "btnAutorizarCambioCredencial";
-            this.btnAutorizarCambioCredencial.Size = new System.Drawing.Size(150, 25);
-            this.btnAutorizarCambioCredencial.TabIndex = 30;
-            this.btnAutorizarCambioCredencial.Text = "Autorizar cambio credencial";
-            this.btnAutorizarCambioCredencial.UseVisualStyleBackColor = true;
-            this.btnAutorizarCambioCredencial.Click += new System.EventHandler(this.btnAutorizarCambioCredencial_Click);
+            this.BtnOperacionesCambioCredencial.Location = new System.Drawing.Point(23, 32);
+            this.BtnOperacionesCambioCredencial.Name = "BtnOperacionesCambioCredencial";
+            this.BtnOperacionesCambioCredencial.Size = new System.Drawing.Size(170, 25);
+            this.BtnOperacionesCambioCredencial.TabIndex = 30;
+            this.BtnOperacionesCambioCredencial.Text = "Operaciones cambio credencial";
+            this.BtnOperacionesCambioCredencial.UseVisualStyleBackColor = true;
+            this.BtnOperacionesCambioCredencial.Click += new System.EventHandler(this.BtnOperacionesCambioCredencial_Click);
             // 
-            // btnAutorizarCambioPersona
+            // BtnOperacionesCambioPersona
             // 
-            this.btnAutorizarCambioPersona.Location = new System.Drawing.Point(198, 32);
-            this.btnAutorizarCambioPersona.Name = "btnAutorizarCambioPersona";
-            this.btnAutorizarCambioPersona.Size = new System.Drawing.Size(150, 25);
-            this.btnAutorizarCambioPersona.TabIndex = 31;
-            this.btnAutorizarCambioPersona.Text = "Autorizar cambio persona";
-            this.btnAutorizarCambioPersona.UseVisualStyleBackColor = true;
-            this.btnAutorizarCambioPersona.Click += new System.EventHandler(this.btnAutorizarCambioPersona_Click);
+            this.BtnOperacionesCambioPersona.Location = new System.Drawing.Point(199, 32);
+            this.BtnOperacionesCambioPersona.Name = "BtnOperacionesCambioPersona";
+            this.BtnOperacionesCambioPersona.Size = new System.Drawing.Size(170, 25);
+            this.BtnOperacionesCambioPersona.TabIndex = 31;
+            this.BtnOperacionesCambioPersona.Text = "Operaciones cambio persona";
+            this.BtnOperacionesCambioPersona.UseVisualStyleBackColor = true;
+            this.BtnOperacionesCambioPersona.Click += new System.EventHandler(this.BtnOperacionesCambioPersona_Click);
+            // 
+            // BtnRechazarSeleccionados
+            // 
+            this.BtnRechazarSeleccionados.Location = new System.Drawing.Point(456, 411);
+            this.BtnRechazarSeleccionados.Name = "BtnRechazarSeleccionados";
+            this.BtnRechazarSeleccionados.Size = new System.Drawing.Size(150, 25);
+            this.BtnRechazarSeleccionados.TabIndex = 32;
+            this.BtnRechazarSeleccionados.Text = "Rechazar seleccionados";
+            this.BtnRechazarSeleccionados.UseVisualStyleBackColor = true;
+            this.BtnRechazarSeleccionados.Click += new System.EventHandler(this.BtnRechazarSeleccionados_Click);
             // 
             // FormAutorizaciones
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.btnAutorizarCambioPersona);
-            this.Controls.Add(this.btnAutorizarCambioCredencial);
-            this.Controls.Add(this.btnAutorizar);
+            this.Controls.Add(this.BtnRechazarSeleccionados);
+            this.Controls.Add(this.BtnOperacionesCambioPersona);
+            this.Controls.Add(this.BtnOperacionesCambioCredencial);
+            this.Controls.Add(this.BtnAutorizarSeleccionados);
             this.Controls.Add(this.dgwAutorizarOperaciones);
             this.Controls.Add(this.txtTitulo);
             this.Name = "FormAutorizaciones";
@@ -112,8 +123,9 @@ namespace TemplateTPCorto
 
         private System.Windows.Forms.Label txtTitulo;
         private System.Windows.Forms.DataGridView dgwAutorizarOperaciones;
-        private Button btnAutorizar;
-        private Button btnAutorizarCambioCredencial;
-        private Button btnAutorizarCambioPersona;
+        private Button BtnAutorizarSeleccionados;
+        private Button BtnOperacionesCambioCredencial;
+        private Button BtnOperacionesCambioPersona;
+        private Button BtnRechazarSeleccionados;
     }
 }

@@ -41,7 +41,7 @@ namespace TemplateTPCorto
             {
                 Perfil perfil = loginNegocio.ObtenerPerfil(usuario.Legajo);
                 // operador
-                if (perfil.Id == "1" && loginNegocio.TieneRol(perfil.Roles, "5"))
+                if (perfil.Id == "1" && TieneRol(perfil.Roles, "5"))
                 {
                     btnCambioContrasenia.Visible = true;
                 }
@@ -49,10 +49,10 @@ namespace TemplateTPCorto
                 if (perfil.Id == "2")
                 {
                     btnCambioContrasenia.Visible = true;
-                    if (loginNegocio.TieneRol(perfil.Roles, "1")) {
+                    if (TieneRol(perfil.Roles, "1")) {
                         btnModificarPersona.Visible = true;
                     }
-                    if (loginNegocio.TieneRol(perfil.Roles, "3"))
+                    if (TieneRol(perfil.Roles, "3"))
                     {
                         btnDesbloquearCredencial.Visible = true;
                     }
@@ -61,7 +61,7 @@ namespace TemplateTPCorto
                 if (perfil.Id == "3")
                 {
                     btnCambioContrasenia.Visible = true;
-                    if (loginNegocio.TieneRol(perfil.Roles, "2") || loginNegocio.TieneRol(perfil.Roles, "4"))
+                    if (TieneRol(perfil.Roles, "2") || TieneRol(perfil.Roles, "4"))
                     {
                         btnAutorizaciones.Visible = true;
                     }
@@ -101,6 +101,20 @@ namespace TemplateTPCorto
         {
             this.Hide();
             new FormLogin().Show();
+        }
+
+        public bool TieneRol(List<Rol> roles, string rolId)
+        {
+            bool tieneRol = false;
+            foreach (Rol rol in roles)
+            {
+                if (rol.Id == rolId)
+                {
+                    tieneRol = true;
+                    break;
+                }
+            }
+            return tieneRol;
         }
 
     }
