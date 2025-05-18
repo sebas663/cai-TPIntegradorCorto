@@ -16,10 +16,10 @@ namespace TemplateTPCorto
     public partial class FormLogin : Form
     {
         private readonly LoginNegocio loginNegocio;
-        public FormLogin(LoginNegocio negocio)
+        public FormLogin(LoginNegocio loginNegocio)
         {
             InitializeComponent();
-            this.loginNegocio = negocio;
+            this.loginNegocio = loginNegocio;
         }
 
         private void BtnIngresar_Click(object sender, EventArgs e)

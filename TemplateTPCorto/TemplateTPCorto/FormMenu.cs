@@ -16,10 +16,10 @@ namespace TemplateTPCorto
     {
         private readonly LoginNegocio loginNegocio;
         private readonly Credencial usuario;
-        public FormMenu(LoginNegocio negocio, Credencial usuarioLogueado)
+        public FormMenu(LoginNegocio loginNegocio, Credencial usuarioLogueado)
         {
             InitializeComponent();
-            this.loginNegocio = negocio;
+            this.loginNegocio = loginNegocio;
             this.usuario = usuarioLogueado;
             ConfigurarMenuPorPerfilRol();
         }

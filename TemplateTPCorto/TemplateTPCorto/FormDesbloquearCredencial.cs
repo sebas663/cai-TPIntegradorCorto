@@ -17,10 +17,10 @@ namespace TemplateTPCorto
         private readonly LoginNegocio loginNegocio;
         private readonly Credencial usuarioLogueado;
         private const int MIN_CARACTERES_CONTRASENIA = 8;
-        public FormDesbloquearCredencial(LoginNegocio negocio, Credencial logueado)
+        public FormDesbloquearCredencial(LoginNegocio loginNegocio, Credencial logueado)
         {
             InitializeComponent();
-            this.loginNegocio = negocio;
+            this.loginNegocio = loginNegocio;
             this.usuarioLogueado = logueado;
         }
 

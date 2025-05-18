@@ -19,10 +19,10 @@ namespace TemplateTPCorto
         private readonly LoginNegocio loginNegocio;
         private readonly Credencial usuarioLogueado;
         private bool esCambioCredencial = false;
-        public FormAutorizaciones(LoginNegocio negocio, Credencial logueado)
+        public FormAutorizaciones(LoginNegocio loginNegocio, Credencial logueado)
         {
             InitializeComponent();
-            this.loginNegocio = negocio;
+            this.loginNegocio = loginNegocio;
             this.usuarioLogueado = logueado;
             BtnOperacionesCambioCredencial.Visible = false;
             BtnOperacionesCambioPersona.Visible = false;

@@ -18,10 +18,10 @@ namespace TemplateTPCorto
         private readonly LoginNegocio loginNegocio;
         private Persona persona;
         private readonly Credencial usuarioLogueado;
-        public FormModificacionPersona(LoginNegocio negocio, Credencial logueado)
+        public FormModificacionPersona(LoginNegocio loginNegocio, Credencial logueado)
         {
             InitializeComponent();
-            this.loginNegocio = negocio;
+            this.loginNegocio = loginNegocio;
             this.usuarioLogueado = logueado;
             btnModificar.Visible = false;
             labelNombre.Visible = false;
