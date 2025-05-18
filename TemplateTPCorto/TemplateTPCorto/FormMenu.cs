@@ -23,7 +23,6 @@ namespace TemplateTPCorto
             this.usuario = usuarioLogueado;
             ConfigurarMenuPorPerfilRol();
         }
-
         private void ConfigurarMenuPorPerfilRol()
         {
             btnCerrarSession.Visible = true;
@@ -68,38 +67,31 @@ namespace TemplateTPCorto
                     {
                         btnAutorizaciones.Visible = true;
                     }
-                    
                 }
             }
         }
-
         private void CargarUserControl(UserControl userControl)
         {
             panelMain.Controls.Clear();
             userControl.Dock = DockStyle.Fill;
             panelMain.Controls.Add(userControl);
         }
-
         private void BtnModificarPersona_Click(object sender, EventArgs e)
         {
            CargarUserControl(new FormModificacionPersona(loginNegocio, usuario));
         }
-
         private void BtnAutorizaciones_Click(object sender, EventArgs e)
         {
            CargarUserControl(new FormAutorizaciones(loginNegocio, usuario));
         }
-
         private void BtnDesbloquearCredencial_Click(object sender, EventArgs e)
         {
            CargarUserControl(new FormDesbloquearCredencial(loginNegocio ,usuario));
         }
-
         private void BtnCambioContrasenia_Click(object sender, EventArgs e)
         {
            CargarUserControl(new FormContraseniaCambio(loginNegocio, usuario));
         }
-
         private void BtnCerrarSession_Click(object sender, EventArgs e)
         {
             this.Hide();

@@ -1,5 +1,6 @@
 ﻿using Negocio;
 using Persistencia;
+using Persistencia.DataBase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,8 @@ namespace TemplateTPCorto
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+            DataBaseUtils dataBaseUtils = new DataBaseUtils();
+            UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia(dataBaseUtils);
             LoginNegocio loginNegocio = new LoginNegocio(usuarioPersistencia);
             Application.Run(new FormLogin(loginNegocio));
         }
