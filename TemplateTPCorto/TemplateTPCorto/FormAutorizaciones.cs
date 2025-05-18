@@ -27,12 +27,11 @@ namespace TemplateTPCorto
             BtnOperacionesCambioCredencial.Visible = false;
             BtnOperacionesCambioPersona.Visible = false;
             Perfil perfil = loginNegocio.ObtenerPerfil(usuarioLogueado.Legajo);
-            FormUtils formUtils = new FormUtils();
-            if (formUtils.TieneRol(perfil.Roles, (int)EnumRolId.AutorizarModificarPersona))
+            if (FormUtils.TieneRol(perfil.Roles, (int)EnumRolId.AutorizarModificarPersona))
             {
                 BtnOperacionesCambioPersona.Visible = true;
             }
-            if (formUtils.TieneRol(perfil.Roles, (int)EnumRolId.AutorizarDesbloquearCredencial))
+            if (FormUtils.TieneRol(perfil.Roles, (int)EnumRolId.AutorizarDesbloquearCredencial))
             {
                 BtnOperacionesCambioCredencial.Visible = true;
             }
@@ -50,10 +49,9 @@ namespace TemplateTPCorto
             }
             else
             {
-                MessageBox.Show("No hay operaciones cambio credencial con estado Pendiente.");
+                FormUtils.MostrarMensajeInformacion("No hay operaciones cambio credencial con estado Pendiente.");
             }
         }
-
         private void BtnOperacionesCambioPersona_Click(object sender, EventArgs e)
         {
             esCambioCredencial = false;
@@ -66,10 +64,9 @@ namespace TemplateTPCorto
             }
             else
             {
-                MessageBox.Show("No hay operaciones cambio persona con estado Pendiente.");
+                FormUtils.MostrarMensajeInformacion("No hay operaciones cambio persona con estado Pendiente.");
             }
         }
-
         private void BtnAutorizarSeleccionados_Click(object sender, EventArgs e)
         {
             if (HayAlMenosUnoSeleccionado())
@@ -94,16 +91,15 @@ namespace TemplateTPCorto
                         List<OperacionCambioPersona> operaciones = ObtenerOperacionesCambioDatosPersonasSeleccionadas();
                         loginNegocio.AutorizarOperacionesCambioPersona(operaciones, usuarioLogueado.Legajo);
                     }
-                    MessageBox.Show("Las autorizaciones se ejecutaron con éxito.");
+                    FormUtils.MostrarMensajeInformacion("Las autorizaciones se ejecutaron con éxito.");
                     dgwAutorizarOperaciones.Columns.Clear();
                 }
             }
             else
             {
-                MessageBox.Show("Debe seleccionar al menos un registro.");
+                FormUtils.MostrarMensajeAdvertencia("Debe seleccionar al menos un registro.");
             }
         }
-
         private void BtnRechazarSeleccionados_Click(object sender, EventArgs e)
         {
             if (HayAlMenosUnoSeleccionado())
@@ -128,12 +124,12 @@ namespace TemplateTPCorto
                         List<OperacionCambioPersona> operaciones = ObtenerOperacionesCambioDatosPersonasSeleccionadas();
                         loginNegocio.RechazarOperacionesCambioPersona(operaciones, usuarioLogueado.Legajo);
                     }
-                    MessageBox.Show("Los rechazos se ejecutaron con éxito.");
+                    FormUtils.MostrarMensajeInformacion("Los rechazos se ejecutaron con éxito.");
                     dgwAutorizarOperaciones.Columns.Clear();
                 }
             }
             else {
-                MessageBox.Show("Debe seleccionar al menos un registro.");
+                FormUtils.MostrarMensajeAdvertencia("Debe seleccionar al menos un registro.");
             }
             
         }
@@ -153,7 +149,6 @@ namespace TemplateTPCorto
 
             return seleccionados;
         }
-
         private List<OperacionCambioPersona> ObtenerOperacionesCambioDatosPersonasSeleccionadas()
         {
             List<OperacionCambioPersona> seleccionados = new List<OperacionCambioPersona>();
@@ -170,7 +165,6 @@ namespace TemplateTPCorto
 
             return seleccionados;
         }
-
         private bool HayAlMenosUnoSeleccionado()
         {
             bool alMenosUnoChequeado = false;
@@ -186,7 +180,6 @@ namespace TemplateTPCorto
 
             return alMenosUnoChequeado;
         }
-
         private string GenerarMensajeSeleccionados()
         {
             string resultado = "Registros seleccionados:\n";
@@ -194,19 +187,35 @@ namespace TemplateTPCorto
             {
                 if (Convert.ToBoolean(row.Cells["Seleccionar"].Value) == true)
                 {
-                    resultado += "- ";
+                    List<string> campos = new List<string>();
+
                     foreach (DataGridViewCell cell in row.Cells)
                     {
-                        if (cell.OwningColumn.Name != "Seleccionar")
-                            resultado += $"{cell.Value} ";
+                        if (cell.OwningColumn.Name == "Seleccionar")
+                            continue;
+
+                        string label = cell.OwningColumn.HeaderText;
+                        string valor;
+
+                        if (cell.Value is DateTime fecha)
+                        {
+                            valor = fecha.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
+                        }
+                        else if (DateTime.TryParse(Convert.ToString(cell.Value), out fecha))
+                        {
+                            valor = fecha.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
+                        }
+                        else
+                        {
+                            valor = Convert.ToString(cell.Value);
+                        }
+                        campos.Add($"{label}: {valor}");
                     }
-                    resultado += "\n";
+                    resultado += string.Join(" - ", campos) + "\n";
                 }
             }
-
             return resultado;
         }
-
         private string GenerarLineaCSVDesdeFila(DataGridViewRow row)
         {
             List<string> valores = new List<string>();
@@ -234,7 +243,6 @@ namespace TemplateTPCorto
 
             return string.Join(";", valores);
         }
-
         private void AgregarColumnaSeleccion(DataGridView dgv)
         {
             DataGridViewCheckBoxColumn chk = new DataGridViewCheckBoxColumn

@@ -34,6 +34,8 @@
             this.labelLegajo = new System.Windows.Forms.Label();
             this.txtContraseniaNueva = new System.Windows.Forms.TextBox();
             this.txtLegajo = new System.Windows.Forms.TextBox();
+            this.labelUsuario = new System.Windows.Forms.Label();
+            this.btnBuscar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtTitulo
@@ -48,7 +50,7 @@
             // 
             // btnDesbloquearCredencial
             // 
-            this.btnDesbloquearCredencial.Location = new System.Drawing.Point(287, 203);
+            this.btnDesbloquearCredencial.Location = new System.Drawing.Point(224, 200);
             this.btnDesbloquearCredencial.Margin = new System.Windows.Forms.Padding(2);
             this.btnDesbloquearCredencial.Name = "btnDesbloquearCredencial";
             this.btnDesbloquearCredencial.Size = new System.Drawing.Size(100, 25);
@@ -60,7 +62,7 @@
             // labelContraseniaNueva
             // 
             this.labelContraseniaNueva.AutoSize = true;
-            this.labelContraseniaNueva.Location = new System.Drawing.Point(65, 122);
+            this.labelContraseniaNueva.Location = new System.Drawing.Point(65, 145);
             this.labelContraseniaNueva.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelContraseniaNueva.Name = "labelContraseniaNueva";
             this.labelContraseniaNueva.Size = new System.Drawing.Size(94, 13);
@@ -79,7 +81,7 @@
             // 
             // txtContraseniaNueva
             // 
-            this.txtContraseniaNueva.Location = new System.Drawing.Point(243, 122);
+            this.txtContraseniaNueva.Location = new System.Drawing.Point(180, 142);
             this.txtContraseniaNueva.Margin = new System.Windows.Forms.Padding(2);
             this.txtContraseniaNueva.Name = "txtContraseniaNueva";
             this.txtContraseniaNueva.Size = new System.Drawing.Size(144, 20);
@@ -87,16 +89,38 @@
             // 
             // txtLegajo
             // 
-            this.txtLegajo.Location = new System.Drawing.Point(243, 77);
+            this.txtLegajo.Location = new System.Drawing.Point(180, 74);
             this.txtLegajo.Margin = new System.Windows.Forms.Padding(2);
             this.txtLegajo.Name = "txtLegajo";
             this.txtLegajo.Size = new System.Drawing.Size(144, 20);
             this.txtLegajo.TabIndex = 13;
             // 
+            // labelUsuario
+            // 
+            this.labelUsuario.AutoSize = true;
+            this.labelUsuario.Location = new System.Drawing.Point(65, 112);
+            this.labelUsuario.Name = "labelUsuario";
+            this.labelUsuario.Size = new System.Drawing.Size(35, 13);
+            this.labelUsuario.TabIndex = 21;
+            this.labelUsuario.Text = "label1";
+            // 
+            // btnBuscar
+            // 
+            this.btnBuscar.Location = new System.Drawing.Point(366, 71);
+            this.btnBuscar.Margin = new System.Windows.Forms.Padding(2);
+            this.btnBuscar.Name = "btnBuscar";
+            this.btnBuscar.Size = new System.Drawing.Size(100, 25);
+            this.btnBuscar.TabIndex = 28;
+            this.btnBuscar.Text = "Buscar";
+            this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.BtnBuscar_Click);
+            // 
             // FormDesbloquearCredencial
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnBuscar);
+            this.Controls.Add(this.labelUsuario);
             this.Controls.Add(this.txtTitulo);
             this.Controls.Add(this.btnDesbloquearCredencial);
             this.Controls.Add(this.labelContraseniaNueva);
@@ -118,5 +142,7 @@
         private System.Windows.Forms.Label labelLegajo;
         private System.Windows.Forms.TextBox txtContraseniaNueva;
         private System.Windows.Forms.TextBox txtLegajo;
+        private System.Windows.Forms.Label labelUsuario;
+        private System.Windows.Forms.Button btnBuscar;
     }
 }

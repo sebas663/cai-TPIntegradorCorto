@@ -39,10 +39,9 @@ namespace TemplateTPCorto
             else 
             {
                 Perfil perfil = loginNegocio.ObtenerPerfil(usuario.Legajo);
-                FormUtils formUtils = new FormUtils();
                 // operador
                 if (int.Parse(perfil.Id) == (int)EnumPerfilId.Operador
-                        && formUtils.TieneRol(perfil.Roles, (int)EnumRolId.Operador))
+                        && FormUtils.TieneRol(perfil.Roles, (int)EnumRolId.Operador))
                 {
                     btnCambioContrasenia.Visible = true;
                 }
@@ -50,10 +49,10 @@ namespace TemplateTPCorto
                 if (int.Parse(perfil.Id) == (int)EnumPerfilId.Supervisor)
                 {
                     btnCambioContrasenia.Visible = true;
-                    if (formUtils.TieneRol(perfil.Roles, (int)EnumRolId.ModificarPersona)) {
+                    if (FormUtils.TieneRol(perfil.Roles, (int)EnumRolId.ModificarPersona)) {
                         btnModificarPersona.Visible = true;
                     }
-                    if (formUtils.TieneRol(perfil.Roles, (int)EnumRolId.DesbloquearCredencial))
+                    if (FormUtils.TieneRol(perfil.Roles, (int)EnumRolId.DesbloquearCredencial))
                     {
                         btnDesbloquearCredencial.Visible = true;
                     }
@@ -62,8 +61,8 @@ namespace TemplateTPCorto
                 if (int.Parse(perfil.Id) == (int)EnumPerfilId.Administrador)
                 {
                     btnCambioContrasenia.Visible = true;
-                    if (formUtils.TieneRol(perfil.Roles, (int)EnumRolId.AutorizarModificarPersona)
-                            || formUtils.TieneRol(perfil.Roles, (int)EnumRolId.AutorizarDesbloquearCredencial))
+                    if (FormUtils.TieneRol(perfil.Roles, (int)EnumRolId.AutorizarModificarPersona)
+                            || FormUtils.TieneRol(perfil.Roles, (int)EnumRolId.AutorizarDesbloquearCredencial))
                     {
                         btnAutorizaciones.Visible = true;
                     }

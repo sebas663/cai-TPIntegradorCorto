@@ -18,11 +18,13 @@ namespace TemplateTPCorto
         private readonly LoginNegocio loginNegocio;
         private Persona persona;
         private readonly Credencial usuarioLogueado;
+        private readonly DateTime fechaIngresoMinima;
         public FormModificacionPersona(LoginNegocio loginNegocio, Credencial logueado)
         {
             InitializeComponent();
             this.loginNegocio = loginNegocio;
             this.usuarioLogueado = logueado;
+            fechaIngresoMinima = DateTime.ParseExact("01/01/2010", "d/M/yyyy", CultureInfo.InvariantCulture);
             btnModificar.Visible = false;
             labelNombre.Visible = false;
             txtNombre.Visible = false;
@@ -39,7 +41,7 @@ namespace TemplateTPCorto
 
             if (string.IsNullOrEmpty(legajo))
             {
-                MessageBox.Show("El legajo no puede estar vacio.");
+                FormUtils.MostrarMensajeAdvertencia("El Legajo no puede estar vacio.");
                 txtLegajo.Focus();
                 return;
             }
@@ -62,7 +64,7 @@ namespace TemplateTPCorto
             }
             else
             {
-                MessageBox.Show("No existe usuario para el nùmero de legajo ingresado.");
+                FormUtils.MostrarMensajeAdvertencia("No existe usuario para el nùmero de legajo ingresado.");
                 txtLegajo.Focus();
             }
         }
@@ -75,105 +77,92 @@ namespace TemplateTPCorto
             DateTime fechaIngreso = dateFechaIngreso.Value;
             if (string.IsNullOrEmpty(nombre))
             {
-                MessageBox.Show("El Nombre no puede estar vacio.");
+                FormUtils.MostrarMensajeAdvertencia("El Nombre no puede estar vacio.");
                 txtNombre.Focus();
+                return;
+            }
+            if (!FormUtils.EsIngresoSoloTextoEspaciosValido(nombre))
+            {
+                FormUtils.MostrarMensajeAdvertencia("El Nombre solo debe contener letras y espacios.");
                 return;
             }
             if (string.IsNullOrEmpty(apellido))
             {
-                MessageBox.Show("El apellido no puede estar vacio.");
+                FormUtils.MostrarMensajeAdvertencia("El Apellido no puede estar vacio.");
                 txtApellido.Focus();
+                return;
+            }
+            if (!FormUtils.EsIngresoSoloTextoEspaciosValido(apellido))
+            {
+                FormUtils.MostrarMensajeAdvertencia("El Apellido solo debe contener letras y espacios.");
                 return;
             }
             if (string.IsNullOrEmpty(dni))
             {
-                MessageBox.Show("El dni no puede estar vacio.");
+                FormUtils.MostrarMensajeAdvertencia("El DNI no puede estar vacio.");
                 txtDni.Focus();
                 return;
             }
-            if (!FechaIngresoValida(fechaIngreso))
+            if (!FormUtils.EsIngresoSoloNumerosValido(dni))
             {
-                MessageBox.Show("La fecha de ingreso es invàlida.");
+                FormUtils.MostrarMensajeAdvertencia("El DNI solo debe contener nùmeros.");
+                return;
+            }
+            if (!FormUtils.EsFechaValida(fechaIngreso, fechaIngresoMinima))
+            {
+                FormUtils.MostrarMensajeAdvertencia("La Fecha de ingreso es invàlida.");
                 dateFechaIngreso.Focus();
                 return;
             }
             String legajo = txtLegajo.Text;
-            if (persona != null)
+            OperacionCambioPersona operacion = new OperacionCambioPersona
             {
-                OperacionCambioPersona operacion = new OperacionCambioPersona
-                {
-                    Legajo = legajo,
-                    Nombre = nombre,
-                    Apellido = apellido,
-                    Dni = dni,
-                    FechaIngreso = fechaIngreso
-                };
-                string mensaje = "¿Modificar datos de " + persona.ToString() + "? \n ¿Por los nuevos " + operacion.ToString();
-                DialogResult result = MessageBox.Show(
-                    mensaje,
-                    "Confirmar",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
+                Legajo = legajo,
+                Nombre = nombre,
+                Apellido = apellido,
+                Dni = dni,
+                FechaIngreso = fechaIngreso
+            };
+            string mensaje = "¿Modificar datos de " + persona.ToString() + "? \n ¿Por los nuevos " + operacion.ToString();
+            DialogResult result = MessageBox.Show(
+                mensaje,
+                "Confirmar",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
 
-                if (result == DialogResult.No)
-                {
-                    txtNombre.Text = persona.Nombre;
-                    txtApellido.Text = persona.Apellido;
-                    txtDni.Text = persona.Dni;
-                    dateFechaIngreso.Value = persona.FechaIngreso;
-                    txtNombre.Focus();
-                }
-                else
-                {
-                    Autorizacion autorizacion = new Autorizacion
-                    {
-                        TipoOperacion = EnumTipoOperacion.CambioPersona.ToString(),
-                        Estado = EnumEstadoAutorizacion.Pendiente.ToString(),
-                        LegajoSolicitante = usuarioLogueado.Legajo,
-                        FechaSolicitud = DateTime.Now
-                    };
-
-                    loginNegocio.RegistrarOperacionCambioPersona(autorizacion, operacion);
-                    MessageBox.Show("La operación quedo pendiente de aprobación por parte del administrador.");
-                    btnModificar.Visible = false;
-                    labelNombre.Visible = false;
-                    txtNombre.Visible = false;
-                    labelApellido.Visible = false;
-                    txtApellido.Visible = false;
-                    labelFechaIngreso.Visible = false;
-                    dateFechaIngreso.Visible = false;
-                    labelDni.Visible = false;
-                    txtDni.Visible = false;
-                    txtLegajo.Text = string.Empty;
-                    txtLegajo.Focus();
-                }
+            if (result == DialogResult.No)
+            {
+                txtNombre.Text = persona.Nombre;
+                txtApellido.Text = persona.Apellido;
+                txtDni.Text = persona.Dni;
+                dateFechaIngreso.Value = persona.FechaIngreso;
+                txtNombre.Focus();
             }
             else
             {
-                MessageBox.Show("Primero debe ingresar un legajo y apretar el botòn buscar.");
+                Autorizacion autorizacion = new Autorizacion
+                {
+                    TipoOperacion = EnumTipoOperacion.CambioPersona.ToString(),
+                    Estado = EnumEstadoAutorizacion.Pendiente.ToString(),
+                    LegajoSolicitante = usuarioLogueado.Legajo,
+                    FechaSolicitud = DateTime.Now
+                };
+
+                loginNegocio.RegistrarOperacionCambioPersona(autorizacion, operacion);
+                FormUtils.MostrarMensajeInformacion("La operación quedo pendiente de aprobación por parte del administrador.");
+                btnModificar.Visible = false;
+                labelNombre.Visible = false;
+                txtNombre.Visible = false;
+                labelApellido.Visible = false;
+                txtApellido.Visible = false;
+                labelFechaIngreso.Visible = false;
+                dateFechaIngreso.Visible = false;
+                labelDni.Visible = false;
+                txtDni.Visible = false;
+                txtLegajo.Text = string.Empty;
                 txtLegajo.Focus();
             }
-
         }
-
-        bool FechaIngresoValida(DateTime fechaIngreso)
-        {
-            DateTime hoy = DateTime.Today;
-
-            // Regla 1: No puede ser en el futuro
-            if (fechaIngreso > hoy)
-                return false;
-
-            // Regla 2: Fecha ingreso no mayor a 20 años inicio actividades de la empresa.
-            int edad = hoy.Year - fechaIngreso.Year;
-            if (fechaIngreso > hoy.AddYears(-edad)) edad--; 
-
-            if (edad < 0 || edad > 20)
-                return false;
-
-            return true;
-        }
-
     }
 }
