@@ -14,7 +14,7 @@ namespace Negocio
 {
     public class LoginNegocio
     {
-        private readonly UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia();
+        private readonly UsuarioPersistencia usuarioPersistencia;
         private const int MAX_INTENTOS = 3;
 
         public LoginNegocio(UsuarioPersistencia usuarioPersistencia)

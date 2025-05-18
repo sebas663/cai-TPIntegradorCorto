@@ -17,10 +17,10 @@ namespace TemplateTPCorto
         private readonly LoginNegocio loginNegocio;
         private readonly Credencial usuarioLogueado;
         private const int MIN_CARACTERES_CONTRASENIA = 8;
-        public FormContraseniaCambio(LoginNegocio negocio, Credencial logueado)
+        public FormContraseniaCambio(LoginNegocio loginNegocio, Credencial logueado)
         {
             InitializeComponent();
-            this.loginNegocio = negocio;
+            this.loginNegocio = loginNegocio;
             this.usuarioLogueado = logueado;
         }
 
@@ -29,48 +29,45 @@ namespace TemplateTPCorto
             String contraseniaActual = txtContraseniaActual.Text;
             String contraseniaNueva = txtContraseniaNueva.Text;
             String confirmarContraseniaNueva = txtConfirmarContraseniaNueva.Text;
-
             if (string.IsNullOrEmpty(contraseniaActual))
             {
-                MessageBox.Show("La contraseña actual no puede estar vacia.");
-                txtContraseniaActual.Focus();
-                return;
-            }
-
-            if (string.IsNullOrEmpty(contraseniaNueva))
-            {
-                MessageBox.Show("La contraseña nueva no puede estar vacia.");
-                txtContraseniaNueva.Focus();
-                return;
-            }
-
-            if (string.IsNullOrEmpty(confirmarContraseniaNueva))
-            {
-                MessageBox.Show("El confirmar contraseña nueva no puede estar vacio.");
+                FormUtils.MostrarMensajeAdvertencia("La Contraseña actual no puede estar vacia.");
                 txtContraseniaActual.Focus();
                 return;
             }
             if (usuarioLogueado.Contrasena != contraseniaActual)
             {
-                MessageBox.Show("La contraseña actual es erronea.");
+                FormUtils.MostrarMensajeAdvertencia("La Contraseña actual es erronea.");
+                txtContraseniaActual.Focus();
+                return;
+            }
+            if (string.IsNullOrEmpty(contraseniaNueva))
+            {
+                FormUtils.MostrarMensajeAdvertencia("La Contraseña nueva no puede estar vacia.");
+                txtContraseniaNueva.Focus();
+                return;
+            }
+            if (string.IsNullOrEmpty(confirmarContraseniaNueva))
+            {
+                FormUtils.MostrarMensajeAdvertencia("El Confirmar contraseña nueva no puede estar vacio.");
                 txtContraseniaActual.Focus();
                 return;
             }
             if (contraseniaNueva == contraseniaActual)
             {
-                MessageBox.Show("La contraseña nueva debe ser distinta a la contraseña actual.");
+                FormUtils.MostrarMensajeAdvertencia("La Contraseña nueva debe ser distinta a la Contraseña actual.");
                 txtContraseniaNueva.Focus();
                 return;
             }
             if (contraseniaNueva.Length < MIN_CARACTERES_CONTRASENIA)
             {
-                MessageBox.Show("La contraseña nueve debe tener al menos 8 caracteres.");
+                FormUtils.MostrarMensajeAdvertencia("La Contraseña nueve debe tener al menos 8 caracteres.");
                 txtContraseniaNueva.Focus();
                 return;
             }
             if (confirmarContraseniaNueva != contraseniaNueva)
             {
-                MessageBox.Show("No coincide la contraseña nueva con el confirmar contraseña nueva.");
+                FormUtils.MostrarMensajeAdvertencia("No coincide la Contraseña nueva con el Confirmar contraseña nueva.");
                 txtConfirmarContraseniaNueva.Focus();
                 return;
             }
@@ -84,7 +81,7 @@ namespace TemplateTPCorto
             };
 
             loginNegocio.ActualizarContrasenia(usuarioModificado);
-            MessageBox.Show("La contraseña se cambio con èxito.");
+            FormUtils.MostrarMensajeInformacion("La contraseña se cambio con èxito.");
             new FormLogin(loginNegocio).Show();
             this.ParentForm.Hide();
         }

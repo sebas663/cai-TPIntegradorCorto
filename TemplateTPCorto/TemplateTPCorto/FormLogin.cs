@@ -16,10 +16,10 @@ namespace TemplateTPCorto
     public partial class FormLogin : Form
     {
         private readonly LoginNegocio loginNegocio;
-        public FormLogin(LoginNegocio negocio)
+        public FormLogin(LoginNegocio loginNegocio)
         {
             InitializeComponent();
-            this.loginNegocio = negocio;
+            this.loginNegocio = loginNegocio;
         }
 
         private void BtnIngresar_Click(object sender, EventArgs e)
@@ -28,32 +28,32 @@ namespace TemplateTPCorto
             String password = txtPassword.Text;
             if (string.IsNullOrEmpty(usuario))
             {
-                MessageBox.Show("El nombre de usuario no puede estar vacio");
+                FormUtils.MostrarMensajeAdvertencia("El Nombre de usuario no puede estar vacio.");
                 txtUsuario.Focus();
                 return;
             }
 
             if (string.IsNullOrEmpty(password))
             {
-                MessageBox.Show("La contraseña no puede estar vacia.");
+                FormUtils.MostrarMensajeAdvertencia("La Contraseña no puede estar vacia.");
                 txtPassword.Focus();
                 return;
             }
             bool establoqueado = loginNegocio.EstaBloqueado(usuario);
+            string usuarioBloqueadoMsg = "El usuario " + usuario + " esta bloqueado.";
             if (!establoqueado)
             {
                 Credencial credencial = loginNegocio.Login(usuario, password);
                 establoqueado = loginNegocio.EstaBloqueado(usuario);
                 if (credencial == null && !establoqueado)
                 {
-                    MessageBox.Show("Alguno de los datos ingresados no es correcto.");
-
+                    FormUtils.MostrarMensajeAdvertencia("Alguno de los datos ingresados no es correcto.");
+                    return;
                 }
                 if (establoqueado)
                 {
-                    MessageBox.Show("El usuario esta bloqueado.");
+                    FormUtils.MostrarMensajeAdvertencia(usuarioBloqueadoMsg);
                     return;
-
                 }
                 FormMenu menu = new FormMenu(loginNegocio, credencial);
                 menu.Show();
@@ -61,7 +61,7 @@ namespace TemplateTPCorto
             }
             else
             {
-                MessageBox.Show("El usuario esta bloqueado.");
+                FormUtils.MostrarMensajeAdvertencia(usuarioBloqueadoMsg);
             }
         }
     }

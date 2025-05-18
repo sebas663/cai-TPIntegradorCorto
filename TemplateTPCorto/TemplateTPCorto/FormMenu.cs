@@ -16,14 +16,13 @@ namespace TemplateTPCorto
     {
         private readonly LoginNegocio loginNegocio;
         private readonly Credencial usuario;
-        public FormMenu(LoginNegocio negocio, Credencial usuarioLogueado)
+        public FormMenu(LoginNegocio loginNegocio, Credencial usuarioLogueado)
         {
             InitializeComponent();
-            this.loginNegocio = negocio;
+            this.loginNegocio = loginNegocio;
             this.usuario = usuarioLogueado;
             ConfigurarMenuPorPerfilRol();
         }
-
         private void ConfigurarMenuPorPerfilRol()
         {
             btnCerrarSession.Visible = true;
@@ -40,10 +39,9 @@ namespace TemplateTPCorto
             else 
             {
                 Perfil perfil = loginNegocio.ObtenerPerfil(usuario.Legajo);
-                FormUtils formUtils = new FormUtils();
                 // operador
                 if (int.Parse(perfil.Id) == (int)EnumPerfilId.Operador
-                        && formUtils.TieneRol(perfil.Roles, (int)EnumRolId.Operador))
+                        && FormUtils.TieneRol(perfil.Roles, (int)EnumRolId.Operador))
                 {
                     btnCambioContrasenia.Visible = true;
                 }
@@ -51,10 +49,10 @@ namespace TemplateTPCorto
                 if (int.Parse(perfil.Id) == (int)EnumPerfilId.Supervisor)
                 {
                     btnCambioContrasenia.Visible = true;
-                    if (formUtils.TieneRol(perfil.Roles, (int)EnumRolId.ModificarPersona)) {
+                    if (FormUtils.TieneRol(perfil.Roles, (int)EnumRolId.ModificarPersona)) {
                         btnModificarPersona.Visible = true;
                     }
-                    if (formUtils.TieneRol(perfil.Roles, (int)EnumRolId.DesbloquearCredencial))
+                    if (FormUtils.TieneRol(perfil.Roles, (int)EnumRolId.DesbloquearCredencial))
                     {
                         btnDesbloquearCredencial.Visible = true;
                     }
@@ -63,43 +61,36 @@ namespace TemplateTPCorto
                 if (int.Parse(perfil.Id) == (int)EnumPerfilId.Administrador)
                 {
                     btnCambioContrasenia.Visible = true;
-                    if (formUtils.TieneRol(perfil.Roles, (int)EnumRolId.AutorizarModificarPersona)
-                            || formUtils.TieneRol(perfil.Roles, (int)EnumRolId.AutorizarDesbloquearCredencial))
+                    if (FormUtils.TieneRol(perfil.Roles, (int)EnumRolId.AutorizarModificarPersona)
+                            || FormUtils.TieneRol(perfil.Roles, (int)EnumRolId.AutorizarDesbloquearCredencial))
                     {
                         btnAutorizaciones.Visible = true;
                     }
-                    
                 }
             }
         }
-
         private void CargarUserControl(UserControl userControl)
         {
             panelMain.Controls.Clear();
             userControl.Dock = DockStyle.Fill;
             panelMain.Controls.Add(userControl);
         }
-
         private void BtnModificarPersona_Click(object sender, EventArgs e)
         {
            CargarUserControl(new FormModificacionPersona(loginNegocio, usuario));
         }
-
         private void BtnAutorizaciones_Click(object sender, EventArgs e)
         {
            CargarUserControl(new FormAutorizaciones(loginNegocio, usuario));
         }
-
         private void BtnDesbloquearCredencial_Click(object sender, EventArgs e)
         {
            CargarUserControl(new FormDesbloquearCredencial(loginNegocio ,usuario));
         }
-
         private void BtnCambioContrasenia_Click(object sender, EventArgs e)
         {
            CargarUserControl(new FormContraseniaCambio(loginNegocio, usuario));
         }
-
         private void BtnCerrarSession_Click(object sender, EventArgs e)
         {
             this.Hide();

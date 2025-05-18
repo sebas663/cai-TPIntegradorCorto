@@ -17,82 +17,107 @@ namespace TemplateTPCorto
         private readonly LoginNegocio loginNegocio;
         private readonly Credencial usuarioLogueado;
         private const int MIN_CARACTERES_CONTRASENIA = 8;
-        public FormDesbloquearCredencial(LoginNegocio negocio, Credencial logueado)
+        private Credencial usuarioCambioCredencial;
+        public FormDesbloquearCredencial(LoginNegocio loginNegocio, Credencial logueado)
         {
             InitializeComponent();
-            this.loginNegocio = negocio;
+            this.loginNegocio = loginNegocio;
             this.usuarioLogueado = logueado;
+            labelUsuario.Visible = false;
+            labelContraseniaNueva.Visible = false;
+            txtContraseniaNueva.Visible = false;
+            btnDesbloquearCredencial.Visible = false;
         }
+        private void BtnBuscar_Click(object sender, EventArgs e)
+        {
+            String legajo = txtLegajo.Text;
 
+            if (string.IsNullOrEmpty(legajo))
+            {
+                FormUtils.MostrarMensajeAdvertencia("El Legajo no puede estar vacio");
+                txtLegajo.Focus();
+                return;
+            }
+            usuarioCambioCredencial = loginNegocio.BuscarCredencialPorNumeroLegajo(legajo);
+            if (usuarioCambioCredencial != null)
+            {
+                labelUsuario.Text = "Usuario: " + usuarioCambioCredencial.NombreUsuario;
+                labelUsuario.Visible = true;
+                labelContraseniaNueva.Visible = true;
+                txtContraseniaNueva.Visible = true;
+                btnDesbloquearCredencial.Visible = true;
+            }
+            else
+            {
+                FormUtils.MostrarMensajeInformacion("No existe usuario para el nùmero de legajo ingresado.");
+                txtLegajo.Focus();
+            }
+        }
         private void BtnDesbloqueoCredencial_Click(object sender, EventArgs e)
         {
             String legajo = txtLegajo.Text;
             String password = txtContraseniaNueva.Text;
-
-            if (string.IsNullOrEmpty(legajo))
-            {
-                MessageBox.Show("El legajo no puede estar vacio");
-                txtLegajo.Focus();
-                return;
-            }
-
             if (string.IsNullOrEmpty(password))
             {
-                MessageBox.Show("La contraseña nueva no puede estar vacia.");
+                FormUtils.MostrarMensajeAdvertencia("La Contraseña nueva no puede estar vacia.");
                 txtContraseniaNueva.Focus();
                 return;
             }
             if (password.Length < MIN_CARACTERES_CONTRASENIA)
             {
-                MessageBox.Show("La contraseña nueve debe tener al menos 8 caracteres.");
+                FormUtils.MostrarMensajeAdvertencia("La Contraseña nueve debe tener al menos 8 caracteres.");
                 txtContraseniaNueva.Focus();
                 return;
             }
-            Credencial credencial = loginNegocio.BuscarCredencialPorNumeroLegajo(legajo);
-            if (credencial != null)
+  
+            string mensaje = "¿Cambiar contraseña de legajo: " + legajo + ", usuario: " + usuarioCambioCredencial.NombreUsuario + "?";
+            DialogResult result = MessageBox.Show(
+                mensaje,
+                "Confirmar",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result == DialogResult.No)
             {
-                string mensaje = "¿Cambiar contraseña de legajo: " + legajo + ", usuario: " + credencial.NombreUsuario + "?";
-                DialogResult result = MessageBox.Show(
-                    mensaje,
-                    "Confirmar",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
-
-                if (result == DialogResult.No)
-                {
-                    txtLegajo.Focus();
-                }
-                else
-                {
-                    Autorizacion autorizacion = new Autorizacion
-                    {
-                        TipoOperacion = EnumTipoOperacion.CambioCredencial.ToString(),
-                        Estado = EnumEstadoAutorizacion.Pendiente.ToString(),
-                        LegajoSolicitante = usuarioLogueado.Legajo,
-                        FechaSolicitud = DateTime.Now
-                    };
-                    Perfil perfil = loginNegocio.ObtenerPerfil(legajo);
-                    OperacionCambioCredencial operacion = new OperacionCambioCredencial
-                    {
-                        Legajo = credencial.Legajo,
-                        NombreUsuario = credencial.NombreUsuario,
-                        Contrasena = password,
-                        IdPerfil = perfil.Id,
-                        FechaAlta = credencial.FechaAlta,
-                        FechaUltimoLogin = credencial.FechaUltimoLogin.Value
-                    };
-
-                    loginNegocio.RegistrarOperacionCambioCredencial(autorizacion, operacion);
-                    MessageBox.Show("La operación quedo pendiente de aprobación por parte del administrador.");
-                    txtLegajo.Text = string.Empty;
-                    txtContraseniaNueva.Text = string.Empty;
-                    txtLegajo.Focus();
-                }
+                txtLegajo.Text = string.Empty;
+                txtContraseniaNueva.Text = string.Empty;
+                labelUsuario.Text = string.Empty;
+                labelUsuario.Visible = false;
+                labelContraseniaNueva.Visible = false;
+                txtContraseniaNueva.Visible = false;
+                btnDesbloquearCredencial.Visible = false;
+                txtLegajo.Focus();
             }
             else
             {
-                MessageBox.Show("No existe usuario para el nùmero de legajo ingresado.");
+                Autorizacion autorizacion = new Autorizacion
+                {
+                    TipoOperacion = EnumTipoOperacion.CambioCredencial.ToString(),
+                    Estado = EnumEstadoAutorizacion.Pendiente.ToString(),
+                    LegajoSolicitante = usuarioLogueado.Legajo,
+                    FechaSolicitud = DateTime.Now
+                };
+                Perfil perfil = loginNegocio.ObtenerPerfil(legajo);
+                OperacionCambioCredencial operacion = new OperacionCambioCredencial
+                {
+                    Legajo = usuarioCambioCredencial.Legajo,
+                    NombreUsuario = usuarioCambioCredencial.NombreUsuario,
+                    Contrasena = password,
+                    IdPerfil = perfil.Id,
+                    FechaAlta = usuarioCambioCredencial.FechaAlta,
+                    FechaUltimoLogin = usuarioCambioCredencial.FechaUltimoLogin.Value
+                };
+
+                loginNegocio.RegistrarOperacionCambioCredencial(autorizacion, operacion);
+                FormUtils.MostrarMensajeInformacion("La operación quedo pendiente de aprobación por parte del administrador.");
+                txtLegajo.Text = string.Empty;
+                txtContraseniaNueva.Text = string.Empty;
+                labelUsuario.Text = string.Empty;
+                labelUsuario.Visible = false;
+                labelContraseniaNueva.Visible = false;
+                txtContraseniaNueva.Visible = false;
+                btnDesbloquearCredencial.Visible = false;
                 txtLegajo.Focus();
             }
         }

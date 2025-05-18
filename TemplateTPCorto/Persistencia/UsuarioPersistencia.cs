@@ -13,7 +13,11 @@ namespace Persistencia
 {
     public class UsuarioPersistencia
     {
-        private DataBaseUtils dataBaseUtils = new DataBaseUtils();
+        private readonly DataBaseUtils dataBaseUtils;
+        public UsuarioPersistencia(DataBaseUtils dataBaseUtils)
+        {
+            this.dataBaseUtils = dataBaseUtils;
+        }
         public Credencial Login(String username)
         {
             Credencial credencialLogin = null;
@@ -26,7 +30,6 @@ namespace Persistencia
             }
             return credencialLogin;
         }
-
         public Credencial ObtenerCredencialPorLegajo(String legajo)
         {
             Credencial credencialLogin = null;
@@ -39,7 +42,6 @@ namespace Persistencia
             }
             return credencialLogin;
         }
-
         public Perfil ObtenerPerfil(string legajo)
         {
             string perfilId = ObtenerPerfilId(legajo);
@@ -63,7 +65,6 @@ namespace Persistencia
             List<Rol> roles = ObtenerRolesPorPerfilId(perfilId);
             return new Perfil(perfilRegistro, roles);
         }
-
         public int ObtenerNumeroIntentosPorLegajo(string legajo)
         {
             List<String> listado = dataBaseUtils.BuscarRegistro("login_intentos.csv");
@@ -94,7 +95,6 @@ namespace Persistencia
         {
             dataBaseUtils.AgregarRegistro("usuario_bloqueado.csv", legajo);
         }
-
         public bool EstaBloqueado(string legajo)
         {
             List<String> listado = dataBaseUtils.BuscarRegistro("usuario_bloqueado.csv");
@@ -115,7 +115,6 @@ namespace Persistencia
             }
             return existe;
         }
-
         public void ActualizarContrasenia(Credencial credencial)
         {
             string legajo = credencial.Legajo;
@@ -128,7 +127,6 @@ namespace Persistencia
             dataBaseUtils.BorrarRegistro(legajo, "credenciales.csv");
             dataBaseUtils.AgregarRegistro("credenciales.csv", lineaCSV);
         }
-
         public void RegistrarOperacionCambioCredencial(OperacionCambioCredencial operacion)
         {
             string idOperacion = operacion.IdOperacion;
@@ -175,11 +173,9 @@ namespace Persistencia
             }
             return datousuario;
         }
-
         public Credencial BuscarCredencialPorNumeroLegajo(string legajo)
         {
             Credencial credencialLogin = null;
-
             foreach (Credencial credencial in ObtenerCredenciales())
             {
                 if (credencial.Legajo.Equals(legajo))
@@ -187,10 +183,8 @@ namespace Persistencia
                     credencialLogin = credencial;
                 }
             }
-
             return credencialLogin;
         }
-
         public void EliminarUsuarioBloqueadoPorLegajo(string legajo)
         {
             List<String> listado = dataBaseUtils.BuscarRegistro("usuario_bloqueado.csv");
@@ -210,7 +204,6 @@ namespace Persistencia
                 }
             }
         }
-
         public List<OperacionCambioCredencial> ObtenerOperacionesCambioCredencialPorIdsOperacion(List<string> idsOperacion)
         {
             List<OperacionCambioCredencial> listado = new List<OperacionCambioCredencial>();
@@ -223,7 +216,6 @@ namespace Persistencia
             }
             return listado;
         }
-
         public List<OperacionCambioPersona> ObtenerOperacionesCambioPersonaPorIdsOperacion(List<string> idsOperacion)
         {
             List<OperacionCambioPersona> listado = new List<OperacionCambioPersona>();
@@ -236,7 +228,6 @@ namespace Persistencia
             }
             return listado;
         }
-
         public void ModificarPersonaPorLegajo(Persona modificada)
         {
             dataBaseUtils.BorrarRegistro(modificada.Legajo, "persona.csv");
@@ -251,12 +242,10 @@ namespace Persistencia
             string lineaCSV = string.Join(";", nuevoRegistro);
             dataBaseUtils.AgregarRegistro("persona.csv", lineaCSV);
         }
-
         public void ReiniciarIntentos(string legajo)
         {
             dataBaseUtils.BorrarRegistro(legajo, "login_intentos.csv");
         }
-
         public Autorizacion ObtenerAutorizacionPorIdOperacion(string idOperacion)
         {
             Autorizacion autorizacion = null;
@@ -272,7 +261,6 @@ namespace Persistencia
         public List<Autorizacion> ObtenerAutorizacionesPorTipoOperacionEstado(string tipoOperacion, string estado)
         {
             List<Autorizacion> lista = new List<Autorizacion>();
-
             foreach (Autorizacion item in ObtenerAutorizaciones())
             {
                 if (item.TipoOperacion == tipoOperacion && item.Estado == estado)
@@ -280,10 +268,8 @@ namespace Persistencia
                     lista.Add(item);
                 }
             }
-
             return lista;
         }
-
         public string CrearAutorizacion(Autorizacion autorizacion)
         {
             List<String> listado = dataBaseUtils.BuscarRegistro("autorizacion.csv");
@@ -309,7 +295,6 @@ namespace Persistencia
             dataBaseUtils.AgregarRegistro("autorizacion.csv", lineaCSV);
             return idOperacion;
         }
-
         public void ActualizarEstadoAutorizacion(Autorizacion autorizacion)
         { 
             string idOperacion = autorizacion.IdOperacion;
@@ -332,7 +317,6 @@ namespace Persistencia
             dataBaseUtils.BorrarRegistro(idOperacion, "autorizacion.csv");
             dataBaseUtils.AgregarRegistro("autorizacion.csv", lineaCSV);
         }
-
         private string ObtenerPerfilId(string legajo)
         {
             List<String> listado = dataBaseUtils.BuscarRegistro("usuario_perfil.csv");
@@ -355,7 +339,6 @@ namespace Persistencia
 
             return perfilId;
         }
-
         private List<Rol> ObtenerRolesPorPerfilId(string perfilId)
         {
             List<String> rolIDs = ObtenerRolIdsPorPerfilId(perfilId);
@@ -397,7 +380,6 @@ namespace Persistencia
             }
             return listadoRolIds;
         }
-
         private List<Credencial> ObtenerCredenciales()
         {
             List<String> listado = dataBaseUtils.BuscarRegistro("credenciales.csv");
@@ -410,20 +392,15 @@ namespace Persistencia
                     contador++;
                     continue;
                 }
-                // Mostrar en consola lo que se está leyendo
-                Console.WriteLine("Registro leído: " + registro);
-
                 Credencial credencial = new Credencial(registro);
                 listadoCredenciales.Add(credencial);
             }
             return listadoCredenciales;
         }
-
         private List<OperacionCambioCredencial> ObtenerOperacionesCambioCredencial()
         {
             List<String> listado = dataBaseUtils.BuscarRegistro("operacion_cambio_credencial.csv");
             List<OperacionCambioCredencial> listadoCredenciales = new List<OperacionCambioCredencial>();
-
             int contador = 0;
             foreach (String registro in listado)
             {
@@ -432,20 +409,15 @@ namespace Persistencia
                     contador++;
                     continue;
                 }
-                // Mostrar en consola lo que se está leyendo
-                Console.WriteLine("Registro leído: " + registro);
-
                 listadoCredenciales.Add(new OperacionCambioCredencial(registro));
             }
 
             return listadoCredenciales;
         }
-
         private List<OperacionCambioPersona> ObtenerOperacionesCambioPersona()
         {
             List<String> listado = dataBaseUtils.BuscarRegistro("operacion_cambio_persona.csv");
             List<OperacionCambioPersona> listadoCredenciales = new List<OperacionCambioPersona>();
-
             int contador = 0;
             foreach (String registro in listado)
             {
@@ -454,20 +426,15 @@ namespace Persistencia
                     contador++;
                     continue;
                 }
-                // Mostrar en consola lo que se está leyendo
-                Console.WriteLine("Registro leído: " + registro);
-
                 listadoCredenciales.Add(new OperacionCambioPersona(registro));
             }
 
             return listadoCredenciales;
         }
-
         private List<Autorizacion> ObtenerAutorizaciones()
         {
             List<String> listado = dataBaseUtils.BuscarRegistro("autorizacion.csv");
             List<Autorizacion> listadoCredenciales = new List<Autorizacion>();
-
             int contador = 0;
             foreach (String registro in listado)
             {
@@ -476,9 +443,6 @@ namespace Persistencia
                     contador++;
                     continue;
                 }
-                // Mostrar en consola lo que se está leyendo
-                Console.WriteLine("Registro leído: " + registro);
-
                 listadoCredenciales.Add(new Autorizacion(registro));
             }
 
