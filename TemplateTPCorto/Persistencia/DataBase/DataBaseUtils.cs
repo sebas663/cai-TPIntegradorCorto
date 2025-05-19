@@ -94,11 +94,26 @@ namespace Persistencia.DataBase
                     Console.WriteLine("El archivo no existe: " + archivoCsvPath);
                     return;
                 }
-
+                bool terminaConSalto = false;
+                if (File.Exists(rutaArchivo))
+                {
+                    using (var fs = new FileStream(rutaArchivo, FileMode.Open, FileAccess.Read))
+                    {
+                        if (fs.Length > 0)
+                        {
+                            fs.Seek(-1, SeekOrigin.End);
+                            int ultimoByte = fs.ReadByte();
+                            terminaConSalto = (ultimoByte == '\n' || ultimoByte == '\r');
+                        }
+                    }
+                }
                 // Abrir el archivo y agregar el nuevo registro
                 using (StreamWriter sw = new StreamWriter(rutaArchivo, append: true))
                 {
-                    sw.WriteLine(nuevoRegistro); // Agregar la nueva línea
+                    if (!terminaConSalto)
+                        sw.WriteLine();  // Solo agrega salto si no hay al final
+
+                    sw.WriteLine(nuevoRegistro);
                 }
 
                 Console.WriteLine("Registro agregado correctamente.");

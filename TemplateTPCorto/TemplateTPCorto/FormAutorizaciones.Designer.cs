@@ -36,6 +36,7 @@ namespace TemplateTPCorto
             this.BtnOperacionesCambioCredencial = new System.Windows.Forms.Button();
             this.BtnOperacionesCambioPersona = new System.Windows.Forms.Button();
             this.BtnRechazarSeleccionados = new System.Windows.Forms.Button();
+            this.labelTipoOperacion = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgwAutorizarOperaciones)).BeginInit();
             this.SuspendLayout();
             // 
@@ -55,15 +56,15 @@ namespace TemplateTPCorto
             this.dgwAutorizarOperaciones.AllowUserToDeleteRows = false;
             this.dgwAutorizarOperaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgwAutorizarOperaciones.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.dgwAutorizarOperaciones.Location = new System.Drawing.Point(23, 63);
+            this.dgwAutorizarOperaciones.Location = new System.Drawing.Point(23, 106);
             this.dgwAutorizarOperaciones.Name = "dgwAutorizarOperaciones";
             this.dgwAutorizarOperaciones.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgwAutorizarOperaciones.Size = new System.Drawing.Size(837, 322);
+            this.dgwAutorizarOperaciones.Size = new System.Drawing.Size(837, 305);
             this.dgwAutorizarOperaciones.TabIndex = 27;
             // 
             // BtnAutorizarSeleccionados
             // 
-            this.BtnAutorizarSeleccionados.Location = new System.Drawing.Point(259, 411);
+            this.BtnAutorizarSeleccionados.Location = new System.Drawing.Point(265, 431);
             this.BtnAutorizarSeleccionados.Name = "BtnAutorizarSeleccionados";
             this.BtnAutorizarSeleccionados.Size = new System.Drawing.Size(150, 25);
             this.BtnAutorizarSeleccionados.TabIndex = 29;
@@ -93,7 +94,7 @@ namespace TemplateTPCorto
             // 
             // BtnRechazarSeleccionados
             // 
-            this.BtnRechazarSeleccionados.Location = new System.Drawing.Point(456, 411);
+            this.BtnRechazarSeleccionados.Location = new System.Drawing.Point(462, 431);
             this.BtnRechazarSeleccionados.Name = "BtnRechazarSeleccionados";
             this.BtnRechazarSeleccionados.Size = new System.Drawing.Size(150, 25);
             this.BtnRechazarSeleccionados.TabIndex = 32;
@@ -101,10 +102,20 @@ namespace TemplateTPCorto
             this.BtnRechazarSeleccionados.UseVisualStyleBackColor = true;
             this.BtnRechazarSeleccionados.Click += new System.EventHandler(this.BtnRechazarSeleccionados_Click);
             // 
+            // labelTipoOperacion
+            // 
+            this.labelTipoOperacion.AutoSize = true;
+            this.labelTipoOperacion.Location = new System.Drawing.Point(23, 74);
+            this.labelTipoOperacion.Name = "labelTipoOperacion";
+            this.labelTipoOperacion.Size = new System.Drawing.Size(35, 13);
+            this.labelTipoOperacion.TabIndex = 33;
+            this.labelTipoOperacion.Text = "label1";
+            // 
             // FormAutorizaciones
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.labelTipoOperacion);
             this.Controls.Add(this.BtnRechazarSeleccionados);
             this.Controls.Add(this.BtnOperacionesCambioPersona);
             this.Controls.Add(this.BtnOperacionesCambioCredencial);
@@ -127,5 +138,6 @@ namespace TemplateTPCorto
         private Button BtnOperacionesCambioCredencial;
         private Button BtnOperacionesCambioPersona;
         private Button BtnRechazarSeleccionados;
+        private Label labelTipoOperacion;
     }
 }
