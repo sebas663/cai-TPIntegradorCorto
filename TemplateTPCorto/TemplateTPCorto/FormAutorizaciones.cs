@@ -26,6 +26,9 @@ namespace TemplateTPCorto
             this.usuarioLogueado = logueado;
             BtnOperacionesCambioCredencial.Visible = false;
             BtnOperacionesCambioPersona.Visible = false;
+            labelTipoOperacion.Visible = false;
+            dgwAutorizarOperaciones.AllowUserToAddRows = false;
+            dgwAutorizarOperaciones.AllowUserToDeleteRows = false;
             Perfil perfil = loginNegocio.ObtenerPerfil(usuarioLogueado.Legajo);
             if (FormUtils.TieneRol(perfil.Roles, (int)EnumRolId.AutorizarModificarPersona))
             {
@@ -41,6 +44,8 @@ namespace TemplateTPCorto
         {
             esCambioCredencial = true;
             dgwAutorizarOperaciones.Columns.Clear();
+            labelTipoOperacion.Text = BtnOperacionesCambioCredencial.Text;
+            labelTipoOperacion.Visible = true;
             List<OperacionCambioCredencial>  lista = loginNegocio.ObtenerOperacionesCambioCredencialPendientesAutorizar();
             if (lista.Count > 0)
             {
@@ -56,6 +61,8 @@ namespace TemplateTPCorto
         {
             esCambioCredencial = false;
             dgwAutorizarOperaciones.Columns.Clear();
+            labelTipoOperacion.Text = BtnOperacionesCambioPersona.Text;
+            labelTipoOperacion.Visible = true;
             List<OperacionCambioPersona> lista = loginNegocio.ObtenerOperacionesCambioPersonaPendientesAutorizar();
             if (lista.Count > 0)
             {
@@ -250,17 +257,22 @@ namespace TemplateTPCorto
                 HeaderText = "Seleccionar",
                 Name = "Seleccionar",
                 FalseValue = false,
-                TrueValue = true
+                TrueValue = true,
+                ReadOnly = false
             };
-            chk.HeaderText = "Seleccionar";
-            chk.Name = "Seleccionar";
             dgv.Columns.Insert(0, chk);
+            foreach (DataGridViewColumn col in dgv.Columns)
+            {
+                if (col.Name != "Seleccionar")
+                    col.ReadOnly = true;
+            }
             // Inicializar todas las celdas con false
             foreach (DataGridViewRow fila in dgv.Rows)
             {
                 fila.Cells["Seleccionar"].Value = false;
             }
         }
+
     }
 
 }
