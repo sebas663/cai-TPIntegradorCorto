@@ -34,6 +34,7 @@
             this.btnModificarPersona = new System.Windows.Forms.Button();
             this.btnDesbloquearCredencial = new System.Windows.Forms.Button();
             this.panelMain = new System.Windows.Forms.Panel();
+            this.btnVentas = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCerrarSession
@@ -93,11 +94,22 @@
             this.panelMain.Size = new System.Drawing.Size(994, 474);
             this.panelMain.TabIndex = 11;
             // 
+            // btnVentas
+            // 
+            this.btnVentas.Location = new System.Drawing.Point(148, 12);
+            this.btnVentas.Name = "btnVentas";
+            this.btnVentas.Size = new System.Drawing.Size(130, 25);
+            this.btnVentas.TabIndex = 12;
+            this.btnVentas.Text = "Ventas";
+            this.btnVentas.UseVisualStyleBackColor = true;
+            this.btnVentas.Click += new System.EventHandler(this.BtnVentas_Click);
+            // 
             // FormMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1018, 549);
+            this.Controls.Add(this.btnVentas);
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.btnModificarPersona);
             this.Controls.Add(this.btnDesbloquearCredencial);
@@ -118,5 +130,6 @@
         private System.Windows.Forms.Button btnModificarPersona;
         private System.Windows.Forms.Button btnDesbloquearCredencial;
         private System.Windows.Forms.Panel panelMain;
+        private System.Windows.Forms.Button btnVentas;
     }
 }
