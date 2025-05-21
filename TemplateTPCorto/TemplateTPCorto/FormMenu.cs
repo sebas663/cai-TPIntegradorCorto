@@ -30,6 +30,7 @@ namespace TemplateTPCorto
             btnModificarPersona.Visible = false;
             btnDesbloquearCredencial.Visible = false;
             btnAutorizaciones.Visible = false;
+            btnVentas.Visible = false;
             bool esPrimerLogin = loginNegocio.EsPrimerLogin(usuario);
             bool esContraseniaExpirada = loginNegocio.EsContraseniaExpirada(usuario);
             if (esPrimerLogin || esContraseniaExpirada)
@@ -44,6 +45,7 @@ namespace TemplateTPCorto
                         && FormUtils.TieneRol(perfil.Roles, (int)EnumRolId.Operador))
                 {
                     btnCambioContrasenia.Visible = true;
+                    btnVentas.Visible = true;
                 }
                 // supervisor
                 if (int.Parse(perfil.Id) == (int)EnumPerfilId.Supervisor)
@@ -90,6 +92,10 @@ namespace TemplateTPCorto
         private void BtnCambioContrasenia_Click(object sender, EventArgs e)
         {
            CargarUserControl(new FormContraseniaCambio(loginNegocio, usuario));
+        }
+        private void BtnVentas_Click(object sender, EventArgs e)
+        {
+            CargarUserControl(new FormVentas());
         }
         private void BtnCerrarSession_Click(object sender, EventArgs e)
         {
