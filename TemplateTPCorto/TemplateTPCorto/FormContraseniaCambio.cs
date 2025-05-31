@@ -1,5 +1,6 @@
 ﻿using Datos;
 using Negocio;
+using Negocio.interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,13 +15,13 @@ namespace TemplateTPCorto
 {
     public partial class FormContraseniaCambio : UserControl
     {
-        private readonly LoginNegocio loginNegocio;
+        private readonly IGestionUsuarioNegocio gestionUsuarioNegocio;
         private readonly Credencial usuarioLogueado;
         private const int MIN_CARACTERES_CONTRASENIA = 8;
-        public FormContraseniaCambio(LoginNegocio loginNegocio, Credencial logueado)
+        public FormContraseniaCambio(IGestionUsuarioNegocio gestionUsuarioNegocio, Credencial logueado)
         {
             InitializeComponent();
-            this.loginNegocio = loginNegocio;
+            this.gestionUsuarioNegocio = gestionUsuarioNegocio;
             this.usuarioLogueado = logueado;
         }
 
@@ -80,9 +81,9 @@ namespace TemplateTPCorto
                 FechaUltimoLogin = DateTime.Now
             };
 
-            loginNegocio.ActualizarContrasenia(usuarioModificado);
+            gestionUsuarioNegocio.ActualizarContrasenia(usuarioModificado);
             FormUtils.MostrarMensajeInformacion("La contraseña se cambio con èxito.");
-            new FormLogin(loginNegocio).Show();
+            FabricaFormularios.Instancia.CrearFormLogin().Show();
             this.ParentForm.Hide();
         }
 

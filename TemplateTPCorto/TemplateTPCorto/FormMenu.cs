@@ -1,5 +1,6 @@
 ﻿using Datos;
 using Negocio;
+using Negocio.interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,12 +15,14 @@ namespace TemplateTPCorto
 {
     public partial class FormMenu : Form
     {
-        private readonly LoginNegocio loginNegocio;
+        private readonly ILoginNegocio loginNegocio;
+        private readonly IGestionUsuarioNegocio gestionUsuarioNegocio;
         private readonly Credencial usuario;
-        public FormMenu(LoginNegocio loginNegocio, Credencial usuarioLogueado)
+        public FormMenu(ILoginNegocio loginNegocio, IGestionUsuarioNegocio gestionUsuarioNegocio, Credencial usuarioLogueado)
         {
             InitializeComponent();
             this.loginNegocio = loginNegocio;
+            this.gestionUsuarioNegocio = gestionUsuarioNegocio;
             this.usuario = usuarioLogueado;
             ConfigurarMenuPorPerfilRol();
         }
@@ -35,11 +38,11 @@ namespace TemplateTPCorto
             bool esContraseniaExpirada = loginNegocio.EsContraseniaExpirada(usuario);
             if (esPrimerLogin || esContraseniaExpirada)
             {
-                CargarUserControl(new FormContraseniaCambio(loginNegocio, usuario));
+                CargarUserControl(FabricaFormularios.Instancia.CrearFormContraseniaCambio(usuario));
             }
             else 
             {
-                Perfil perfil = loginNegocio.ObtenerPerfil(usuario.Legajo);
+                Perfil perfil = gestionUsuarioNegocio.ObtenerPerfil(usuario.Legajo);
                 // operador
                 if (int.Parse(perfil.Id) == (int)EnumPerfilId.Operador
                         && FormUtils.TieneRol(perfil.Roles, (int)EnumRolId.Operador))
@@ -79,28 +82,28 @@ namespace TemplateTPCorto
         }
         private void BtnModificarPersona_Click(object sender, EventArgs e)
         {
-           CargarUserControl(new FormModificacionPersona(loginNegocio, usuario));
+            CargarUserControl(FabricaFormularios.Instancia.CrearFormModificacionPersona(usuario));
         }
         private void BtnAutorizaciones_Click(object sender, EventArgs e)
         {
-           CargarUserControl(new FormAutorizaciones(loginNegocio, usuario));
+            CargarUserControl(FabricaFormularios.Instancia.CrearFormAutorizaciones(usuario));
         }
         private void BtnDesbloquearCredencial_Click(object sender, EventArgs e)
         {
-           CargarUserControl(new FormDesbloquearCredencial(loginNegocio ,usuario));
+            CargarUserControl(FabricaFormularios.Instancia.CrearFormDesbloquearCredencial(usuario));
         }
         private void BtnCambioContrasenia_Click(object sender, EventArgs e)
         {
-           CargarUserControl(new FormContraseniaCambio(loginNegocio, usuario));
+            CargarUserControl(FabricaFormularios.Instancia.CrearFormContraseniaCambio(usuario));
         }
         private void BtnVentas_Click(object sender, EventArgs e)
         {
-            CargarUserControl(new FormVentas());
+            CargarUserControl(FabricaFormularios.Instancia.CrearFormFormVentas(usuario));
         }
         private void BtnCerrarSession_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new FormLogin(loginNegocio).Show();
+            FabricaFormularios.Instancia.CrearFormLogin().Show();
         }
     }
 }

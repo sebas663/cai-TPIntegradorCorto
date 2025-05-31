@@ -1,5 +1,6 @@
 ﻿using Datos;
 using Negocio;
+using Negocio.interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,14 +16,16 @@ namespace TemplateTPCorto
 {
     public partial class FormModificacionPersona : UserControl
     {
-        private readonly LoginNegocio loginNegocio;
+        private readonly IGestionUsuarioNegocio gestionUsuarioNegocio;
+        private readonly IAutorizacionNegocio autorizacionNegocio;
         private Persona persona;
         private readonly Credencial usuarioLogueado;
         private readonly DateTime fechaIngresoMinima;
-        public FormModificacionPersona(LoginNegocio loginNegocio, Credencial logueado)
+        public FormModificacionPersona(IGestionUsuarioNegocio gestionUsuarioNegocio, IAutorizacionNegocio autorizacionNegocio, Credencial logueado)
         {
             InitializeComponent();
-            this.loginNegocio = loginNegocio;
+            this.gestionUsuarioNegocio = gestionUsuarioNegocio;
+            this.autorizacionNegocio = autorizacionNegocio;
             this.usuarioLogueado = logueado;
             fechaIngresoMinima = DateTime.ParseExact("01/01/2010", "d/M/yyyy", CultureInfo.InvariantCulture);
             btnModificar.Visible = false;
@@ -45,7 +48,7 @@ namespace TemplateTPCorto
                 txtLegajo.Focus();
                 return;
             }
-            persona = loginNegocio.BuscarPersonaPorNumeroLegajo(legajo);
+            persona = gestionUsuarioNegocio.BuscarPersonaPorNumeroLegajo(legajo);
             if (persona != null)
             {
                 btnModificar.Visible = true;
@@ -149,7 +152,7 @@ namespace TemplateTPCorto
                     FechaSolicitud = DateTime.Now
                 };
 
-                loginNegocio.RegistrarOperacionCambioPersona(autorizacion, operacion);
+                autorizacionNegocio.RegistrarOperacionCambioPersona(autorizacion, operacion);
                 FormUtils.MostrarMensajeInformacion("La operación quedo pendiente de aprobación por parte del administrador.");
                 btnModificar.Visible = false;
                 labelNombre.Visible = false;

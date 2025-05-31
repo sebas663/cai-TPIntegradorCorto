@@ -1,5 +1,6 @@
 ﻿using Datos;
 using Negocio;
+using Negocio.interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,14 +15,16 @@ namespace TemplateTPCorto
 {
     public partial class FormDesbloquearCredencial : UserControl
     {
-        private readonly LoginNegocio loginNegocio;
+        private readonly IGestionUsuarioNegocio gestionUsuarioNegocio;
+        private readonly IAutorizacionNegocio autorizacionNegocio;
         private readonly Credencial usuarioLogueado;
         private const int MIN_CARACTERES_CONTRASENIA = 8;
         private Credencial usuarioCambioCredencial;
-        public FormDesbloquearCredencial(LoginNegocio loginNegocio, Credencial logueado)
+        public FormDesbloquearCredencial(IGestionUsuarioNegocio gestionUsuarioNegocio, IAutorizacionNegocio autorizacionNegocio, Credencial logueado)
         {
             InitializeComponent();
-            this.loginNegocio = loginNegocio;
+            this.gestionUsuarioNegocio = gestionUsuarioNegocio;
+            this.autorizacionNegocio = autorizacionNegocio;
             this.usuarioLogueado = logueado;
             labelUsuario.Visible = false;
             labelContraseniaNueva.Visible = false;
@@ -38,7 +41,7 @@ namespace TemplateTPCorto
                 txtLegajo.Focus();
                 return;
             }
-            usuarioCambioCredencial = loginNegocio.BuscarCredencialPorNumeroLegajo(legajo);
+            usuarioCambioCredencial = gestionUsuarioNegocio.BuscarCredencialPorNumeroLegajo(legajo);
             if (usuarioCambioCredencial != null)
             {
                 labelUsuario.Text = "Usuario: " + usuarioCambioCredencial.NombreUsuario;
@@ -98,7 +101,7 @@ namespace TemplateTPCorto
                     LegajoSolicitante = usuarioLogueado.Legajo,
                     FechaSolicitud = DateTime.Now
                 };
-                Perfil perfil = loginNegocio.ObtenerPerfil(legajo);
+                Perfil perfil = gestionUsuarioNegocio.ObtenerPerfil(legajo);
                 OperacionCambioCredencial operacion = new OperacionCambioCredencial
                 {
                     Legajo = usuarioCambioCredencial.Legajo,
@@ -109,7 +112,7 @@ namespace TemplateTPCorto
                     FechaUltimoLogin = usuarioCambioCredencial.FechaUltimoLogin.Value
                 };
 
-                loginNegocio.RegistrarOperacionCambioCredencial(autorizacion, operacion);
+                autorizacionNegocio.RegistrarOperacionCambioCredencial(autorizacion, operacion);
                 FormUtils.MostrarMensajeInformacion("La operación quedo pendiente de aprobación por parte del administrador.");
                 txtLegajo.Text = string.Empty;
                 txtContraseniaNueva.Text = string.Empty;

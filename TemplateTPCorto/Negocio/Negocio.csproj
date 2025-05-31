@@ -41,6 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutorizacionNegocio.cs" />
+    <Compile Include="GestionUsuarioNegocio.cs" />
+    <Compile Include="Interfaces\IAutorizacionNegocio.cs" />
+    <Compile Include="Interfaces\IGestionUsuarioNegocio.cs" />
+    <Compile Include="Interfaces\ILoginNegocio.cs" />
     <Compile Include="LoginNegocio.cs" />
     <Compile Include="ProductoNegocio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

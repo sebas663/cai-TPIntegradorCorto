@@ -1,5 +1,6 @@
 ﻿using Datos;
 using Negocio;
+using Negocio.interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,20 +17,22 @@ namespace TemplateTPCorto
 {
     public partial class FormAutorizaciones : UserControl
     {
-        private readonly LoginNegocio loginNegocio;
+        private readonly IGestionUsuarioNegocio gestionUsuarioNegocio;
+        private readonly IAutorizacionNegocio autorizacionNegocio;
         private readonly Credencial usuarioLogueado;
         private bool esCambioCredencial = false;
-        public FormAutorizaciones(LoginNegocio loginNegocio, Credencial logueado)
+        public FormAutorizaciones(IGestionUsuarioNegocio gestionUsuarioNegocio, IAutorizacionNegocio autorizacionNegocio, Credencial logueado)
         {
             InitializeComponent();
-            this.loginNegocio = loginNegocio;
+            this.gestionUsuarioNegocio = gestionUsuarioNegocio;
+            this.autorizacionNegocio = autorizacionNegocio;
             this.usuarioLogueado = logueado;
             BtnOperacionesCambioCredencial.Visible = false;
             BtnOperacionesCambioPersona.Visible = false;
             labelTipoOperacion.Visible = false;
             dgwAutorizarOperaciones.AllowUserToAddRows = false;
             dgwAutorizarOperaciones.AllowUserToDeleteRows = false;
-            Perfil perfil = loginNegocio.ObtenerPerfil(usuarioLogueado.Legajo);
+            Perfil perfil = gestionUsuarioNegocio.ObtenerPerfil(usuarioLogueado.Legajo);
             if (FormUtils.TieneRol(perfil.Roles, (int)EnumRolId.AutorizarModificarPersona))
             {
                 BtnOperacionesCambioPersona.Visible = true;
@@ -46,7 +49,7 @@ namespace TemplateTPCorto
             dgwAutorizarOperaciones.Columns.Clear();
             labelTipoOperacion.Text = BtnOperacionesCambioCredencial.Text;
             labelTipoOperacion.Visible = true;
-            List<OperacionCambioCredencial>  lista = loginNegocio.ObtenerOperacionesCambioCredencialPendientesAutorizar();
+            List<OperacionCambioCredencial>  lista = autorizacionNegocio.ObtenerOperacionesCambioCredencialPendientesAutorizar();
             if (lista.Count > 0)
             {
                 dgwAutorizarOperaciones.DataSource = lista;
@@ -63,7 +66,7 @@ namespace TemplateTPCorto
             dgwAutorizarOperaciones.Columns.Clear();
             labelTipoOperacion.Text = BtnOperacionesCambioPersona.Text;
             labelTipoOperacion.Visible = true;
-            List<OperacionCambioPersona> lista = loginNegocio.ObtenerOperacionesCambioPersonaPendientesAutorizar();
+            List<OperacionCambioPersona> lista = autorizacionNegocio.ObtenerOperacionesCambioPersonaPendientesAutorizar();
             if (lista.Count > 0)
             {
                 dgwAutorizarOperaciones.DataSource = lista;
@@ -91,12 +94,12 @@ namespace TemplateTPCorto
                     if (esCambioCredencial)
                     {
                         List<OperacionCambioCredencial> operaciones = ObtenerOperacionesCambioCredencialesSeleccionadas();
-                        loginNegocio.AutorizarOperacionesCambioCredencial(operaciones, usuarioLogueado.Legajo);
+                        autorizacionNegocio.AutorizarOperacionesCambioCredencial(operaciones, usuarioLogueado.Legajo);
                     }
                     else
                     {
                         List<OperacionCambioPersona> operaciones = ObtenerOperacionesCambioDatosPersonasSeleccionadas();
-                        loginNegocio.AutorizarOperacionesCambioPersona(operaciones, usuarioLogueado.Legajo);
+                        autorizacionNegocio.AutorizarOperacionesCambioPersona(operaciones, usuarioLogueado.Legajo);
                     }
                     FormUtils.MostrarMensajeInformacion("Las autorizaciones se ejecutaron con éxito.");
                     dgwAutorizarOperaciones.Columns.Clear();
@@ -124,12 +127,12 @@ namespace TemplateTPCorto
                     if (esCambioCredencial)
                     {
                         List<OperacionCambioCredencial> operaciones = ObtenerOperacionesCambioCredencialesSeleccionadas();
-                        loginNegocio.RechazarOperacionesCambioCredencial(operaciones, usuarioLogueado.Legajo);
+                        autorizacionNegocio.RechazarOperacionesCambioCredencial(operaciones, usuarioLogueado.Legajo);
                     }
                     else
                     {
                         List<OperacionCambioPersona> operaciones = ObtenerOperacionesCambioDatosPersonasSeleccionadas();
-                        loginNegocio.RechazarOperacionesCambioPersona(operaciones, usuarioLogueado.Legajo);
+                        autorizacionNegocio.RechazarOperacionesCambioPersona(operaciones, usuarioLogueado.Legajo);
                     }
                     FormUtils.MostrarMensajeInformacion("Los rechazos se ejecutaron con éxito.");
                     dgwAutorizarOperaciones.Columns.Clear();

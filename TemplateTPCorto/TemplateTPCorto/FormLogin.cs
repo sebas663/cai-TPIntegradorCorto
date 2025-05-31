@@ -1,5 +1,6 @@
 using Datos;
 using Negocio;
+using Negocio.interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,8 +16,8 @@ namespace TemplateTPCorto
 {
     public partial class FormLogin : Form
     {
-        private readonly LoginNegocio loginNegocio;
-        public FormLogin(LoginNegocio loginNegocio)
+        private readonly ILoginNegocio loginNegocio;
+        public FormLogin(ILoginNegocio loginNegocio)
         {
             InitializeComponent();
             this.loginNegocio = loginNegocio;
@@ -55,7 +56,7 @@ namespace TemplateTPCorto
                     FormUtils.MostrarMensajeAdvertencia(usuarioBloqueadoMsg);
                     return;
                 }
-                FormMenu menu = new FormMenu(loginNegocio, credencial);
+                FormMenu menu = FabricaFormularios.Instancia.CrearFormMenu(credencial);
                 menu.Show();
                 this.Hide();
             }
