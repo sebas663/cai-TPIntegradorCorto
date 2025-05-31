@@ -70,7 +70,7 @@ namespace TemplateTPCorto
             this.BtnAutorizarSeleccionados.TabIndex = 29;
             this.BtnAutorizarSeleccionados.Text = "Autorizar seleccionados";
             this.BtnAutorizarSeleccionados.UseVisualStyleBackColor = true;
-            this.BtnAutorizarSeleccionados.Click += new System.EventHandler(this.BtnAutorizarSeleccionados_Click);
+            //this.BtnAutorizarSeleccionados.Click += new System.EventHandler(this.BtnAutorizarSeleccionados_Click);
             // 
             // BtnOperacionesCambioCredencial
             // 
@@ -100,7 +100,6 @@ namespace TemplateTPCorto
             this.BtnRechazarSeleccionados.TabIndex = 32;
             this.BtnRechazarSeleccionados.Text = "Rechazar seleccionados";
             this.BtnRechazarSeleccionados.UseVisualStyleBackColor = true;
-            this.BtnRechazarSeleccionados.Click += new System.EventHandler(this.BtnRechazarSeleccionados_Click);
             // 
             // labelTipoOperacion
             // 

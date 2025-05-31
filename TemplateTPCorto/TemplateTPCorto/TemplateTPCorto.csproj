@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutorizacionesUtils.cs" />
     <Compile Include="FabricaFormularios.cs" />
     <Compile Include="FormAutorizaciones.cs">
       <SubType>UserControl</SubType>
@@ -90,6 +91,7 @@
       <DependentUpon>FormVentas.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUtils.cs" />
+    <Compile Include="MenuConfigurador.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormAutorizaciones.resx">
