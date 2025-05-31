@@ -38,6 +38,8 @@ namespace TemplateTPCorto
         private void ConfigurarMenuPorPerfilRol()
         {
             btnCerrarSession.Visible = true;
+            
+            OcultarBotonesMenu();
 
             bool esPrimerLogin = loginNegocio.EsPrimerLogin(usuario);
             bool esContraseniaExpirada = loginNegocio.EsContraseniaExpirada(usuario);
@@ -137,6 +139,17 @@ namespace TemplateTPCorto
             {
                 MessageBox.Show($"Error al cerrar sesión: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        /// <summary>
+        /// Oculta los botones del menu.
+        /// </summary>
+        private void OcultarBotonesMenu()
+        {
+            btnCambioContrasenia.Visible = false;
+            btnModificarPersona.Visible = false;
+            btnDesbloquearCredencial.Visible = false;
+            btnAutorizaciones.Visible = false;
+            btnVentas.Visible = false;
         }
     }
 }

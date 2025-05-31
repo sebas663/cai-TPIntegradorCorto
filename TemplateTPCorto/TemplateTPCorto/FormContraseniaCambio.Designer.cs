@@ -1,4 +1,6 @@
-﻿namespace TemplateTPCorto
+﻿using System.Drawing;
+
+namespace TemplateTPCorto
 {
     partial class FormContraseniaCambio
     {
@@ -40,7 +42,7 @@
             // 
             // btnCambioContrasenia
             // 
-            this.btnCambioContrasenia.Location = new System.Drawing.Point(279, 203);
+            this.btnCambioContrasenia.Location = new System.Drawing.Point(244, 170);
             this.btnCambioContrasenia.Margin = new System.Windows.Forms.Padding(2);
             this.btnCambioContrasenia.Name = "btnCambioContrasenia";
             this.btnCambioContrasenia.Size = new System.Drawing.Size(100, 25);
@@ -52,7 +54,7 @@
             // labelContraseniaNueva
             // 
             this.labelContraseniaNueva.AutoSize = true;
-            this.labelContraseniaNueva.Location = new System.Drawing.Point(57, 122);
+            this.labelContraseniaNueva.Location = new System.Drawing.Point(20, 90);
             this.labelContraseniaNueva.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelContraseniaNueva.Name = "labelContraseniaNueva";
             this.labelContraseniaNueva.Size = new System.Drawing.Size(94, 13);
@@ -62,7 +64,7 @@
             // labelContraseniaActual
             // 
             this.labelContraseniaActual.AutoSize = true;
-            this.labelContraseniaActual.Location = new System.Drawing.Point(57, 80);
+            this.labelContraseniaActual.Location = new System.Drawing.Point(20, 50);
             this.labelContraseniaActual.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelContraseniaActual.Name = "labelContraseniaActual";
             this.labelContraseniaActual.Size = new System.Drawing.Size(93, 13);
@@ -71,7 +73,7 @@
             // 
             // txtContraseniaNueva
             // 
-            this.txtContraseniaNueva.Location = new System.Drawing.Point(235, 122);
+            this.txtContraseniaNueva.Location = new System.Drawing.Point(200, 90);
             this.txtContraseniaNueva.Margin = new System.Windows.Forms.Padding(2);
             this.txtContraseniaNueva.Name = "txtContraseniaNueva";
             this.txtContraseniaNueva.Size = new System.Drawing.Size(144, 20);
@@ -79,7 +81,7 @@
             // 
             // txtContraseniaActual
             // 
-            this.txtContraseniaActual.Location = new System.Drawing.Point(235, 77);
+            this.txtContraseniaActual.Location = new System.Drawing.Point(200, 50);
             this.txtContraseniaActual.Margin = new System.Windows.Forms.Padding(2);
             this.txtContraseniaActual.Name = "txtContraseniaActual";
             this.txtContraseniaActual.Size = new System.Drawing.Size(144, 20);
@@ -88,7 +90,7 @@
             // labelConfirmarContraseniaActual
             // 
             this.labelConfirmarContraseniaActual.AutoSize = true;
-            this.labelConfirmarContraseniaActual.Location = new System.Drawing.Point(57, 168);
+            this.labelConfirmarContraseniaActual.Location = new System.Drawing.Point(20, 130);
             this.labelConfirmarContraseniaActual.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelConfirmarContraseniaActual.Name = "labelConfirmarContraseniaActual";
             this.labelConfirmarContraseniaActual.Size = new System.Drawing.Size(140, 13);
@@ -97,7 +99,7 @@
             // 
             // txtConfirmarContraseniaNueva
             // 
-            this.txtConfirmarContraseniaNueva.Location = new System.Drawing.Point(235, 165);
+            this.txtConfirmarContraseniaNueva.Location = new System.Drawing.Point(200, 130);
             this.txtConfirmarContraseniaNueva.Margin = new System.Windows.Forms.Padding(2);
             this.txtConfirmarContraseniaNueva.Name = "txtConfirmarContraseniaNueva";
             this.txtConfirmarContraseniaNueva.Size = new System.Drawing.Size(144, 20);
@@ -107,7 +109,7 @@
             // 
             this.txtTitulo.AutoSize = true;
             this.txtTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTitulo.Location = new System.Drawing.Point(297, 0);
+            this.txtTitulo.Location = new System.Drawing.Point(350, 10);
             this.txtTitulo.Name = "txtTitulo";
             this.txtTitulo.Size = new System.Drawing.Size(220, 24);
             this.txtTitulo.TabIndex = 12;
@@ -125,8 +127,9 @@
             this.Controls.Add(this.labelContraseniaActual);
             this.Controls.Add(this.txtContraseniaNueva);
             this.Controls.Add(this.txtContraseniaActual);
+            this.Location = new System.Drawing.Point(200, 75);
             this.Name = "FormContraseniaCambio";
-            this.Size = new System.Drawing.Size(800, 450);
+            this.Size = new System.Drawing.Size(900, 500);
             this.ResumeLayout(false);
             this.PerformLayout();
 

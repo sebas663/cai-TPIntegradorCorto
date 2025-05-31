@@ -1,4 +1,7 @@
-﻿namespace TemplateTPCorto
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace TemplateTPCorto
 {
     partial class FormMenu
     {
@@ -39,7 +42,7 @@
             // 
             // btnCerrarSession
             // 
-            this.btnCerrarSession.Location = new System.Drawing.Point(906, 12);
+            this.btnCerrarSession.Location = new System.Drawing.Point(872, 12);
             this.btnCerrarSession.Name = "btnCerrarSession";
             this.btnCerrarSession.Size = new System.Drawing.Size(100, 25);
             this.btnCerrarSession.TabIndex = 8;
@@ -91,7 +94,7 @@
             // 
             this.panelMain.Location = new System.Drawing.Point(12, 63);
             this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(994, 474);
+            this.panelMain.Size = new System.Drawing.Size(960, 474);
             this.panelMain.TabIndex = 11;
             // 
             // btnVentas
@@ -108,7 +111,6 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1018, 549);
             this.Controls.Add(this.btnVentas);
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.btnModificarPersona);
@@ -116,6 +118,9 @@
             this.Controls.Add(this.btnCerrarSession);
             this.Controls.Add(this.btnAutorizaciones);
             this.Controls.Add(this.btnCambioContrasenia);
+            this.Size = new Size(1000, 600);
+            this.StartPosition = FormStartPosition.Manual;
+            this.Location = new Point(200, 75);
             this.Name = "FormMenu";
             this.Text = "FormMenu";
             this.ResumeLayout(false);

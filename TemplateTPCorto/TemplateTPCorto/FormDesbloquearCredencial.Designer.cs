@@ -1,4 +1,6 @@
-﻿namespace TemplateTPCorto
+﻿using System.Drawing;
+
+namespace TemplateTPCorto
 {
     partial class FormDesbloquearCredencial
     {
@@ -42,7 +44,7 @@
             // 
             this.txtTitulo.AutoSize = true;
             this.txtTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTitulo.Location = new System.Drawing.Point(305, 0);
+            this.txtTitulo.Location = new System.Drawing.Point(350, 10);
             this.txtTitulo.Name = "txtTitulo";
             this.txtTitulo.Size = new System.Drawing.Size(233, 24);
             this.txtTitulo.TabIndex = 20;
@@ -50,7 +52,7 @@
             // 
             // btnDesbloquearCredencial
             // 
-            this.btnDesbloquearCredencial.Location = new System.Drawing.Point(224, 200);
+            this.btnDesbloquearCredencial.Location = new System.Drawing.Point(186, 170);
             this.btnDesbloquearCredencial.Margin = new System.Windows.Forms.Padding(2);
             this.btnDesbloquearCredencial.Name = "btnDesbloquearCredencial";
             this.btnDesbloquearCredencial.Size = new System.Drawing.Size(100, 25);
@@ -62,7 +64,7 @@
             // labelContraseniaNueva
             // 
             this.labelContraseniaNueva.AutoSize = true;
-            this.labelContraseniaNueva.Location = new System.Drawing.Point(65, 145);
+            this.labelContraseniaNueva.Location = new System.Drawing.Point(20, 130);
             this.labelContraseniaNueva.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelContraseniaNueva.Name = "labelContraseniaNueva";
             this.labelContraseniaNueva.Size = new System.Drawing.Size(94, 13);
@@ -72,7 +74,7 @@
             // labelLegajo
             // 
             this.labelLegajo.AutoSize = true;
-            this.labelLegajo.Location = new System.Drawing.Point(65, 80);
+            this.labelLegajo.Location = new System.Drawing.Point(20, 50);
             this.labelLegajo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelLegajo.Name = "labelLegajo";
             this.labelLegajo.Size = new System.Drawing.Size(39, 13);
@@ -81,24 +83,24 @@
             // 
             // txtContraseniaNueva
             // 
-            this.txtContraseniaNueva.Location = new System.Drawing.Point(180, 142);
+            this.txtContraseniaNueva.Location = new System.Drawing.Point(140, 130);
             this.txtContraseniaNueva.Margin = new System.Windows.Forms.Padding(2);
             this.txtContraseniaNueva.Name = "txtContraseniaNueva";
-            this.txtContraseniaNueva.Size = new System.Drawing.Size(144, 20);
+            this.txtContraseniaNueva.Size = new System.Drawing.Size(150, 20);
             this.txtContraseniaNueva.TabIndex = 14;
             // 
             // txtLegajo
             // 
-            this.txtLegajo.Location = new System.Drawing.Point(180, 74);
+            this.txtLegajo.Location = new System.Drawing.Point(140, 50);
             this.txtLegajo.Margin = new System.Windows.Forms.Padding(2);
             this.txtLegajo.Name = "txtLegajo";
-            this.txtLegajo.Size = new System.Drawing.Size(144, 20);
+            this.txtLegajo.Size = new System.Drawing.Size(150, 20);
             this.txtLegajo.TabIndex = 13;
             // 
             // labelUsuario
             // 
             this.labelUsuario.AutoSize = true;
-            this.labelUsuario.Location = new System.Drawing.Point(65, 112);
+            this.labelUsuario.Location = new System.Drawing.Point(20, 90);
             this.labelUsuario.Name = "labelUsuario";
             this.labelUsuario.Size = new System.Drawing.Size(35, 13);
             this.labelUsuario.TabIndex = 21;
@@ -106,7 +108,7 @@
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(366, 71);
+            this.btnBuscar.Location = new System.Drawing.Point(320, 50);
             this.btnBuscar.Margin = new System.Windows.Forms.Padding(2);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(100, 25);
@@ -127,8 +129,9 @@
             this.Controls.Add(this.labelLegajo);
             this.Controls.Add(this.txtContraseniaNueva);
             this.Controls.Add(this.txtLegajo);
+            this.Location = new System.Drawing.Point(400, 10);
             this.Name = "FormDesbloquearCredencial";
-            this.Size = new System.Drawing.Size(838, 461);
+            this.Size = new System.Drawing.Size(900, 500);
             this.ResumeLayout(false);
             this.PerformLayout();
 
