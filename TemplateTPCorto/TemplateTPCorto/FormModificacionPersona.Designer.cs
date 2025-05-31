@@ -1,4 +1,7 @@
-﻿namespace TemplateTPCorto
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace TemplateTPCorto
 {
     partial class FormModificacionPersona
     {
@@ -47,7 +50,7 @@
             // 
             this.txtTitulo.AutoSize = true;
             this.txtTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTitulo.Location = new System.Drawing.Point(295, 0);
+            this.txtTitulo.Location = new System.Drawing.Point(350, 10);
             this.txtTitulo.Name = "txtTitulo";
             this.txtTitulo.Size = new System.Drawing.Size(177, 24);
             this.txtTitulo.TabIndex = 26;
@@ -55,7 +58,7 @@
             // 
             // btnModificar
             // 
-            this.btnModificar.Location = new System.Drawing.Point(243, 408);
+            this.btnModificar.Location = new System.Drawing.Point(228, 251);
             this.btnModificar.Margin = new System.Windows.Forms.Padding(2);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(100, 25);
@@ -67,7 +70,7 @@
             // labelLegajo
             // 
             this.labelLegajo.AutoSize = true;
-            this.labelLegajo.Location = new System.Drawing.Point(65, 50);
+            this.labelLegajo.Location = new System.Drawing.Point(20, 50);
             this.labelLegajo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelLegajo.Name = "labelLegajo";
             this.labelLegajo.Size = new System.Drawing.Size(39, 13);
@@ -76,15 +79,15 @@
             // 
             // txtLegajo
             // 
-            this.txtLegajo.Location = new System.Drawing.Point(144, 47);
+            this.txtLegajo.Location = new System.Drawing.Point(130, 50);
             this.txtLegajo.Margin = new System.Windows.Forms.Padding(2);
             this.txtLegajo.Name = "txtLegajo";
-            this.txtLegajo.Size = new System.Drawing.Size(144, 20);
+            this.txtLegajo.Size = new System.Drawing.Size(198, 20);
             this.txtLegajo.TabIndex = 21;
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(332, 44);
+            this.btnBuscar.Location = new System.Drawing.Point(372, 50);
             this.btnBuscar.Margin = new System.Windows.Forms.Padding(2);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(100, 25);
@@ -96,7 +99,7 @@
             // labelNombre
             // 
             this.labelNombre.AutoSize = true;
-            this.labelNombre.Location = new System.Drawing.Point(65, 109);
+            this.labelNombre.Location = new System.Drawing.Point(20, 90);
             this.labelNombre.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelNombre.Name = "labelNombre";
             this.labelNombre.Size = new System.Drawing.Size(44, 13);
@@ -105,7 +108,7 @@
             // 
             // txtNombre
             // 
-            this.txtNombre.Location = new System.Drawing.Point(180, 106);
+            this.txtNombre.Location = new System.Drawing.Point(130, 90);
             this.txtNombre.Margin = new System.Windows.Forms.Padding(2);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(198, 20);
@@ -114,7 +117,7 @@
             // labelApellido
             // 
             this.labelApellido.AutoSize = true;
-            this.labelApellido.Location = new System.Drawing.Point(65, 153);
+            this.labelApellido.Location = new System.Drawing.Point(20, 130);
             this.labelApellido.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelApellido.Name = "labelApellido";
             this.labelApellido.Size = new System.Drawing.Size(44, 13);
@@ -123,7 +126,7 @@
             // 
             // txtApellido
             // 
-            this.txtApellido.Location = new System.Drawing.Point(180, 153);
+            this.txtApellido.Location = new System.Drawing.Point(130, 130);
             this.txtApellido.Margin = new System.Windows.Forms.Padding(2);
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(198, 20);
@@ -132,7 +135,7 @@
             // labelFechaIngreso
             // 
             this.labelFechaIngreso.AutoSize = true;
-            this.labelFechaIngreso.Location = new System.Drawing.Point(65, 246);
+            this.labelFechaIngreso.Location = new System.Drawing.Point(20, 210);
             this.labelFechaIngreso.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelFechaIngreso.Name = "labelFechaIngreso";
             this.labelFechaIngreso.Size = new System.Drawing.Size(89, 13);
@@ -141,7 +144,7 @@
             // 
             // dateFechaIngreso
             // 
-            this.dateFechaIngreso.Location = new System.Drawing.Point(180, 246);
+            this.dateFechaIngreso.Location = new System.Drawing.Point(130, 210);
             this.dateFechaIngreso.Name = "dateFechaIngreso";
             this.dateFechaIngreso.Size = new System.Drawing.Size(198, 20);
             this.dateFechaIngreso.TabIndex = 34;
@@ -149,7 +152,7 @@
             // labelDni
             // 
             this.labelDni.AutoSize = true;
-            this.labelDni.Location = new System.Drawing.Point(65, 197);
+            this.labelDni.Location = new System.Drawing.Point(20, 170);
             this.labelDni.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelDni.Name = "labelDni";
             this.labelDni.Size = new System.Drawing.Size(26, 13);
@@ -158,7 +161,7 @@
             // 
             // txtDni
             // 
-            this.txtDni.Location = new System.Drawing.Point(180, 197);
+            this.txtDni.Location = new System.Drawing.Point(130, 170);
             this.txtDni.Margin = new System.Windows.Forms.Padding(2);
             this.txtDni.Name = "txtDni";
             this.txtDni.Size = new System.Drawing.Size(198, 20);
@@ -181,8 +184,9 @@
             this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.labelLegajo);
             this.Controls.Add(this.txtLegajo);
+            this.Location = new System.Drawing.Point(200, 75);
             this.Name = "FormModificacionPersona";
-            this.Size = new System.Drawing.Size(865, 471);
+            this.Size = new System.Drawing.Size(900, 500);
             this.ResumeLayout(false);
             this.PerformLayout();
 

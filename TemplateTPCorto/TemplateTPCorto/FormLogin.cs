@@ -1,68 +1,105 @@
 using Datos;
-using Negocio;
+using Negocio.interfaces;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace TemplateTPCorto
 {
+    /// <summary>
+    /// Representa la pantalla de inicio de sesión para la aplicación.
+    /// Permite validar credenciales y redirigir al menú principal en caso de éxito.
+    /// </summary>
     public partial class FormLogin : Form
     {
-        private readonly LoginNegocio loginNegocio;
-        public FormLogin(LoginNegocio loginNegocio)
+        private readonly ILoginNegocio loginNegocio;
+
+        /// <summary>
+        /// Inicializa una nueva instancia de <see cref="FormLogin"/>.
+        /// </summary>
+        /// <param name="loginNegocio">Interfaz de negocio de autenticación.</param>
+        /// <exception cref="ArgumentNullException">Si la dependencia es nula.</exception>
+        public FormLogin(ILoginNegocio loginNegocio)
         {
             InitializeComponent();
-            this.loginNegocio = loginNegocio;
+            this.loginNegocio = loginNegocio ?? throw new ArgumentNullException(nameof(loginNegocio));
         }
 
+        /// <summary>
+        /// Evento que se ejecuta cuando el usuario presiona el botón de ingreso.
+        /// Realiza validaciones y gestiona el acceso a la aplicación.
+        /// </summary>
         private void BtnIngresar_Click(object sender, EventArgs e)
         {
-            String usuario = txtUsuario.Text;
-            String password = txtPassword.Text;
-            if (string.IsNullOrEmpty(usuario))
+            string usuario = txtUsuario.Text.Trim();
+            string password = txtPassword.Text.Trim();
+
+            if (!ValidarCampos(usuario, password))
+                return;
+
+            if (loginNegocio.EstaBloqueado(usuario))
             {
-                FormUtils.MostrarMensajeAdvertencia("El Nombre de usuario no puede estar vacio.");
-                txtUsuario.Focus();
+                FormUtils.MostrarMensajeAdvertencia($"El usuario {usuario} está bloqueado.");
                 return;
             }
 
-            if (string.IsNullOrEmpty(password))
-            {
-                FormUtils.MostrarMensajeAdvertencia("La Contraseña no puede estar vacia.");
-                txtPassword.Focus();
-                return;
-            }
-            bool establoqueado = loginNegocio.EstaBloqueado(usuario);
-            string usuarioBloqueadoMsg = "El usuario " + usuario + " esta bloqueado.";
-            if (!establoqueado)
+            try
             {
                 Credencial credencial = loginNegocio.Login(usuario, password);
-                establoqueado = loginNegocio.EstaBloqueado(usuario);
-                if (credencial == null && !establoqueado)
+
+                if (credencial == null)
                 {
                     FormUtils.MostrarMensajeAdvertencia("Alguno de los datos ingresados no es correcto.");
                     return;
                 }
-                if (establoqueado)
+
+                if (loginNegocio.EstaBloqueado(usuario))
                 {
-                    FormUtils.MostrarMensajeAdvertencia(usuarioBloqueadoMsg);
+                    FormUtils.MostrarMensajeAdvertencia($"El usuario {usuario} ha sido bloqueado tras intentos fallidos.");
                     return;
                 }
-                FormMenu menu = new FormMenu(loginNegocio, credencial);
-                menu.Show();
-                this.Hide();
+
+                AbrirMenu(credencial);
             }
-            else
+            catch (Exception ex)
             {
-                FormUtils.MostrarMensajeAdvertencia(usuarioBloqueadoMsg);
+                FormUtils.MostrarMensajeAdvertencia($"Error al procesar el login: {ex.Message}");
             }
+        }
+
+        /// <summary>
+        /// Valida que los campos de usuario y contraseña no estén vacíos antes de procesar el inicio de sesión.
+        /// </summary>
+        /// <param name="usuario">Nombre de usuario ingresado.</param>
+        /// <param name="password">Contraseña ingresada.</param>
+        /// <returns><c>true</c> si ambos campos son válidos, <c>false</c> de lo contrario.</returns>
+        private bool ValidarCampos(string usuario, string password)
+        {
+            if (string.IsNullOrWhiteSpace(usuario))
+            {
+                FormUtils.MostrarMensajeAdvertencia("El nombre de usuario no puede estar vacío.");
+                txtUsuario.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                FormUtils.MostrarMensajeAdvertencia("La contraseña no puede estar vacía.");
+                txtPassword.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Oculta el formulario actual y muestra el menú principal tras una autenticación exitosa.
+        /// </summary>
+        /// <param name="credencial">Credencial del usuario autenticado.</param>
+        private void AbrirMenu(Credencial credencial)
+        {
+            FormMenu menu = FabricaFormularios.Instancia.CrearFormMenu(credencial);
+            menu.Show();
+            this.Hide();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 
 namespace TemplateTPCorto
 {
@@ -44,7 +45,7 @@ namespace TemplateTPCorto
             // 
             this.txtTitulo.AutoSize = true;
             this.txtTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTitulo.Location = new System.Drawing.Point(355, 0);
+            this.txtTitulo.Location = new System.Drawing.Point(350, 10);
             this.txtTitulo.Name = "txtTitulo";
             this.txtTitulo.Size = new System.Drawing.Size(148, 24);
             this.txtTitulo.TabIndex = 26;
@@ -56,7 +57,7 @@ namespace TemplateTPCorto
             this.dgwAutorizarOperaciones.AllowUserToDeleteRows = false;
             this.dgwAutorizarOperaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgwAutorizarOperaciones.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.dgwAutorizarOperaciones.Location = new System.Drawing.Point(23, 106);
+            this.dgwAutorizarOperaciones.Location = new System.Drawing.Point(20, 110);
             this.dgwAutorizarOperaciones.Name = "dgwAutorizarOperaciones";
             this.dgwAutorizarOperaciones.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgwAutorizarOperaciones.Size = new System.Drawing.Size(837, 305);
@@ -64,7 +65,7 @@ namespace TemplateTPCorto
             // 
             // BtnAutorizarSeleccionados
             // 
-            this.BtnAutorizarSeleccionados.Location = new System.Drawing.Point(265, 431);
+            this.BtnAutorizarSeleccionados.Location = new System.Drawing.Point(265, 441);
             this.BtnAutorizarSeleccionados.Name = "BtnAutorizarSeleccionados";
             this.BtnAutorizarSeleccionados.Size = new System.Drawing.Size(150, 25);
             this.BtnAutorizarSeleccionados.TabIndex = 29;
@@ -74,7 +75,7 @@ namespace TemplateTPCorto
             // 
             // BtnOperacionesCambioCredencial
             // 
-            this.BtnOperacionesCambioCredencial.Location = new System.Drawing.Point(23, 32);
+            this.BtnOperacionesCambioCredencial.Location = new System.Drawing.Point(20, 50);
             this.BtnOperacionesCambioCredencial.Name = "BtnOperacionesCambioCredencial";
             this.BtnOperacionesCambioCredencial.Size = new System.Drawing.Size(170, 25);
             this.BtnOperacionesCambioCredencial.TabIndex = 30;
@@ -84,7 +85,7 @@ namespace TemplateTPCorto
             // 
             // BtnOperacionesCambioPersona
             // 
-            this.BtnOperacionesCambioPersona.Location = new System.Drawing.Point(199, 32);
+            this.BtnOperacionesCambioPersona.Location = new System.Drawing.Point(200, 50);
             this.BtnOperacionesCambioPersona.Name = "BtnOperacionesCambioPersona";
             this.BtnOperacionesCambioPersona.Size = new System.Drawing.Size(170, 25);
             this.BtnOperacionesCambioPersona.TabIndex = 31;
@@ -94,7 +95,7 @@ namespace TemplateTPCorto
             // 
             // BtnRechazarSeleccionados
             // 
-            this.BtnRechazarSeleccionados.Location = new System.Drawing.Point(462, 431);
+            this.BtnRechazarSeleccionados.Location = new System.Drawing.Point(462, 441);
             this.BtnRechazarSeleccionados.Name = "BtnRechazarSeleccionados";
             this.BtnRechazarSeleccionados.Size = new System.Drawing.Size(150, 25);
             this.BtnRechazarSeleccionados.TabIndex = 32;
@@ -105,7 +106,7 @@ namespace TemplateTPCorto
             // labelTipoOperacion
             // 
             this.labelTipoOperacion.AutoSize = true;
-            this.labelTipoOperacion.Location = new System.Drawing.Point(23, 74);
+            this.labelTipoOperacion.Location = new System.Drawing.Point(20, 85);
             this.labelTipoOperacion.Name = "labelTipoOperacion";
             this.labelTipoOperacion.Size = new System.Drawing.Size(35, 13);
             this.labelTipoOperacion.TabIndex = 33;
@@ -122,8 +123,9 @@ namespace TemplateTPCorto
             this.Controls.Add(this.BtnAutorizarSeleccionados);
             this.Controls.Add(this.dgwAutorizarOperaciones);
             this.Controls.Add(this.txtTitulo);
+            this.Location = new System.Drawing.Point(200, 75);
             this.Name = "FormAutorizaciones";
-            this.Size = new System.Drawing.Size(886, 504);
+            this.Size = new System.Drawing.Size(900, 500);
             ((System.ComponentModel.ISupportInitialize)(this.dgwAutorizarOperaciones)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -46,6 +46,11 @@
   <ItemGroup>
     <Compile Include="ClientePersistencia.cs" />
     <Compile Include="DataBase\DataBaseUtils.cs" />
+    <Compile Include="AutorizacionPersistencia.cs" />
+    <Compile Include="GestionUsuarioPersistencia.cs" />
+    <Compile Include="Interfaces\IAutorizacionPersistencia.cs" />
+    <Compile Include="Interfaces\IGestionUsuarioPersistencia.cs" />
+    <Compile Include="Interfaces\IUsuarioPersistencia.cs" />
     <Compile Include="ProductoPersistencia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsuarioPersistencia.cs" />

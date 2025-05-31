@@ -1,4 +1,7 @@
-﻿namespace TemplateTPCorto
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace TemplateTPCorto
 {
     partial class FormLogin
     {
@@ -38,7 +41,7 @@
             // txtUsuario
             // 
             this.txtUsuario.Location = new System.Drawing.Point(173, 60);
-            this.txtUsuario.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtUsuario.Margin = new System.Windows.Forms.Padding(2);
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(76, 20);
             this.txtUsuario.TabIndex = 0;
@@ -46,7 +49,7 @@
             // txtPassword
             // 
             this.txtPassword.Location = new System.Drawing.Point(173, 140);
-            this.txtPassword.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtPassword.Margin = new System.Windows.Forms.Padding(2);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(76, 20);
             this.txtPassword.TabIndex = 1;
@@ -74,9 +77,9 @@
             // btnIngresar
             // 
             this.btnIngresar.Location = new System.Drawing.Point(122, 232);
-            this.btnIngresar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnIngresar.Margin = new System.Windows.Forms.Padding(2);
             this.btnIngresar.Name = "btnIngresar";
-            this.btnIngresar.Size = new System.Drawing.Size(56, 19);
+            this.btnIngresar.Size = new System.Drawing.Size(60, 25);
             this.btnIngresar.TabIndex = 4;
             this.btnIngresar.Text = "Ingresar";
             this.btnIngresar.UseVisualStyleBackColor = true;
@@ -86,14 +89,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(600, 366);
+            this.ClientSize = new System.Drawing.Size(984, 561);
             this.Controls.Add(this.btnIngresar);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtUsuario);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Location = new System.Drawing.Point(200, 75);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FormLogin";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Form1";
             this.ResumeLayout(false);
             this.PerformLayout();
