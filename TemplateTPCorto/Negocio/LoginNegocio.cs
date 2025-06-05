@@ -29,7 +29,7 @@ namespace Negocio
 
             if (credencial != null && credencial.Contrasena.Equals(password))
             {
-                usuarioPersistencia.ReiniciarIntentos(credencial.Legajo);
+                ReiniciarIntentos(credencial.Legajo);
                 return credencial;
             }
             if (credencial != null)
@@ -55,7 +55,7 @@ namespace Negocio
         }
         public bool EsPrimerLogin(Credencial credencial)
         {
-            return credencial.FechaUltimoLogin == default(DateTime);
+            return credencial.FechaUltimoLogin == null;
         }
         private void RegistrarIntento(Credencial credencial)
         {
@@ -69,6 +69,11 @@ namespace Negocio
             {
                 usuarioPersistencia.BloquearUsuario(credencial.Legajo);
             }
+        }
+
+        public void ReiniciarIntentos(string legajo)
+        {
+            usuarioPersistencia.ReiniciarIntentos(legajo);
         }
     }
 }

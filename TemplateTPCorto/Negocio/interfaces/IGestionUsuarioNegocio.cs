@@ -50,5 +50,17 @@ namespace Negocio.interfaces
         /// Si el usuario no existe, retorna <c>null</c>.
         /// </returns>
         Persona BuscarPersonaPorNumeroLegajo(string legajo);
+
+        /// <summary>
+        /// Desbloquea un usuario bloqueado.
+        /// </summary>
+        /// <param name="legajo">El número de legajo del usuario bloqueado.</param>
+        void DesbloquearUsuarioBloqueadoPorLegajo(string legajo);
+
+        /// <summary>
+        /// Actualiza los datos de persona especifica.
+        /// </summary>
+        /// <param name="modificada">La persona que contiene los datos modificados.</param>
+        void ActualizarDatosPersonaPorLegajo(Persona modificada);
     }
 }

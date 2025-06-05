@@ -34,5 +34,13 @@ namespace Negocio
         {
             return gestionUsuarioPersistencia.BuscarPersonaPorNumeroLegajo(legajo);
         }
+        public void DesbloquearUsuarioBloqueadoPorLegajo(string legajo)
+        {
+            gestionUsuarioPersistencia.DesbloquearUsuarioBloqueadoPorLegajo(legajo);
+        }
+        public void ActualizarDatosPersonaPorLegajo(Persona modificada)
+        {
+            gestionUsuarioPersistencia.ActualizarDatosPersonaPorLegajo(modificada);
+        }
     }
 }

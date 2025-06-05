@@ -85,6 +85,39 @@ namespace Persistencia
             List<Rol> roles = ObtenerRolesPorPerfilId(perfilId);
             return new Perfil(perfilRegistro, roles);
         }
+        public void DesbloquearUsuarioBloqueadoPorLegajo(string legajo)
+        {
+            List<String> listado = dataBaseUtils.BuscarRegistro("usuario_bloqueado.csv");
+            int contador = 0;
+            foreach (String registro in listado)
+            {
+                if (contador == 0)
+                {
+                    contador++;
+                    continue;
+                }
+                String[] datos = registro.Split(';');
+                if (datos[0] == legajo)
+                {
+                    dataBaseUtils.BorrarRegistro(legajo, "usuario_bloqueado.csv");
+                    break;
+                }
+            }
+        }
+        public void ActualizarDatosPersonaPorLegajo(Persona modificada)
+        {
+            dataBaseUtils.BorrarRegistro(modificada.Legajo, "persona.csv");
+            string fechaIngreso = modificada.FechaIngreso.ToString("d/M/yyyy", CultureInfo.InvariantCulture);
+            string[] nuevoRegistro = {
+                modificada.Legajo,
+                modificada.Nombre,
+                modificada.Apellido,
+                modificada.Dni,
+                fechaIngreso,
+            };
+            string lineaCSV = string.Join(";", nuevoRegistro);
+            dataBaseUtils.AgregarRegistro("persona.csv", lineaCSV);
+        }
         private string ObtenerPerfilId(string legajo)
         {
             List<String> listado = dataBaseUtils.BuscarRegistro("usuario_perfil.csv");

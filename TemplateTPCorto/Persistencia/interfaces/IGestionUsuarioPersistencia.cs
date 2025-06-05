@@ -20,6 +20,12 @@ namespace Persistencia.interfaces
         void ActualizarContrasenia(Credencial credencial);
 
         /// <summary>
+        /// Actualiza los datos de persona especifica.
+        /// </summary>
+        /// <param name="modificada">La persona que contiene los datos modificados.</param>
+        void ActualizarDatosPersonaPorLegajo(Persona modificada);
+
+        /// <summary>
         /// Busca una credencial asociada a un número de legajo.
         /// </summary>
         /// <param name="legajo">El número de legajo del usuario.</param>
@@ -32,6 +38,12 @@ namespace Persistencia.interfaces
         /// <param name="legajo">El número de legajo de la persona.</param>
         /// <returns>La persona encontrada o null si no existe.</returns>
         Persona BuscarPersonaPorNumeroLegajo(string legajo);
+
+        /// <summary>
+        /// Desbloquea un usuario bloqueado.
+        /// </summary>
+        /// <param name="legajo">El número de legajo del usuario bloqueado.</param>
+        void DesbloquearUsuarioBloqueadoPorLegajo(string legajo);
 
         /// <summary>
         /// Obtiene el perfil de un usuario según su número de legajo.
