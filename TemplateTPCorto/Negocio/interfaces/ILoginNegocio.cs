@@ -56,5 +56,12 @@ namespace Negocio.interfaces
         /// Si es el primer inicio de sesión, se puede solicitar un cambio de contraseña por seguridad.
         /// </remarks>
         bool EsPrimerLogin(Credencial credencial);
+
+        /// <summary>
+        /// Reinicia el contador de intentos fallidos de inicio de sesión para un usuario,
+        /// permitiéndole intentar autenticarse nuevamente sin restricciones previas.
+        /// </summary>
+        /// <param name="legajo">El número de legajo del usuario.</param>
+        void ReiniciarIntentos(string legajo);
     }
 }

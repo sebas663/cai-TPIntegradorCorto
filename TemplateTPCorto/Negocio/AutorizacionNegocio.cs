@@ -13,10 +13,15 @@ namespace Negocio
     public class AutorizacionNegocio:IAutorizacionNegocio
     {
         private readonly IAutorizacionPersistencia autorizacionPersistencia;
-
-        public AutorizacionNegocio(IAutorizacionPersistencia autorizacionPersistencia)
+        private readonly IGestionUsuarioNegocio gestionUsuarioNegocio;
+        private readonly ILoginNegocio loginNegocio;
+        
+        public AutorizacionNegocio(IAutorizacionPersistencia autorizacionPersistencia, IGestionUsuarioNegocio gestionUsuarioNegocio,
+            ILoginNegocio loginNegocio)
         {
             this.autorizacionPersistencia = autorizacionPersistencia;
+            this.gestionUsuarioNegocio = gestionUsuarioNegocio;
+            this.loginNegocio = loginNegocio;
         }
         public void RegistrarOperacionCambioCredencial(Autorizacion autorizacion, OperacionCambioCredencial operacion)
         {
@@ -55,12 +60,12 @@ namespace Negocio
         {
             foreach (OperacionCambioCredencial row in operaciones)
             {
-                //Credencial credencial = usuarioPersistencia.ObtenerCredencialPorLegajo(row.Legajo);
-                //credencial.Contrasena = row.Contrasena;
-                //credencial.FechaUltimoLogin = null;
-                //usuarioPersistencia.ActualizarContrasenia(credencial);
-                //usuarioPersistencia.ReiniciarIntentos(row.Legajo);
-                //usuarioPersistencia.EliminarUsuarioBloqueadoPorLegajo(row.Legajo);
+                Credencial credencial = gestionUsuarioNegocio.BuscarCredencialPorNumeroLegajo(row.Legajo);
+                credencial.Contrasena = row.Contrasena;
+                credencial.FechaUltimoLogin = null;
+                loginNegocio.ReiniciarIntentos(row.Legajo);
+                gestionUsuarioNegocio.ActualizarContrasenia(credencial);
+                gestionUsuarioNegocio.DesbloquearUsuarioBloqueadoPorLegajo(row.Legajo);
                 ActualizarEstadoAutorizacion(
                     row.IdOperacion,
                     EnumEstadoAutorizacion.Autorizado.ToString(),
@@ -81,7 +86,7 @@ namespace Negocio
                     Dni = row.Dni,
                     FechaIngreso = row.FechaIngreso
                 };
-                //usuarioPersistencia.ModificarPersonaPorLegajo(modificada);
+                gestionUsuarioNegocio.ActualizarDatosPersonaPorLegajo(modificada);
                 ActualizarEstadoAutorizacion(
                     row.IdOperacion,
                     EnumEstadoAutorizacion.Autorizado.ToString(),

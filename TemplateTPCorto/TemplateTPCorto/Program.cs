@@ -46,7 +46,7 @@ namespace TemplateTPCorto
             // Instanciar capas de negocio
             ILoginNegocio loginNegocio = new LoginNegocio(usuarioPersistencia);
             IGestionUsuarioNegocio gestionUsuarioNegocio = new GestionUsuarioNegocio(gestionUsuarioPersistencia);
-            IAutorizacionNegocio autorizacionNegocio = new AutorizacionNegocio(autorizacionPersistencia);
+            IAutorizacionNegocio autorizacionNegocio = new AutorizacionNegocio(autorizacionPersistencia, gestionUsuarioNegocio, loginNegocio);
 
             // Inicializar la fábrica de formularios (Singleton)
             FabricaFormularios.Inicializar(loginNegocio, gestionUsuarioNegocio, autorizacionNegocio);
