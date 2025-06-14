@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Datos.Ventas;
+
 
 namespace TemplateTPCorto
 {
@@ -60,9 +62,104 @@ namespace TemplateTPCorto
 
         private void btnListarProductos_Click(object sender, EventArgs e)
         {
+            if (cboCategoriaProductos.SelectedItem == null)
+            {
+                MessageBox.Show("Seleccioná una categoría de producto.");
+                return;
+            }
+
+            CategoriaProductos categoriaSeleccionada = (CategoriaProductos)cboCategoriaProductos.SelectedItem;
+            int idCategoria = int.Parse(categoriaSeleccionada.Id);
+
             VentasNegocio ventasNegocio = new VentasNegocio();
+            List<Producto> productos = ventasNegocio.ObtenerProductosPorCategoria(idCategoria);
 
+            lstProducto.Items.Clear();
 
+            foreach (Producto producto in productos)
+            {
+                lstProducto.Items.Add(producto);
+            }
+        }
+        private List<ProductoCarrito> carrito = new List<ProductoCarrito>();
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            if (lstProducto.SelectedItem == null)
+            {
+                MessageBox.Show("Seleccioná un producto.");
+                return;
+            }
+
+            if (!int.TryParse(txtCantidad.Text, out int cantidad) || cantidad <= 0)
+            {
+                MessageBox.Show("Ingresá una cantidad válida.");
+                return;
+            }
+
+            var producto = (Producto)lstProducto.SelectedItem;
+
+            if (cantidad > producto.Stock)
+            {
+                MessageBox.Show("No hay suficiente stock disponible.");
+                return;
+            }
+
+            // Creamos el ítem y lo agregamos al carrito
+            ProductoCarrito item = new ProductoCarrito
+            {
+                IdProducto = producto.Id,
+                NombreProducto = producto.Nombre,
+                PrecioUnitario = producto.Precio,
+                Cantidad = cantidad,
+                Categoria = producto.IdCategoria == 3 ? "Electro Hogar" : "Otra"
+            };
+
+            carrito.Add(item);
+            listBox1.Items.Add(item); // Mostrar en el ListBox
+
+            ActualizarTotales();
+            txtCantidad.Clear();
+        }
+        private void ActualizarTotales()
+        {
+            int subtotal = carrito.Sum(p => p.Subtotal);
+            lablSubTotal.Text = $"${subtotal:N0}";
+
+            // Sumar solo productos de categoría "Electro Hogar"
+            var productosElectro = carrito.Where(p => p.Categoria == "Electro Hogar").ToList();
+            int totalElectro = productosElectro.Sum(p => p.Subtotal);
+
+            decimal descuento = 0;
+            if (totalElectro > 1000000)
+            {
+                descuento = totalElectro * 0.15m;
+            }
+
+            lblDescuento.Text = descuento > 0 ? $"-${descuento:N0}" : "$0";
+
+            decimal total = subtotal - descuento;
+            lblTotal.Text = $"${total:N0}";
+        }
+
+        private void btnQuitar_Click(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedItem == null)
+            {
+                MessageBox.Show("Seleccioná un producto del carrito para quitar.");
+                return;
+            }
+
+            var itemSeleccionado = (ProductoCarrito)listBox1.SelectedItem;
+
+            // Quitamos del listado visual
+            listBox1.Items.Remove(itemSeleccionado);
+
+            // Quitamos del carrito real
+            carrito.Remove(itemSeleccionado);
+
+            // Recalculamos los totales
+            ActualizarTotales();
         }
     }
 }

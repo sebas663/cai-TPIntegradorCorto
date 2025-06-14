@@ -23,5 +23,10 @@ namespace Datos
         public DateTime? FechaBaja { get => _fechaBaja; set => _fechaBaja = value; }
         public int Precio { get => _precio; set => _precio = value; }
         public int Stock { get => _stock; set => _stock = value; }
+
+        public override string ToString()
+        {
+            return $"{Nombre} - ${Precio} (Stock: {Stock})";
+        }
     }
 }

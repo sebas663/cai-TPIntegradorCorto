@@ -42,6 +42,10 @@ namespace Negocio
 
             return categoriaProductos;
         }
-
+        public List<Producto> ObtenerProductosPorCategoria(int idCategoria)
+        {
+            ProductoPersistencia persistencia = new ProductoPersistencia();
+            return persistencia.ObtenerProductosPorCategoria(idCategoria.ToString());
+        }
     }
 }
