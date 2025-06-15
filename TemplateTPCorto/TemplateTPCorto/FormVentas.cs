@@ -1,4 +1,5 @@
 ﻿using Datos;
+using Datos.Ventas;
 using Negocio;
 using System;
 using System.Collections.Generic;
@@ -160,6 +161,57 @@ namespace TemplateTPCorto
 
             // Recalculamos los totales
             ActualizarTotales();
+        }
+
+        private void btnCargar_Click(object sender, EventArgs e)
+        {
+            {
+                Cliente cliente = (Cliente)cmbClientes.SelectedItem;
+                List <ProductoCarrito> ProductosNoAgregados = new List<ProductoCarrito>();
+                VentasNegocio negocio = new VentasNegocio();
+                if (cliente == null)
+                {
+                    MessageBox.Show("Seleccioná un cliente.");
+                    return;
+                }
+                else if (listBox1.Items.Count == 0)
+                {
+                    MessageBox.Show("No hay productos en el carrito.");
+                    return;
+                }
+                foreach (ProductoCarrito producto in listBox1.Items)
+                {
+                    Ventas item = new Ventas
+                    {
+                        IdCliente = cliente.Id,
+                        IdUsuario = "UsuarioActual", // Reemplazar con el usuario actual
+                        IdProducto = producto.IdProducto,
+                        Cantidad = producto.Cantidad,
+                    };
+                    bool resultado = negocio.RegistrarVenta(item);
+                    if (!resultado)
+                    {
+                        ProductosNoAgregados.Add(producto);
+                    }
+                }
+                if (ProductosNoAgregados.Count == 0)
+                {
+                    MessageBox.Show("Ventas registradas correctamente.");
+                    listBox1.Items.Clear();
+                    carrito.Clear();
+                    IniciarTotales();
+                }
+                else
+                {
+                    string productoInfo = "No se pudieron registrar las siguientes ventas: ";
+
+                    foreach (ProductoCarrito producto in ProductosNoAgregados)
+                    {
+                        productoInfo += $"{producto.NombreProducto}" + "\n";
+                    }
+                    MessageBox.Show($"{productoInfo}");
+                }
+            }
         }
     }
 }
