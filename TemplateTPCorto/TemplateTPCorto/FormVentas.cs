@@ -184,7 +184,6 @@ namespace TemplateTPCorto
                     Ventas item = new Ventas
                     {
                         IdCliente = cliente.Id,
-                        IdUsuario = "UsuarioActual", // Reemplazar con el usuario actual
                         IdProducto = producto.IdProducto,
                         Cantidad = producto.Cantidad,
                     };
