@@ -49,5 +49,11 @@ namespace Negocio
         {
             return new VentaPersistencia().GuardarVenta(venta);
         }
+
+        public List<ProductoCarrito> ObtenerProductosPorCategoria(string idCategoria)
+        {
+            ProductoPersistencia persistencia = new ProductoPersistencia();
+            return persistencia.ObtenerProductosPorCategoria(idCategoria.ToString());
+        }
     }
 }
