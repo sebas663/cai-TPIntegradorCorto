@@ -55,7 +55,7 @@ namespace TemplateTPCorto
             // 
             this.cmbClientes.FormattingEnabled = true;
             this.cmbClientes.Location = new System.Drawing.Point(140, 50);
-            this.cmbClientes.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cmbClientes.Margin = new System.Windows.Forms.Padding(2);
             this.cmbClientes.Name = "cmbClientes";
             this.cmbClientes.Size = new System.Drawing.Size(160, 21);
             this.cmbClientes.TabIndex = 0;
@@ -84,7 +84,7 @@ namespace TemplateTPCorto
             // 
             this.cboCategoriaProductos.FormattingEnabled = true;
             this.cboCategoriaProductos.Location = new System.Drawing.Point(141, 100);
-            this.cboCategoriaProductos.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cboCategoriaProductos.Margin = new System.Windows.Forms.Padding(2);
             this.cboCategoriaProductos.Name = "cboCategoriaProductos";
             this.cboCategoriaProductos.Size = new System.Drawing.Size(92, 21);
             this.cboCategoriaProductos.TabIndex = 3;
@@ -93,7 +93,7 @@ namespace TemplateTPCorto
             // 
             this.lstProducto.FormattingEnabled = true;
             this.lstProducto.Location = new System.Drawing.Point(20, 140);
-            this.lstProducto.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.lstProducto.Margin = new System.Windows.Forms.Padding(2);
             this.lstProducto.Name = "lstProducto";
             this.lstProducto.Size = new System.Drawing.Size(339, 212);
             this.lstProducto.TabIndex = 4;
@@ -102,7 +102,7 @@ namespace TemplateTPCorto
             // 
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(421, 65);
-            this.listBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.listBox1.Margin = new System.Windows.Forms.Padding(2);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(290, 251);
             this.listBox1.TabIndex = 5;
@@ -158,7 +158,7 @@ namespace TemplateTPCorto
             // txtCantidad
             // 
             this.txtCantidad.Location = new System.Drawing.Point(92, 370);
-            this.txtCantidad.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtCantidad.Margin = new System.Windows.Forms.Padding(2);
             this.txtCantidad.Name = "txtCantidad";
             this.txtCantidad.Size = new System.Drawing.Size(76, 20);
             this.txtCantidad.TabIndex = 11;
@@ -166,7 +166,7 @@ namespace TemplateTPCorto
             // btnAgregar
             // 
             this.btnAgregar.Location = new System.Drawing.Point(140, 400);
-            this.btnAgregar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAgregar.Margin = new System.Windows.Forms.Padding(2);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(100, 25);
             this.btnAgregar.TabIndex = 12;
@@ -186,7 +186,7 @@ namespace TemplateTPCorto
             // btnQuitar
             // 
             this.btnQuitar.Location = new System.Drawing.Point(727, 141);
-            this.btnQuitar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnQuitar.Margin = new System.Windows.Forms.Padding(2);
             this.btnQuitar.Name = "btnQuitar";
             this.btnQuitar.Size = new System.Drawing.Size(56, 25);
             this.btnQuitar.TabIndex = 15;
@@ -196,17 +196,18 @@ namespace TemplateTPCorto
             // btnCargar
             // 
             this.btnCargar.Location = new System.Drawing.Point(551, 401);
-            this.btnCargar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnCargar.Margin = new System.Windows.Forms.Padding(2);
             this.btnCargar.Name = "btnCargar";
             this.btnCargar.Size = new System.Drawing.Size(75, 25);
             this.btnCargar.TabIndex = 16;
             this.btnCargar.Text = "Cargar Venta";
             this.btnCargar.UseVisualStyleBackColor = true;
+            this.btnCargar.Click += new System.EventHandler(this.btnCargar_Click);
             // 
             // btnListarProductos
             // 
             this.btnListarProductos.Location = new System.Drawing.Point(262, 100);
-            this.btnListarProductos.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnListarProductos.Margin = new System.Windows.Forms.Padding(2);
             this.btnListarProductos.Name = "btnListarProductos";
             this.btnListarProductos.Size = new System.Drawing.Size(85, 25);
             this.btnListarProductos.TabIndex = 17;
@@ -247,7 +248,7 @@ namespace TemplateTPCorto
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmbClientes);
             this.Location = new System.Drawing.Point(200, 75);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FormVentas";
             this.Size = new System.Drawing.Size(900, 500);
             this.Load += new System.EventHandler(this.FormVentas_Load);
