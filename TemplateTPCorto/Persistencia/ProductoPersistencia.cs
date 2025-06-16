@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    public class ProductoPersistencia
+    public class ProductoPersistencia:IProductoPersistencia
     {
         public List<Producto> ObtenerProductosPorCategoria(String categoria)
         {

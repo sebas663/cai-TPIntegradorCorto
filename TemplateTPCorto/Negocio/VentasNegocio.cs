@@ -1,6 +1,7 @@
 ﻿using Datos;
 using Datos.Ventas;
 using Persistencia;
+using Persistencia.interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,17 +10,18 @@ using System.Threading.Tasks;
 
 namespace Negocio
 {
-    public class VentasNegocio
+    public class VentasNegocio:IVentasNegocio
     {
+        private readonly IClientePersistencia clientePersistencia;
+        private readonly IVentaPersistencia ventaPersistencia;
+        public VentasNegocio(IClientePersistencia clientePersistencia, IVentaPersistencia ventaPersistencia)
+        {
+            this.clientePersistencia = clientePersistencia;
+            this.ventaPersistencia = ventaPersistencia;
+        }
         public List<Cliente> ObtenerClientes()
         {
-            List<Cliente> clientes = new List<Cliente>();
-
-            ClientePersistencia clientePersistencia = new ClientePersistencia();
-
-            clientes = clientePersistencia.ObtenerClientes();
-
-            return clientes;
+            return clientePersistencia.ObtenerClientes();
         }
 
         public List<CategoriaProductos> ObtenerCategoriaProductos()
@@ -43,15 +45,9 @@ namespace Negocio
 
             return categoriaProductos;
         }
-        public List<Producto> ObtenerProductosPorCategoria(int idCategoria)
+        public bool RegistrarVenta(Venta venta)
         {
-            ProductoPersistencia persistencia = new ProductoPersistencia();
-            return persistencia.ObtenerProductosPorCategoria(idCategoria.ToString());
-        }
-        public bool RegistrarVenta (Venta venta)
-        {
-            VentaPersistencia persistencia = new VentaPersistencia();
-            return persistencia.GuardarVenta(venta);
+            return ventaPersistencia.GuardarVenta(venta);
         }
     }
 }

@@ -46,6 +46,8 @@
     <Compile Include="Interfaces\IAutorizacionNegocio.cs" />
     <Compile Include="Interfaces\IGestionUsuarioNegocio.cs" />
     <Compile Include="Interfaces\ILoginNegocio.cs" />
+    <Compile Include="Interfaces\IProductoNegocio.cs" />
+    <Compile Include="Interfaces\IVentasNegocio.cs" />
     <Compile Include="LoginNegocio.cs" />
     <Compile Include="ProductoNegocio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

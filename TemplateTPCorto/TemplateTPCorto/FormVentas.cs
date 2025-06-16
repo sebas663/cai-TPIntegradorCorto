@@ -1,6 +1,7 @@
 ﻿using Datos;
 using Datos.Ventas;
 using Negocio;
+using Negocio.interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,8 +16,12 @@ namespace TemplateTPCorto
 {
     public partial class FormVentas : UserControl
     {
-        public FormVentas()
+        private readonly IVentasNegocio ventasNegocio;
+        private readonly IProductoNegocio productoNegocio;
+       public FormVentas(IVentasNegocio ventasNegocio, IProductoNegocio productoNegocio)
         {
+            this.ventasNegocio = ventasNegocio ?? throw new ArgumentNullException(nameof(ventasNegocio));
+            this.productoNegocio = productoNegocio ?? throw new ArgumentNullException(nameof(productoNegocio));
             InitializeComponent();
         }
 
@@ -36,8 +41,6 @@ namespace TemplateTPCorto
 
         private void CargarCategoriasProductos()
         {
-            
-            VentasNegocio ventasNegocio = new VentasNegocio();
 
             List<CategoriaProductos> categoriaProductos = ventasNegocio.ObtenerCategoriaProductos();
 
@@ -49,8 +52,6 @@ namespace TemplateTPCorto
 
         private void CargarClientes()
         {
-            VentasNegocio ventasNegocio = new VentasNegocio();
-
             List<Cliente> listadoClientes = ventasNegocio.ObtenerClientes();
 
             foreach (Cliente cliente in listadoClientes)
@@ -70,8 +71,7 @@ namespace TemplateTPCorto
             CategoriaProductos categoriaSeleccionada = (CategoriaProductos)cboCategoriaProductos.SelectedItem;
             int idCategoria = int.Parse(categoriaSeleccionada.Id);
 
-            VentasNegocio ventasNegocio = new VentasNegocio();
-            List<Producto> productos = ventasNegocio.ObtenerProductosPorCategoria(idCategoria);
+            List<Producto> productos = productoNegocio.ObtenerProductosPorCategoria(idCategoria.ToString());
 
             lstProducto.Items.Clear();
 
@@ -166,7 +166,6 @@ namespace TemplateTPCorto
             {
                 Cliente cliente = (Cliente)cmbClientes.SelectedItem;
                 List <ProductoCarrito> ProductosNoAgregados = new List<ProductoCarrito>();
-                VentasNegocio negocio = new VentasNegocio();
                 if (cliente == null)
                 {
                     MessageBox.Show("Seleccioná un cliente.");
@@ -185,7 +184,7 @@ namespace TemplateTPCorto
                         IdProducto = producto.IdProducto,
                         Cantidad = producto.Cantidad,
                     };
-                    bool resultado = negocio.RegistrarVenta(item);
+                    bool resultado = ventasNegocio.RegistrarVenta(item);
                     if (!resultado)
                     {
                         ProductosNoAgregados.Add(producto);

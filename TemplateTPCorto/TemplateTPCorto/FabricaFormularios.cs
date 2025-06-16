@@ -1,4 +1,5 @@
 ﻿using Datos;
+using Negocio;
 using Negocio.interfaces;
 using System;
 using System.Windows.Forms;
@@ -15,6 +16,8 @@ namespace TemplateTPCorto
         private readonly ILoginNegocio loginNegocio;
         private readonly IGestionUsuarioNegocio gestionUsuarioNegocio;
         private readonly IAutorizacionNegocio autorizacionNegocio;
+        private readonly IVentasNegocio ventasNegocio;
+        private readonly IProductoNegocio productoNegocio;
 
         /// <summary>
         /// Constructor privado para evitar instanciación directa y garantizar el Singleton.
@@ -22,15 +25,21 @@ namespace TemplateTPCorto
         /// <param name="loginNegocio">Interfaz de negocio de autenticación.</param>
         /// <param name="gestionUsuarioNegocio">Interfaz de negocio de gestión de usuarios.</param>
         /// <param name="autorizacionNegocio">Interfaz de negocio para gestión de autorizaciones.</param>
+        /// <param name="ventasNegocio">Interfaz de negocio para gestión de las ventas.</param>
+        /// <param name="productoNegocio">Interfaz de negocio para gestión de los productos.</param>
         private FabricaFormularios(
             ILoginNegocio loginNegocio,
             IGestionUsuarioNegocio gestionUsuarioNegocio,
-            IAutorizacionNegocio autorizacionNegocio
+            IAutorizacionNegocio autorizacionNegocio,
+            IVentasNegocio ventasNegocio,
+            IProductoNegocio productoNegocio
         )
         {
             this.loginNegocio = loginNegocio;
             this.gestionUsuarioNegocio = gestionUsuarioNegocio;
             this.autorizacionNegocio = autorizacionNegocio;
+            this.ventasNegocio = ventasNegocio;
+            this.productoNegocio = productoNegocio;
         }
 
         /// <summary>
@@ -39,15 +48,20 @@ namespace TemplateTPCorto
         /// <param name="loginNegocio">Interfaz de negocio de autenticación.</param>
         /// <param name="gestionUsuarioNegocio">Interfaz de negocio de gestión de usuarios.</param>
         /// <param name="autorizacionNegocio">Interfaz de negocio para gestión de autorizaciones.</param>
+        /// <param name="ventasNegocio">Interfaz de negocio para gestión de las ventas.</param>
+        /// <param name="productoNegocio">Interfaz de negocio para gestión de los productos.</param>
         public static void Inicializar(
             ILoginNegocio loginNegocio,
             IGestionUsuarioNegocio gestionUsuarioNegocio,
-            IAutorizacionNegocio autorizacionNegocio
+            IAutorizacionNegocio autorizacionNegocio,
+            IVentasNegocio ventasNegocio,
+            IProductoNegocio productoNegocio
         )
         {
             if (instancia == null)
             {
-                instancia = new FabricaFormularios(loginNegocio, gestionUsuarioNegocio, autorizacionNegocio);
+                instancia = new FabricaFormularios(loginNegocio, gestionUsuarioNegocio, autorizacionNegocio,
+                   ventasNegocio, productoNegocio);
             }
         }
 
@@ -129,11 +143,10 @@ namespace TemplateTPCorto
         /// <summary>
         /// Crea una instancia de <see cref="FormVentas"/>.
         /// </summary>
-        /// <param name="usuario">Credencial del usuario autenticado.</param>
         /// <returns>Instancia de <see cref="FormVentas"/>.</returns>
-        public UserControl CrearFormFormVentas(Credencial usuario)
+        public UserControl CrearFormFormVentas()
         {
-            return new FormVentas();
+            return new FormVentas(ventasNegocio, productoNegocio);
         }
     }
 }
