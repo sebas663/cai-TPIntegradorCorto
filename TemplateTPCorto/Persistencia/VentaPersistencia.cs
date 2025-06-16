@@ -13,7 +13,7 @@ namespace Persistencia
 {
     public class VentaPersistencia
     {
-        public bool GuardarVenta(Ventas venta)
+        public bool GuardarVenta(Venta venta)
         {
             // Aquí se implementaría la lógica para guardar la venta en el servicio web.
 

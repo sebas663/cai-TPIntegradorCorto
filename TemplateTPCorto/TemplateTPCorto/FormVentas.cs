@@ -10,8 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Datos.Ventas;
-
 
 namespace TemplateTPCorto
 {
@@ -181,7 +179,7 @@ namespace TemplateTPCorto
                 }
                 foreach (ProductoCarrito producto in listBox1.Items)
                 {
-                    Ventas item = new Ventas
+                    Venta item = new Venta
                     {
                         IdCliente = cliente.Id,
                         IdProducto = producto.IdProducto,

@@ -1,4 +1,5 @@
 ﻿using Datos;
+using Datos.Ventas;
 using Persistencia;
 using System;
 using System.Collections.Generic;
@@ -46,6 +47,11 @@ namespace Negocio
         {
             ProductoPersistencia persistencia = new ProductoPersistencia();
             return persistencia.ObtenerProductosPorCategoria(idCategoria.ToString());
+        }
+        public bool RegistrarVenta (Venta venta)
+        {
+            VentaPersistencia persistencia = new VentaPersistencia();
+            return persistencia.GuardarVenta(venta);
         }
     }
 }
