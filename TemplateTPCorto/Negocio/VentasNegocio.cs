@@ -43,17 +43,15 @@ namespace Negocio
 
             return categoriaProductos;
         }
-
-         
-        public bool RegistrarVenta(Ventas venta)
-        {
-            return new VentaPersistencia().GuardarVenta(venta);
-        }
-
         public List<Producto> ObtenerProductosPorCategoria(int idCategoria)
         {
             ProductoPersistencia persistencia = new ProductoPersistencia();
             return persistencia.ObtenerProductosPorCategoria(idCategoria.ToString());
+        }
+        public bool RegistrarVenta (Venta venta)
+        {
+            VentaPersistencia persistencia = new VentaPersistencia();
+            return persistencia.GuardarVenta(venta);
         }
     }
 }
