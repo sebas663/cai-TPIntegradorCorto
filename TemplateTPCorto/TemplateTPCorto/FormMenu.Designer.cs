@@ -42,19 +42,21 @@ namespace TemplateTPCorto
             // 
             // btnCerrarSession
             // 
-            this.btnCerrarSession.Location = new System.Drawing.Point(872, 12);
+            this.btnCerrarSession.Location = new System.Drawing.Point(1163, 15);
+            this.btnCerrarSession.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnCerrarSession.Name = "btnCerrarSession";
-            this.btnCerrarSession.Size = new System.Drawing.Size(100, 25);
+            this.btnCerrarSession.Size = new System.Drawing.Size(133, 31);
             this.btnCerrarSession.TabIndex = 8;
-            this.btnCerrarSession.Text = "Cerrar session";
+            this.btnCerrarSession.Text = "Cerrar sesion";
             this.btnCerrarSession.UseVisualStyleBackColor = true;
             this.btnCerrarSession.Click += new System.EventHandler(this.BtnCerrarSession_Click);
             // 
             // btnAutorizaciones
             // 
-            this.btnAutorizaciones.Location = new System.Drawing.Point(148, 12);
+            this.btnAutorizaciones.Location = new System.Drawing.Point(197, 15);
+            this.btnAutorizaciones.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAutorizaciones.Name = "btnAutorizaciones";
-            this.btnAutorizaciones.Size = new System.Drawing.Size(130, 25);
+            this.btnAutorizaciones.Size = new System.Drawing.Size(173, 31);
             this.btnAutorizaciones.TabIndex = 7;
             this.btnAutorizaciones.Text = "Autorizaciones";
             this.btnAutorizaciones.UseVisualStyleBackColor = true;
@@ -62,9 +64,10 @@ namespace TemplateTPCorto
             // 
             // btnCambioContrasenia
             // 
-            this.btnCambioContrasenia.Location = new System.Drawing.Point(12, 12);
+            this.btnCambioContrasenia.Location = new System.Drawing.Point(16, 15);
+            this.btnCambioContrasenia.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnCambioContrasenia.Name = "btnCambioContrasenia";
-            this.btnCambioContrasenia.Size = new System.Drawing.Size(130, 25);
+            this.btnCambioContrasenia.Size = new System.Drawing.Size(173, 31);
             this.btnCambioContrasenia.TabIndex = 6;
             this.btnCambioContrasenia.Text = "Cambiar contraseña";
             this.btnCambioContrasenia.UseVisualStyleBackColor = true;
@@ -72,9 +75,10 @@ namespace TemplateTPCorto
             // 
             // btnModificarPersona
             // 
-            this.btnModificarPersona.Location = new System.Drawing.Point(148, 12);
+            this.btnModificarPersona.Location = new System.Drawing.Point(197, 15);
+            this.btnModificarPersona.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnModificarPersona.Name = "btnModificarPersona";
-            this.btnModificarPersona.Size = new System.Drawing.Size(130, 25);
+            this.btnModificarPersona.Size = new System.Drawing.Size(173, 31);
             this.btnModificarPersona.TabIndex = 10;
             this.btnModificarPersona.Text = "Modificar persona";
             this.btnModificarPersona.UseVisualStyleBackColor = true;
@@ -82,9 +86,10 @@ namespace TemplateTPCorto
             // 
             // btnDesbloquearCredencial
             // 
-            this.btnDesbloquearCredencial.Location = new System.Drawing.Point(284, 12);
+            this.btnDesbloquearCredencial.Location = new System.Drawing.Point(379, 15);
+            this.btnDesbloquearCredencial.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnDesbloquearCredencial.Name = "btnDesbloquearCredencial";
-            this.btnDesbloquearCredencial.Size = new System.Drawing.Size(130, 25);
+            this.btnDesbloquearCredencial.Size = new System.Drawing.Size(173, 31);
             this.btnDesbloquearCredencial.TabIndex = 9;
             this.btnDesbloquearCredencial.Text = "Desbloquear credencial";
             this.btnDesbloquearCredencial.UseVisualStyleBackColor = true;
@@ -92,16 +97,18 @@ namespace TemplateTPCorto
             // 
             // panelMain
             // 
-            this.panelMain.Location = new System.Drawing.Point(12, 63);
+            this.panelMain.Location = new System.Drawing.Point(16, 78);
+            this.panelMain.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(960, 474);
+            this.panelMain.Size = new System.Drawing.Size(1280, 583);
             this.panelMain.TabIndex = 11;
             // 
             // btnVentas
             // 
-            this.btnVentas.Location = new System.Drawing.Point(148, 12);
+            this.btnVentas.Location = new System.Drawing.Point(197, 15);
+            this.btnVentas.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnVentas.Name = "btnVentas";
-            this.btnVentas.Size = new System.Drawing.Size(130, 25);
+            this.btnVentas.Size = new System.Drawing.Size(173, 31);
             this.btnVentas.TabIndex = 12;
             this.btnVentas.Text = "Ventas";
             this.btnVentas.UseVisualStyleBackColor = true;
@@ -109,8 +116,9 @@ namespace TemplateTPCorto
             // 
             // FormMenu
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1309, 681);
             this.Controls.Add(this.btnVentas);
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.btnModificarPersona);
@@ -118,10 +126,10 @@ namespace TemplateTPCorto
             this.Controls.Add(this.btnCerrarSession);
             this.Controls.Add(this.btnAutorizaciones);
             this.Controls.Add(this.btnCambioContrasenia);
-            this.Size = new Size(1000, 600);
-            this.StartPosition = FormStartPosition.Manual;
-            this.Location = new Point(200, 75);
+            this.Location = new System.Drawing.Point(200, 75);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "FormMenu";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "FormMenu";
             this.ResumeLayout(false);
 

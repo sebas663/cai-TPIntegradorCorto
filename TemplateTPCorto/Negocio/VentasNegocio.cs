@@ -1,5 +1,4 @@
 ﻿using Datos;
-using Datos.Ventas;
 using Persistencia;
 using System;
 using System.Collections.Generic;
@@ -43,13 +42,6 @@ namespace Negocio
 
             return categoriaProductos;
         }
-
-         
-        public bool RegistrarVenta(Ventas venta)
-        {
-            return new VentaPersistencia().GuardarVenta(venta);
-        }
-
         public List<Producto> ObtenerProductosPorCategoria(int idCategoria)
         {
             ProductoPersistencia persistencia = new ProductoPersistencia();
