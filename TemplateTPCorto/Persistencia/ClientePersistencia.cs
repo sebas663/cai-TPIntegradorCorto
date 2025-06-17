@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    public class ClientePersistencia
+    public class ClientePersistencia:IClientePersistencia
     {
         public List<Cliente> ObtenerClientes()
         {

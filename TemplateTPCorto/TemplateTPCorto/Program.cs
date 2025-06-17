@@ -42,14 +42,19 @@ namespace TemplateTPCorto
             UsuarioPersistencia usuarioPersistencia = new UsuarioPersistencia(dataBaseUtils);
             IAutorizacionPersistencia autorizacionPersistencia = new AutorizacionPersistencia(dataBaseUtils);
             IGestionUsuarioPersistencia gestionUsuarioPersistencia = new GestionUsuarioPersistencia(dataBaseUtils);
+            IClientePersistencia clientePersistencia = new ClientePersistencia();
+            IVentaPersistencia ventaPersistencia = new VentaPersistencia();
+            IProductoPersistencia productoPersistencia = new ProductoPersistencia();
 
             // Instanciar capas de negocio
             ILoginNegocio loginNegocio = new LoginNegocio(usuarioPersistencia);
             IGestionUsuarioNegocio gestionUsuarioNegocio = new GestionUsuarioNegocio(gestionUsuarioPersistencia);
             IAutorizacionNegocio autorizacionNegocio = new AutorizacionNegocio(autorizacionPersistencia, gestionUsuarioNegocio, loginNegocio);
+            IVentasNegocio ventasNegocio = new VentasNegocio(clientePersistencia, ventaPersistencia);
+            IProductoNegocio productoNegocio = new ProductoNegocio(productoPersistencia);
 
             // Inicializar la fábrica de formularios (Singleton)
-            FabricaFormularios.Inicializar(loginNegocio, gestionUsuarioNegocio, autorizacionNegocio);
+            FabricaFormularios.Inicializar(loginNegocio, gestionUsuarioNegocio, autorizacionNegocio, ventasNegocio, productoNegocio);
         }
     }
 }

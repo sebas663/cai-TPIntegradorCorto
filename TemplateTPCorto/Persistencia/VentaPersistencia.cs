@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    public class VentaPersistencia
+    public class VentaPersistencia:IVentaPersistencia
     {
         public bool GuardarVenta(Venta venta)
         {
@@ -19,15 +19,7 @@ namespace Persistencia
 
             string json = JsonConvert.SerializeObject(venta);
             HttpResponseMessage response = WebHelper.Post("/api/Venta/AgregarVenta", json);
-
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return response.StatusCode == HttpStatusCode.OK;
         }
     }
 }

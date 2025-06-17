@@ -122,7 +122,7 @@ namespace TemplateTPCorto
         /// </summary>
         private void BtnVentas_Click(object sender, EventArgs e)
         {
-            CargarUserControl(FabricaFormularios.Instancia.CrearFormFormVentas(usuario));
+            CargarUserControl(FabricaFormularios.Instancia.CrearFormFormVentas());
         }
 
         /// <summary>
