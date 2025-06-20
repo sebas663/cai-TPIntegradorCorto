@@ -197,6 +197,40 @@ namespace TemplateTPCorto
             carrito.Remove(itemSeleccionado);
             ActualizarTotales();
         }
+
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedItem == null)
+            {
+                MessageBox.Show("Seleccioná un producto del carrito.");
+                return;
+            }
+
+            ProductoCarrito seleccionadoProductoCarrito = (ProductoCarrito)listBox1.SelectedItem;
+            Producto seleccionadoProducto = (Producto)listBox1.SelectedItem;
+            int nuevaCantidad = (int)nudNuevaCantidad.Value;
+
+            if (nuevaCantidad > seleccionadoProducto.Stock)
+            {
+                MessageBox.Show($"La cantidad ingresada ({nuevaCantidad}) supera el stock disponible ({seleccionadoProducto.Stock}).");
+                return;
+            }
+
+            seleccionadoProductoCarrito.Cantidad = nuevaCantidad;
+            
+            RefrescarListaCarrito();
+            ActualizarTotales();
+        }
+
+        private void RefrescarListaCarrito()
+        {
+            listBox1.Items.Clear();
+            foreach (var producto in carrito)
+            {
+                listBox1.Items.Add(producto);
+            }
+        }
+
         /// <summary>
         /// Maneja el evento de carga de ventas y registra los productos en el sistema.
         /// </summary>
@@ -318,5 +352,7 @@ namespace TemplateTPCorto
         {
             return cmbClientes.SelectedItem as Cliente;
         }
+
+       
     }
 }
