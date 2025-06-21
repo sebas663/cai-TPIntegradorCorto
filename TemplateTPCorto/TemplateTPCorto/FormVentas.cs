@@ -35,9 +35,11 @@ namespace TemplateTPCorto
         /// </summary>
         private void FormVentas_Load(object sender, EventArgs e)
         {
+            LoadingHelper.Mostrar();
             CargarClientes();
             CargarCategoriasProductos();
             IniciarTotales();
+            LoadingHelper.Ocultar();
         }
         /// <summary>
         /// Inicializa los valores de los totales en la interfaz.
@@ -84,7 +86,9 @@ namespace TemplateTPCorto
                 return;
             }
             string idCategoria = categoriaSeleccionada.Id;
+            LoadingHelper.Mostrar();
             List<Producto> productos = productoNegocio.ObtenerProductosPorCategoria(idCategoria);
+            LoadingHelper.Ocultar();
             lstProducto.Items.Clear();
             foreach (Producto producto in productos)
             {
@@ -202,8 +206,9 @@ namespace TemplateTPCorto
                 FormUtils.MostrarMensajeAdvertencia("Seleccioná un producto del carrito para modificar.");
                 return;
             }
-            
+            LoadingHelper.Mostrar();
             Producto producto = productoNegocio.ObtenerProductosPorIDProductoYCategoria(productoCarrito.IdProducto, productoCarrito.IdCategoria);
+            LoadingHelper.Ocultar();
             if (!ValidarCantidadIngresada(producto, txtModificarCantidad))
             {
                 return;
@@ -289,8 +294,9 @@ namespace TemplateTPCorto
                 FormUtils.MostrarMensajeAdvertencia("No hay productos en el carrito.");
                 return;
             }
-
+            LoadingHelper.Mostrar();
             List<ProductoCarrito> productosNoAgregados = RegistrarVentas(cliente);
+            LoadingHelper.Ocultar();
             ManejarResultadoRegistro(productosNoAgregados);
             VaciarCarro();
         }
