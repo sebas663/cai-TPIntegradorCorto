@@ -27,6 +27,11 @@ namespace TemplateTPCorto
             this.gestionUsuarioNegocio = gestionUsuarioNegocio ?? throw new ArgumentNullException(nameof(gestionUsuarioNegocio));
             this.usuarioLogueado = logueado ?? throw new ArgumentNullException(nameof(logueado));
         }
+        public FormContraseniaCambio()
+        {
+            InitializeComponent();
+            
+        }
 
         /// <summary>
         /// Evento que se ejecuta al presionar el botón de cambio de contraseña.

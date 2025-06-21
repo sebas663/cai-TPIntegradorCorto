@@ -18,6 +18,7 @@ namespace TemplateTPCorto
         private readonly IProductoNegocio productoNegocio;
         private List<ProductoCarrito> carrito = new List<ProductoCarrito>();
         private const int MONTO_MINIMO_PARA_APLICAR_DESCUENTO = 1000000;
+        private const int ID_CATEGORIA_ELECTRO_HOGAR = 3;
         /// <summary>
         /// Constructor que inicializa las dependencias de negocio y los componentes gráficos.
         /// </summary>
@@ -34,9 +35,11 @@ namespace TemplateTPCorto
         /// </summary>
         private void FormVentas_Load(object sender, EventArgs e)
         {
+            LoadingHelper.Mostrar();
             CargarClientes();
             CargarCategoriasProductos();
             IniciarTotales();
+            LoadingHelper.Ocultar();
         }
         /// <summary>
         /// Inicializa los valores de los totales en la interfaz.
@@ -76,14 +79,16 @@ namespace TemplateTPCorto
         /// </summary>
         private void btnListarProductos_Click(object sender, EventArgs e)
         {
-            var categoriaSeleccionada = ObtenerCategoriaProductosSeleccionado();
+            CategoriaProductos categoriaSeleccionada = ObtenerCategoriaProductosSeleccionado();
             if (categoriaSeleccionada == null)
             {
                 FormUtils.MostrarMensajeAdvertencia("Seleccioná una categoría de producto.");
                 return;
             }
             string idCategoria = categoriaSeleccionada.Id;
+            LoadingHelper.Mostrar();
             List<Producto> productos = productoNegocio.ObtenerProductosPorCategoria(idCategoria);
+            LoadingHelper.Ocultar();
             lstProducto.Items.Clear();
             foreach (Producto producto in productos)
             {
@@ -101,19 +106,11 @@ namespace TemplateTPCorto
                 FormUtils.MostrarMensajeAdvertencia("Seleccioná un producto.");
                 return;
             }
-
-            int cantidad = ObtenerCantidadIngresada();
-            if (cantidad <= 0)
+            if (!ValidarCantidadIngresada(producto, txtCantidad))
             {
-                FormUtils.MostrarMensajeAdvertencia("Ingresá una cantidad válida.");
                 return;
             }
-
-            if (cantidad > producto.Stock)
-            {
-                FormUtils.MostrarMensajeAdvertencia("No hay suficiente stock disponible.");
-                return;
-            }
+            int cantidad = ObtenerCantidadIngresada(txtCantidad);
             AgregarProductoAlCarrito(producto, cantidad);
             ActualizarTotales();
             txtCantidad.Clear();
@@ -154,7 +151,7 @@ namespace TemplateTPCorto
                     NombreProducto = producto.Nombre,
                     PrecioUnitario = producto.Precio,
                     Cantidad = cantidad,
-                    Categoria = producto.IdCategoria == 3 ? "Electro Hogar" : "Otra"
+                    IdCategoria = producto.IdCategoria
                 };
 
                 carrito.Add(nuevoProducto);
@@ -170,7 +167,7 @@ namespace TemplateTPCorto
             lablSubTotal.Text = $"${subtotal:N0}";
 
             // Sumar solo productos de categoría "Electro Hogar"
-            var productosElectro = carrito.Where(p => p.Categoria == "Electro Hogar").ToList();
+            List<ProductoCarrito> productosElectro = carrito.Where(p => p.IdCategoria == ID_CATEGORIA_ELECTRO_HOGAR).ToList();
             int totalElectro = productosElectro.Sum(p => p.Subtotal);
             decimal descuento = 0;
             if (totalElectro > MONTO_MINIMO_PARA_APLICAR_DESCUENTO)
@@ -192,10 +189,93 @@ namespace TemplateTPCorto
                 FormUtils.MostrarMensajeAdvertencia("Seleccioná un producto del carrito para quitar.");
                 return;
             }
-            var itemSeleccionado = ObtenerProductoCarritoSeleccionado();
+            ProductoCarrito itemSeleccionado = ObtenerProductoCarritoSeleccionado();
             listBox1.Items.Remove(itemSeleccionado);
             carrito.Remove(itemSeleccionado);
+            txtModificarCantidad.Text = string.Empty;
             ActualizarTotales();
+        }
+        /// <summary>
+        /// MOdificar el producto seleccionado del carrito.
+        /// </summary>
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            ProductoCarrito productoCarrito = ObtenerProductoCarritoSeleccionado();
+            if (productoCarrito == null)
+            {
+                FormUtils.MostrarMensajeAdvertencia("Seleccioná un producto del carrito para modificar.");
+                return;
+            }
+            LoadingHelper.Mostrar();
+            Producto producto = productoNegocio.ObtenerProductosPorIDProductoYCategoria(productoCarrito.IdProducto, productoCarrito.IdCategoria);
+            LoadingHelper.Ocultar();
+            if (!ValidarCantidadIngresada(producto, txtModificarCantidad))
+            {
+                return;
+            }
+            listBox1.Items.Remove(productoCarrito);
+            int nuevaCantidad = ObtenerCantidadIngresada(txtModificarCantidad);
+            productoCarrito.Cantidad = nuevaCantidad;
+            listBox1.Items.Add(productoCarrito);
+            ActualizarTotales();
+            txtModificarCantidad.Text = string.Empty;
+            FormUtils.MostrarMensajeInformacion("Se modificó la cantidad del producto en el carrito con éxito.");
+        }
+        /// <summary>
+        /// Se ejecuta el cambiar el index del listado.
+        /// </summary>
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cargarTxtModificarCantidad();
+        }
+        /// <summary>
+        /// Se ejecuta el cambiar el index del listado presionando las flechas del teclado up y down.
+        /// </summary>
+        private void listBox1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
+            {
+                cargarTxtModificarCantidad();
+            }
+        }
+        /// <summary>
+        /// Carga la cantidad del producto seleccionado en el carro, en el textbox de modificar cantidad.
+        /// </summary>
+        private void cargarTxtModificarCantidad()
+        {
+            ProductoCarrito productoCarrito = ObtenerProductoCarritoSeleccionado();
+            if (productoCarrito != null)
+            {
+                txtModificarCantidad.Text = productoCarrito.Cantidad.ToString();
+            }
+        }
+        /// <summary>
+        /// Limpia la lista de productos cuando cambia la categoria de productos.
+        /// </summary>
+        private void cboCategoriaProductos_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            lstProducto.Items.Clear();
+        }
+        /// <summary>
+        /// Valida que la cantidad ingresada sea un nùmero mayor a cero.
+        /// </summary>
+        /// <returns>true si es vàlido, sino false.</returns>
+        private bool ValidarCantidadIngresada(Producto producto, TextBox txtBox)
+        {
+            bool esValido = true;
+            int cantidad = ObtenerCantidadIngresada(txtBox);
+            if (cantidad <= 0)
+            {
+                FormUtils.MostrarMensajeAdvertencia("Ingresá una cantidad válida.");
+                esValido = false;
+            }
+
+            if (cantidad > producto.Stock)
+            {
+                FormUtils.MostrarMensajeAdvertencia("No hay suficiente stock disponible para la cantidad ingresada.");
+                esValido = false;
+            }
+            return esValido;
         }
         /// <summary>
         /// Maneja el evento de carga de ventas y registra los productos en el sistema.
@@ -214,10 +294,11 @@ namespace TemplateTPCorto
                 FormUtils.MostrarMensajeAdvertencia("No hay productos en el carrito.");
                 return;
             }
-
+            LoadingHelper.Mostrar();
             List<ProductoCarrito> productosNoAgregados = RegistrarVentas(cliente);
-
+            LoadingHelper.Ocultar();
             ManejarResultadoRegistro(productosNoAgregados);
+            VaciarCarro();
         }
         /// <summary>
         /// Registra las ventas de los productos del carrito.
@@ -254,37 +335,68 @@ namespace TemplateTPCorto
             if (productosNoAgregados.Count == 0)
             {
                 FormUtils.MostrarMensajeInformacion("Ventas registradas correctamente.");
-                carrito.Clear();
-                listBox1.Items.Clear();
-                IniciarTotales();
             }
             else
             {
-                MostrarErroresRegistro(productosNoAgregados);
+                string mensaje = "";
+                if (carrito.Count != productosNoAgregados.Count)
+                {
+                    List<ProductoCarrito> cargados = FiltrarProductosCargados(productosNoAgregados);
+                    string mensajeInicio = "Se cargarón las siguientes ventas:\n";
+                    mensaje = CrearMensajeProductos(cargados, mensajeInicio) + "\n\n";
+                }
+                string mensajeInicioError = "No se cargarón las siguientes ventas:\n";
+                mensaje = mensaje + CrearMensajeProductos(productosNoAgregados, mensajeInicioError);
+                FormUtils.MostrarMensajeAdvertencia(mensaje);
             }
         }
         /// <summary>
-        /// Muestra los productos que no pudieron ser registrados.
+        /// Filtra del carro los productos que no se pudieron cargar.
         /// </summary>
-        /// <param name="productosNoAgregados">Lista de productos no registrados.</param>
-        private void MostrarErroresRegistro(List<ProductoCarrito> productosNoAgregados)
+        /// <param name="productosNoAgregados">Lista de productos que no se pudieron registrar.</param>
+        /// <returns>Lista de productos cargados</returns>
+        private List<ProductoCarrito> FiltrarProductosCargados(List<ProductoCarrito> productosNoAgregados)
         {
-            string productoInfo = "No se pudieron registrar las siguientes ventas:\n";
-
-            foreach (ProductoCarrito producto in productosNoAgregados)
+            List<ProductoCarrito> cargados = new List<ProductoCarrito>();
+            foreach (ProductoCarrito productoCarro in carrito)
+            {
+                bool esNoCargado = false;
+                foreach (ProductoCarrito productoNoCargado in productosNoAgregados)
+                {
+                    if (productoCarro.IdProducto == productoNoCargado.IdProducto)
+                    {
+                        esNoCargado = true;
+                        break;
+                    }
+                    if (!esNoCargado)
+                    {
+                        cargados.Add(productoCarro);
+                    }
+                }
+            }
+            return cargados;
+        }
+        /// <summary>
+        /// Crea mensaje de los productos despues de llamar a la api de carga.
+        /// </summary>
+        /// <param name="productos">Lista de productos.</param>
+        /// <param name="mensajeInicio">Mensaje inicial.</param>
+        private string CrearMensajeProductos(List<ProductoCarrito> productos, string mensajeInicio)
+        {
+            string productoInfo = mensajeInicio;
+            foreach (ProductoCarrito producto in productos)
             {
                 productoInfo += $"{producto.NombreProducto}\n";
             }
-
-            FormUtils.MostrarMensajeAdvertencia(productoInfo);
+            return productoInfo;
         }
         /// <summary>
         /// Obtiene la cantidad ingresada en el campo de texto.
         /// </summary>
         /// <returns>La cantidad ingresada o 0 si no es válida.</returns>
-        private int ObtenerCantidadIngresada()
+        private int ObtenerCantidadIngresada(TextBox txtBox)
         {
-            return int.TryParse(txtCantidad.Text, out int cantidad) ? cantidad : 0;
+            return int.TryParse(txtBox.Text, out int cantidad) ? cantidad : 0;
         }
         /// <summary>
         /// Obtiene el CategoriaProductos seleccionado en la lista.
@@ -317,6 +429,29 @@ namespace TemplateTPCorto
         private Cliente ObtenerClienteSeleccionado()
         {
             return cmbClientes.SelectedItem as Cliente;
+        }
+        /// <summary>
+        /// Vacia el carro cargado al hacer click en el botón.
+        /// </summary>
+        private void btnVaciarCarro_Click(object sender, EventArgs e)
+        {
+            DialogResult resultado = FormUtils.MostrarMensajeConfirmacion(
+                "¿Estás seguro que querés vaciar el carro?"
+            );
+            if (resultado == DialogResult.Yes)
+            {
+                VaciarCarro();
+            }
+        }
+        /// <summary>
+        /// Vacia el carro y limpia objetos relacionados.
+        /// </summary>
+        private void VaciarCarro()
+        {
+            carrito.Clear();
+            listBox1.Items.Clear();
+            IniciarTotales();
+            txtModificarCantidad.Text = string.Empty;
         }
     }
 }

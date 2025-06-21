@@ -66,6 +66,12 @@
     <Compile Include="FormDesbloquearCredencial.Designer.cs">
       <DependentUpon>FormDesbloquearCredencial.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormLoading.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLoading.Designer.cs">
+      <DependentUpon>FormLoading.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,6 +97,7 @@
       <DependentUpon>FormVentas.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUtils.cs" />
+    <Compile Include="LoadingHelper.cs" />
     <Compile Include="MenuConfigurador.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
