@@ -1,4 +1,5 @@
 ﻿using Datos;
+using Datos.Ventas;
 using Persistencia;
 using System;
 using System.Collections.Generic;
@@ -36,5 +37,10 @@ namespace Negocio
             return productosConStock;
         }
 
+        public Producto ObtenerProductosPorIDProductoYCategoria(Guid idProducto, int idCategoria)
+        {
+            List<Producto> productos = ObtenerProductosPorCategoria(idCategoria.ToString());
+            return productos.Find(p => p.Id == idProducto);
+        }
     }
 }

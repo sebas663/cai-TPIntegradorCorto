@@ -9,7 +9,7 @@ namespace Persistencia.DataBase
 {
     public class DataBaseUtils
     {
-        string archivoCsv = @"C:\Users\juanm\OneDrive\Datos adjuntos\Compu nueva\JuanManuel\juanma todo\UBA\5° Quinto año\CAI\Tablas TP";
+        string archivoCsv = @"C:\Users\sebas\source\repos\cai-TPIntegradorCorto\TemplateTPCorto\Persistencia\DataBase\Tablas\";
         public List<String> BuscarRegistro(String nombreArchivo)
         {
             string archivoCsvPath = archivoCsv + nombreArchivo; // Cambia esta ruta al archivo CSV que deseas leer

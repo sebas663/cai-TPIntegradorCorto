@@ -12,7 +12,7 @@ namespace Datos.Ventas
         public string NombreProducto { get; set; }
         public int PrecioUnitario { get; set; }
         public int Cantidad { get; set; }
-        public string Categoria { get; set; }
+        public int IdCategoria { get; set; }
 
         public int Subtotal
         {

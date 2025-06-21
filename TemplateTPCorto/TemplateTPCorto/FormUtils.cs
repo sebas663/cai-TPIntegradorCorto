@@ -15,31 +15,58 @@ namespace TemplateTPCorto
         /// Muestra un mensaje de advertencia con un título por defecto.
         /// </summary>
         /// <param name="mensaje">El mensaje a mostrar.</param>
-        public static void MostrarMensajeAdvertencia(string mensaje) =>
+        public static void MostrarMensajeAdvertencia(string mensaje)
+        {
             MessageBox.Show(mensaje, "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
 
         /// <summary>
         /// Muestra un mensaje de advertencia con un título personalizado.
         /// </summary>
         /// <param name="mensaje">El mensaje a mostrar.</param>
         /// <param name="titulo">El título de la ventana emergente.</param>
-        public static void MostrarMensajeAdvertencia(string mensaje, string titulo) =>
+        public static void MostrarMensajeAdvertencia(string mensaje, string titulo)
+        {
             MessageBox.Show(mensaje, titulo, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
 
         /// <summary>
         /// Muestra un mensaje informativo con un título por defecto.
         /// </summary>
         /// <param name="mensaje">El mensaje a mostrar.</param>
-        public static void MostrarMensajeInformacion(string mensaje) =>
+        public static void MostrarMensajeInformacion(string mensaje)
+        {
             MessageBox.Show(mensaje, "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
 
         /// <summary>
         /// Muestra un mensaje informativo con un título personalizado.
         /// </summary>
         /// <param name="mensaje">El mensaje a mostrar.</param>
         /// <param name="titulo">El título de la ventana emergente.</param>
-        public static void MostrarMensajeInformacion(string mensaje, string titulo) =>
+        public static void MostrarMensajeInformacion(string mensaje, string titulo)
+        {
             MessageBox.Show(mensaje, titulo, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        /// <summary>
+        /// Muestra un mensaje de confirmación con un título por defecto.
+        /// </summary>
+        /// <param name="mensaje">El mensaje a mostrar.</param>
+        public static DialogResult MostrarMensajeConfirmacion(string mensaje)
+        {
+            return MessageBox.Show(mensaje, "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+        }
+
+        /// <summary>
+        /// Muestra un mensaje de confirmación con un título personalizado.
+        /// </summary>
+        /// <param name="mensaje">El mensaje a mostrar.</param>
+        /// <param name="titulo">El título de la ventana emergente.</param>
+        public static DialogResult MostrarMensajeConfirmacion(string mensaje, string titulo)
+        {
+            return MessageBox.Show(mensaje, titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+        }
 
         /// <summary>
         /// Determina si la lista de roles contiene un rol específico por ID.
